@@ -1,10 +1,11 @@
-import Tiptap from '@/components/Tiptap';
-import Image from 'next/image';
+import Editor from '@/components/Editor';
 
-export default function Home() {
+const Home = () => {
 	return (
 		<main className='p-5'>
-			<Tiptap />
+			<Editor />
 		</main>
 	);
-}
+};
+
+export default Home;
