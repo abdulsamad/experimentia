@@ -1,10 +1,11 @@
 'use client';
 
+import { ChangeEvent, useCallback } from 'react';
 import { EditorContent } from '@tiptap/react';
 
 import useCustomTiptapEditor from '@/hooks/useCustomTiptapEditor';
 import useSpeech from '@/hooks/useSpeech';
-import { ChangeEvent, useCallback } from 'react';
+import { languages } from '@/utils/languages';
 
 const Editor = () => {
 	const editor = useCustomTiptapEditor();
@@ -33,10 +34,11 @@ const Editor = () => {
 			<select
 				className='bg-gray-50 my-12 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
 				onChange={changeLanguage}>
-				<option value='en-IN' selected>
-					English
-				</option>
-				<option value='hi-IN'>Hindi</option>
+				{languages.map(({ code, text, selected }) => (
+					<option key={code} value={code} selected={selected}>
+						{text}
+					</option>
+				))}
 			</select>
 			<div className='py-5 flex justify-center gap-4'>
 				<button
