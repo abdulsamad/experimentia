@@ -5,8 +5,9 @@ import { editorAtom } from '@/atoms';
 import { speechLog } from '@/utils';
 
 const useSpeech = ({ editor }: { editor: any }) => {
-	const recognition = useRef<SpeechRecognition | null>(null);
 	const [isListening, setIsListening] = useState(false);
+
+	const recognition = useRef<SpeechRecognition | null>(null);
 
 	const [, setState] = useAtom(editorAtom);
 
