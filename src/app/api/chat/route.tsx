@@ -14,9 +14,9 @@ export async function POST(request: Request) {
 		messages: [
 			{
 				role: 'system',
-				content: `You are grammar corrector and mind blowind speech writer. You correct grammer and improve punctuation in ${
+				content: `You are grammar corrector. You correct grammer and improve punctuation in ${
 					language || 'English'
-				} language. Also add line breaks and styling where necessary. You only correct what is given to you and improvise the sentences that's it`,
+				} language. You also add line breaks and styling where necessary. You only correct what is given to you. You don't answer to anything other than grammar correction`,
 			},
 			{
 				role: 'user',
