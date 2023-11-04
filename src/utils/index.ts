@@ -5,3 +5,15 @@ export const speechLog = (text: string, styles?: React.CSSProperties) => {
 		'font-size: 12px;color: #e3e3e3;',
 	);
 };
+
+export const getCorrectedText = async (prompt: string, language?: string) => {
+	const res = await fetch('/api/chat', {
+		method: 'POST',
+		body: JSON.stringify({
+			prompt,
+			language,
+		}),
+	});
+
+	return res.json();
+};

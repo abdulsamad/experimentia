@@ -1,20 +1,20 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { useAtom } from 'jotai';
+import { useSetAtom, useAtom } from 'jotai';
 
 import { editorAtom } from '@/atoms';
-import { speechLog } from '@/utils';
+import { speechLog, getCorrectedText } from '@/utils';
+
+const grammar =
+	'#JSGF V1.0; grammar colors; public <color> = aqua | azure | beige | bisque | black | blue | fuchsia | ghostwhite | olive | orange ;';
 
 const useSpeech = ({ editor }: { editor: any }) => {
 	const [isListening, setIsListening] = useState(false);
 
 	const recognition = useRef<SpeechRecognition | null>(null);
 
-	const [, setState] = useAtom(editorAtom);
+	const [state, setState] = useAtom(editorAtom);
 
 	useEffect(() => {
-		const grammar =
-			'#JSGF V1.0; grammar colors; public <color> = aqua | azure | beige | bisque | black | blue | brown | chocolate | coral | crimson | cyan | fuchsia | ghostwhite | gold | goldenrod | gray | green | indigo | ivory | khaki | lavender | lime | linen | magenta | maroon | moccasin | navy | olive | orange | orchid | peru | pink | plum | purple | red | salmon | sienna | silver | snow | tan | teal | thistle | tomato | turquoise | violet | white | yellow ;';
-
 		const speechRecognitionList = new webkitSpeechGrammarList();
 
 		speechRecognitionList.addFromString(grammar, 1);
@@ -35,8 +35,17 @@ const useSpeech = ({ editor }: { editor: any }) => {
 
 			for (let i = 0; i < len; i++) {
 				const transcript = results[i][0].transcript;
-				// editor?.commands.insertContent(transcript);
 				setState(transcript);
+
+				getCorrectedText(transcript, recognition.current?.lang).then(
+					({ chatCompletion }) => {
+						const { choices } = chatCompletion;
+						setState(
+							`\n<b>Corrected:</b> <em>${choices[0]?.message?.content}</em>`,
+						);
+						console.log({ chatCompletion });
+					},
+				);
 
 				console.log({ transcript });
 			}
