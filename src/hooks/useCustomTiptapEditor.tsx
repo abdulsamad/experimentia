@@ -3,7 +3,7 @@ import { useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { useAtom } from 'jotai';
 
-import { editorAtom } from '@/atoms/index';
+import { editorAtom } from '@/store/index';
 
 const extensions = [
 	StarterKit.configure({

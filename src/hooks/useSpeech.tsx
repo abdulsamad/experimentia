@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useSetAtom, useAtom } from 'jotai';
 
-import { editorAtom } from '@/atoms';
+import { editorAtom } from '@/store';
 import { speechLog, getCorrectedText } from '@/utils';
 
 const grammar =
