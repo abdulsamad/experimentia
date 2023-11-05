@@ -24,8 +24,15 @@ const useSpeech = ({ editor }: { editor: Editor | null }) => {
 		recognition.current.lang = 'en-IN';
 		recognition.current.interimResults = false;
 		recognition.current.maxAlternatives = 1;
-		recognition.current.onresult = onSpeechResult;
+		recognition.current.onaudiostart = () => speechLog('Audio Started');
+		recognition.current.onaudioend = () => speechLog('Audio Ended');
+		recognition.current.onspeechstart = () => speechLog('Speech Started');
 		recognition.current.onspeechend = stopRecognition;
+		recognition.current.onresult = onSpeechResult;
+		recognition.current.onnomatch = () => speechLog('No Match');
+		recognition.current.onstart = () => speechLog('Start');
+		recognition.current.onerror = () => speechLog('Error');
+		recognition.current.onend = () => speechLog('End');
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
@@ -36,7 +43,6 @@ const useSpeech = ({ editor }: { editor: Editor | null }) => {
 			await navigator.mediaDevices.getUserMedia({ audio: true });
 
 			recognition.current.start();
-			speechLog('Started');
 			setIsListening(true);
 		} catch (err) {
 			console.error(err);
@@ -54,12 +60,12 @@ const useSpeech = ({ editor }: { editor: Editor | null }) => {
 	const onSpeechResult = useCallback(
 		async (ev: SpeechRecognitionEvent) => {
 			const results = ev.results;
-			const len = Object.keys(results).length;
+			const last = --Object.keys(results).length;
 
 			// TODO: Clean log results
 			console.log(results);
 
-			const transcript = results[len - 1][0].transcript;
+			const transcript = results[last][0].transcript;
 			setEditorState(transcript);
 
 			const { chatCompletion } = await getCorrectedText(
