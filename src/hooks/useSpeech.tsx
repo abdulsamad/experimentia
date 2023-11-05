@@ -60,15 +60,18 @@ const useSpeech = ({ editor }: { editor: any }) => {
 			const transcript = results[len - 1][0].transcript;
 			setEditorState(transcript);
 
-			getCorrectedText(transcript, recognition.current?.lang).then(
-				({ chatCompletion }) => {
-					const { choices } = chatCompletion;
-					setEditorState(
-						`\n<b>Corrected:</b> <em>${choices[0]?.message?.content}</em>`,
-					);
-					console.log({ chatCompletion });
-				},
+			const { chatCompletion } = await getCorrectedText(
+				transcript,
+				recognition.current?.lang,
 			);
+
+			const { choices } = chatCompletion;
+
+			setEditorState(
+				`\n<b>Corrected:</b><em>${choices[0]?.message?.content}</em>\n`,
+			);
+
+			console.log({ chatCompletion });
 		},
 		[setEditorState],
 	);
