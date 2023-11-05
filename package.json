@@ -9,6 +9,7 @@
 		"lint": "next lint"
 	},
 	"dependencies": {
+		"@auth0/nextjs-auth0": "^3.2.0",
 		"@tiptap/core": "^2.1.11",
 		"@tiptap/extension-text-align": "^2.1.11",
 		"@tiptap/extension-typography": "^2.1.11",
