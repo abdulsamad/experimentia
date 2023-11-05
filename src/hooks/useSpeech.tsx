@@ -2,10 +2,10 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { useSetAtom, useAtom } from 'jotai';
 
 import { editorAtom } from '@/store';
-import { speechLog, getCorrectedText } from '@/utils';
+import { speechLog, getCorrectedText, speechGrammer } from '@/utils';
 
-const grammar =
-	'#JSGF V1.0; grammar colors; public <color> = aqua | azure | beige | bisque | black | blue | fuchsia | ghostwhite | olive | orange ;';
+const speechRecognition = new (webkitSpeechRecognition || SpeechRecognition)();
+const speechRecognitionList = new webkitSpeechGrammarList();
 
 const useSpeech = ({ editor }: { editor: any }) => {
 	const [isListening, setIsListening] = useState(false);
@@ -15,11 +15,9 @@ const useSpeech = ({ editor }: { editor: any }) => {
 	const [state, setState] = useAtom(editorAtom);
 
 	useEffect(() => {
-		const speechRecognitionList = new webkitSpeechGrammarList();
+		speechRecognitionList.addFromString(speechGrammer, 1);
 
-		speechRecognitionList.addFromString(grammar, 1);
-
-		recognition.current = new (webkitSpeechRecognition || SpeechRecognition)();
+		recognition.current = speechRecognition;
 		recognition.current.grammars = speechRecognitionList;
 		recognition.current.continuous = true;
 		recognition.current.lang = 'en-IN';
@@ -33,37 +31,39 @@ const useSpeech = ({ editor }: { editor: any }) => {
 			// TODO: Clean log results
 			console.log(results);
 
-			for (let i = 0; i < len; i++) {
-				const transcript = results[i][0].transcript;
-				setState(transcript);
+			const transcript = results[len - 1][0].transcript;
+			setState(transcript);
 
-				getCorrectedText(transcript, recognition.current?.lang).then(
-					({ chatCompletion }) => {
-						const { choices } = chatCompletion;
-						setState(
-							`\n<b>Corrected:</b> <em>${choices[0]?.message?.content}</em>`,
-						);
-						console.log({ chatCompletion });
-					},
-				);
-
-				console.log({ transcript });
-			}
+			getCorrectedText(transcript, recognition.current?.lang).then(
+				({ chatCompletion }) => {
+					const { choices } = chatCompletion;
+					setState(
+						`\n<b>Corrected:</b> <em>${choices[0]?.message?.content}</em>`,
+					);
+					console.log({ chatCompletion });
+				},
+			);
 		};
 
 		recognition.current.onspeechend = stopRecognition;
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [setState]);
 
-	const startRecognition = useCallback(() => {
+	const startRecognition = useCallback(async () => {
 		if (!recognition.current) return null;
 
-		recognition.current.start();
-		speechLog('Started');
-		setIsListening(true);
+		try {
+			await navigator.mediaDevices.getUserMedia({ audio: true });
+
+			recognition.current.start();
+			speechLog('Started');
+			setIsListening(true);
+		} catch (err) {
+			console.error(err);
+		}
 	}, []);
 
-	const stopRecognition = useCallback(() => {
+	const stopRecognition = useCallback(async () => {
 		if (!recognition.current) return null;
 
 		recognition.current.stop();
