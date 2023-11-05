@@ -30,7 +30,7 @@ const useCustomTiptapEditor = () => {
 	useEffect(() => {
 		if (!editor) return;
 
-		editor?.commands.insertContent(state);
+		editor?.commands.setContent(state);
 	}, [state, editor]);
 
 	return editor;
