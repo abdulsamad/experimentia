@@ -1,19 +1,21 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useSetAtom } from 'jotai';
+import { Editor } from '@tiptap/react';
 
 import { editorAtom } from '@/store';
 import { speechLog, getCorrectedText, speechGrammer } from '@/utils';
 
-const speechRecognition = new (webkitSpeechRecognition || SpeechRecognition)();
-const speechRecognitionList = new webkitSpeechGrammarList();
-
-const useSpeech = ({ editor }: { editor: any }) => {
+const useSpeech = ({ editor }: { editor: Editor | null }) => {
 	const setEditorState = useSetAtom(editorAtom);
 	const [isListening, setIsListening] = useState(false);
 
 	const recognition = useRef<SpeechRecognition | null>(null);
 
 	useEffect(() => {
+		const speechRecognition = new (webkitSpeechRecognition ||
+			SpeechRecognition)();
+		const speechRecognitionList = new webkitSpeechGrammarList();
+
 		speechRecognitionList.addFromString(speechGrammer, 1);
 
 		recognition.current = speechRecognition;
