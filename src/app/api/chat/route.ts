@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import OpenAI from 'openai';
+import { getSession } from '@auth0/nextjs-auth0';
 
 const openai = new OpenAI({
 	apiKey: process.env.OPENAI_API_KEY,
@@ -7,8 +8,11 @@ const openai = new OpenAI({
 
 export async function POST(request: Request) {
 	const { prompt, language } = await request.json();
+	const session = await getSession();
 
 	if (!prompt) return NextResponse.json({ err: 'Prompt not found' });
+
+	if (!session?.user) return NextResponse.json({ err: 'Prompt not found' });
 
 	const chatCompletion = await openai.chat.completions.create({
 		messages: [
@@ -27,7 +31,7 @@ export async function POST(request: Request) {
 	});
 
 	return NextResponse.json(
-		{ chatCompletion },
+		{ chatCompletion, session },
 		{
 			status: 200,
 		},

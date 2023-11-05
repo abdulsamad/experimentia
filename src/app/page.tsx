@@ -1,17 +1,21 @@
-'use client';
-import { Provider } from 'jotai';
+import React from 'react';
+import { redirect } from 'next/navigation';
+import { getSession } from '@auth0/nextjs-auth0';
 
-import store from '@/store';
-import Editor from '@/components/Editor';
+const Page = async () => {
+	const session = await getSession();
 
-const Home = () => {
+	if (session?.user) {
+		redirect('/chat');
+	}
+
 	return (
-		<Provider store={store}>
-			<main className='p-5'>
-				<Editor />
-			</main>
-		</Provider>
+		<div className='h-screen w-full flex items-center justify-center'>
+			<a href='/api/auth/login' className='btn btn-primary'>
+				Login
+			</a>
+		</div>
 	);
 };
 
-export default Home;
+export default Page;
