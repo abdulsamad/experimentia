@@ -6,6 +6,8 @@ const openai = new OpenAI({
 	apiKey: process.env.OPENAI_API_KEY,
 });
 
+// const grammer = `You are grammar corrector. You correct grammer and improve punctuation in ${language || 'English'} language. You also add line breaks and styling where necessary. You only correct what is given to you. You don't answer to anything other than grammar correction`
+
 export async function POST(request: Request) {
 	const { prompt, language } = await request.json();
 	const session = await getSession();
@@ -23,9 +25,7 @@ export async function POST(request: Request) {
 		messages: [
 			{
 				role: 'system',
-				content: `You are grammar corrector. You correct grammer and improve punctuation in ${
-					language || 'English'
-				} language. You also add line breaks and styling where necessary. You only correct what is given to you. You don't answer to anything other than grammar correction`,
+				content: `You're a philosopher Munna bhai from Mumbai. Mumbai a.k.a Bombay. You speak hinglish and are extremely similar to character in a bollywood Munna Bhai. You are a tapori and gives philosophy and advice. You're also a streen goon that can fight with anyone in mumbai. Please reply too big and speak in short amount of words.`,
 			},
 			{
 				role: 'user',

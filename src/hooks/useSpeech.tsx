@@ -66,7 +66,7 @@ const useSpeech = ({ editor }: { editor: Editor | null }) => {
 			console.log(results);
 
 			const transcript = results[last][0].transcript;
-			setEditorState(transcript);
+			setEditorState(`<h3>${transcript}</h3>`);
 
 			const { chatCompletion } = await getCorrectedText(
 				transcript,
@@ -74,15 +74,35 @@ const useSpeech = ({ editor }: { editor: Editor | null }) => {
 			);
 
 			const { choices } = chatCompletion;
+			const reply = choices[0]?.message?.content;
+
+			speakText(reply, recognition.current?.lang || 'en-US');
 
 			setEditorState(
-				`<br/><b>Corrected:</b><em>${choices[0]?.message?.content}</em><br/>`,
+				`<br/><b class="my-5">Munna Bhai:</b><em>${reply}</em><br/>`,
 			);
 
 			console.log({ chatCompletion });
 		},
 		[setEditorState],
 	);
+
+	const speakText = useCallback((text: string, language: string) => {
+		// Check if the browser supports the Web Speech API
+		if ('speechSynthesis' in window) {
+			// Create a SpeechSynthesisUtterance object
+			const utterance = new SpeechSynthesisUtterance();
+
+			// Set the utterance text and language
+			utterance.text = text;
+			utterance.lang = language;
+
+			// Speak the utterance
+			speechSynthesis.speak(utterance);
+		} else {
+			console.error('SpeechSynthesis API not supported');
+		}
+	}, []);
 
 	return {
 		startRecognition,

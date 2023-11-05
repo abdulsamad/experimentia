@@ -10,7 +10,7 @@ import Editor from '@/components/Editor';
 const Home = () => {
 	const { user } = useUser();
 
-	if (!user) redirect('/');
+	// if (!user) redirect('/');
 
 	return (
 		<Provider store={store}>
