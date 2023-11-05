@@ -10,9 +10,14 @@ export async function POST(request: Request) {
 	const { prompt, language } = await request.json();
 	const session = await getSession();
 
-	if (!prompt) return NextResponse.json({ err: 'Prompt not found' });
+	if (!prompt)
+		return NextResponse.json({ err: 'Prompt not found' }, { status: 400 });
 
-	if (!session?.user) return NextResponse.json({ err: 'Prompt not found' });
+	if (!session?.user)
+		return NextResponse.json(
+			{ err: 'User is not authenticated' },
+			{ status: 400 },
+		);
 
 	const chatCompletion = await openai.chat.completions.create({
 		messages: [
