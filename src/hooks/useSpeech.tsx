@@ -68,7 +68,7 @@ const useSpeech = ({ editor }: { editor: any }) => {
 			const { choices } = chatCompletion;
 
 			setEditorState(
-				`\n<b>Corrected:</b><em>${choices[0]?.message?.content}</em>\n`,
+				`<br/><b>Corrected:</b><em>${choices[0]?.message?.content}</em><br/>`,
 			);
 
 			console.log({ chatCompletion });
