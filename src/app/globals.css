@@ -21,3 +21,12 @@
 .ProseMirror {
 	outline: none;
 }
+
+.tt-heading {
+	font-size: 1.2rem;
+	font-weight: bold;
+}
+
+.tt-heading::after {
+	content: '?';
+}

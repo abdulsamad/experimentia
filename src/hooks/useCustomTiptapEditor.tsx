@@ -8,7 +8,12 @@ import { editorAtom } from '@/store/index';
 const extensions = [
 	StarterKit.configure({
 		history: false,
-		heading: { levels: [1, 2, 3] },
+		heading: {
+			levels: [1, 2, 3],
+			HTMLAttributes: {
+				class: 'tt-heading',
+			},
+		},
 	}),
 ];
 
