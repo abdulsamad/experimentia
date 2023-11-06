@@ -1,19 +1,22 @@
 'use client';
-import React from 'react';
+import React, { useLayoutEffect } from 'react';
 import { redirect } from 'next/navigation';
 import { Provider } from 'jotai';
 import { useUser } from '@auth0/nextjs-auth0/client';
 
-import store from '@/store';
 import Editor from '@/components/Editor';
 
 const Home = () => {
-	const { user } = useUser();
+	const { user, isLoading } = useUser();
 
-	// if (!user) redirect('/');
+	useLayoutEffect(() => {
+		if (!user) redirect('/');
+	}, [user]);
+
+	if (isLoading) return null;
 
 	return (
-		<Provider store={store}>
+		<Provider>
 			<main className='p-5'>
 				<div className='mb-5 flex justify-end'>
 					<a href='/api/auth/logout' className='btn btn-secondary btn-sm'>
