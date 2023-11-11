@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback, useTransition } from 'react';
 import { useSetAtom } from 'jotai';
 import { Editor } from '@tiptap/react';
 import dayjs from 'dayjs';
@@ -12,6 +12,7 @@ const useSpeech = ({ editor }: { editor: Editor | null }) => {
 	const addChat = useSetAtom(chatsAtom);
 	const [isListening, setIsListening] = useState(false);
 	const [loading, setLoading] = useState(false);
+	const [isPending, startTransition] = useTransition();
 
 	const recognition = useRef<SpeechRecognition | null>(null);
 
@@ -76,6 +77,11 @@ const useSpeech = ({ editor }: { editor: Editor | null }) => {
 			const transcript = results[last][0].transcript;
 			// setEditorState(`<h3>${transcript}</h3>`);
 			if (!transcript.trim()) return null;
+			addChat({
+				type: 'user',
+				message: transcript,
+				time: dayjs(),
+			});
 
 			setLoading(true);
 
@@ -84,20 +90,16 @@ const useSpeech = ({ editor }: { editor: Editor | null }) => {
 				recognition.current?.lang,
 			);
 
-			addChat({
-				type: 'user',
-				message: transcript,
-				time: dayjs(),
-			});
-
 			const { choices } = chatCompletion;
 			const reply = choices[0]?.message?.content;
 
-			addChat({
-				type: 'assistant',
-				message: reply,
-				variation: getConfig('variation') || 'normal',
-				time: dayjs(),
+			startTransition(() => {
+				addChat({
+					type: 'assistant',
+					message: reply,
+					variation: getConfig('variation') || 'normal',
+					time: dayjs(),
+				});
 			});
 
 			setLoading(false);
