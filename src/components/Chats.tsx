@@ -70,7 +70,8 @@ const Chats = () => {
 					<div className='hero-content text-center'>
 						<div className='max-w-md'>
 							<h1 className='text-5xl font-bold'>
-								Hello there, <span className='animate-wave'>👋</span>
+								Hello {user?.nickname || 'there'},{' '}
+								<span className='animate-wave'>👋</span>
 							</h1>
 							<p className='py-6'>
 								Tap the mic button in the bottom right corner and start
