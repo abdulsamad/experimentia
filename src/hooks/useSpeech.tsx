@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useSetAtom } from 'jotai';
 import { Editor } from '@tiptap/react';
+import dayjs from 'dayjs';
 
 import { chatsAtom, editorAtom } from '@/store';
 import { speechLog, getCorrectedText, speechGrammer } from '@/utils';
@@ -86,6 +87,7 @@ const useSpeech = ({ editor }: { editor: Editor | null }) => {
 			addChat({
 				type: 'user',
 				message: transcript,
+				time: dayjs(),
 			});
 
 			const { choices } = chatCompletion;
@@ -94,6 +96,8 @@ const useSpeech = ({ editor }: { editor: Editor | null }) => {
 			addChat({
 				type: 'assistant',
 				message: reply,
+				variation: getConfig('variation') || 'normal',
+				time: dayjs(),
 			});
 
 			setLoading(false);

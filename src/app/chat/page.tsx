@@ -18,7 +18,7 @@ const Home = () => {
 
 	return (
 		<Provider>
-			<main className='bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900'>
+			<main className='conic-gradient(at right center, rgb(199, 210, 254), rgb(71, 85, 105), rgb(199, 210, 254))'>
 				<Sidebar />
 				<div className='flex flex-col justify-end h-screen w-full'>
 					<Editor />
