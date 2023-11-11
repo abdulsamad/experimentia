@@ -95,6 +95,11 @@ const Sidebar = () => {
 									</option>
 								))}
 							</select>
+							<label className='label'>
+								<span className='label-text-alt'>
+									Page will reload to take effect
+								</span>
+							</label>
 						</div>
 					</li>
 					<li className='mt-auto'>
