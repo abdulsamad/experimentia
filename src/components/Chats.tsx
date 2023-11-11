@@ -39,7 +39,7 @@ const Chats = () => {
 						<div key={index} className={`chat ${containerClassNames}`}>
 							<div className='chat-image avatar'>
 								<div className='w-10 rounded-full'>
-									<img src={imageSrc} alt={user?.nickname} />
+									<img src={imageSrc} alt={name} />
 								</div>
 							</div>
 							<div className='chat-header'>

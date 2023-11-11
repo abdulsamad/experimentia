@@ -13,6 +13,14 @@ const Sidebar = () => {
 		[],
 	);
 
+	const updatedCheckedSetting = useCallback(
+		({ target }: ChangeEvent<HTMLInputElement>) => {
+			const { name, checked } = target;
+			setConfig({ [name]: checked });
+		},
+		[],
+	);
+
 	return (
 		<div className='drawer z-50'>
 			<input id='sidebar' type='checkbox' className='drawer-toggle' />
@@ -101,6 +109,29 @@ const Sidebar = () => {
 							<label className='label'>
 								<span className='label-text-alt'>
 									Page will reload to take effect
+								</span>
+							</label>
+						</div>
+					</li>
+					<li>
+						<div className='form-control flex w-full max-w-xs'>
+							<label className='label'>
+								<span className='label-text'>Input Type</span>
+							</label>
+							<div className='flex items-center justify-center space-x-4'>
+								<span>Voice</span>
+								<input
+									name='text-input'
+									type='checkbox'
+									onChange={updatedCheckedSetting}
+									className='toggle toggle-lg'
+									disabled
+								/>
+								<span>Text</span>
+							</div>
+							<label className='label'>
+								<span className='label-text-alt'>
+									How you want to give input to GPT?
 								</span>
 							</label>
 						</div>
