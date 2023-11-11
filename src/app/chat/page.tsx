@@ -20,7 +20,7 @@ const Home = () => {
 		<Provider>
 			<main className='conic-gradient(at right center, rgb(199, 210, 254), rgb(71, 85, 105), rgb(199, 210, 254))'>
 				<Sidebar />
-				<div className='flex flex-col justify-end h-screen w-full'>
+				<div className='flex flex-col justify-end'>
 					<Editor />
 				</div>
 			</main>
