@@ -10,11 +10,16 @@ const Chats = () => {
 		<section className='h-full w-full pt-24 px-5'>
 			{chats.length ? (
 				chats.map(({ type, message }, index) => {
-					const classNames = type === 'assistant' ? 'chat-start' : 'chat-end';
+					const containerClassNames =
+						type === 'assistant' ? 'chat-start' : 'chat-end';
+					const messageClassNames =
+						type === 'assistant' ? 'chat-bubble-primary' : 'chat-bubble-info';
 
 					return (
-						<div key={index} className={`chat ${classNames}`}>
-							<div className='chat-bubble'>{message}</div>
+						<div key={index} className={`chat ${containerClassNames}`}>
+							<div className={`capitalize chat-bubble ${messageClassNames}`}>
+								{message}
+							</div>
 						</div>
 					);
 				})
