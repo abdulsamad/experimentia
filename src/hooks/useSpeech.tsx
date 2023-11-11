@@ -2,12 +2,13 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { useSetAtom } from 'jotai';
 import { Editor } from '@tiptap/react';
 
-import { editorAtom } from '@/store';
+import { chatsAtom, editorAtom } from '@/store';
 import { speechLog, getCorrectedText, speechGrammer } from '@/utils';
 import { getConfig } from '@/utils/config';
 
 const useSpeech = ({ editor }: { editor: Editor | null }) => {
 	const setEditorState = useSetAtom(editorAtom);
+	const addChat = useSetAtom(chatsAtom);
 	const [isListening, setIsListening] = useState(false);
 
 	const recognition = useRef<SpeechRecognition | null>(null);
@@ -71,25 +72,30 @@ const useSpeech = ({ editor }: { editor: Editor | null }) => {
 			console.log(results);
 
 			const transcript = results[last][0].transcript;
-			setEditorState(`<h3>${transcript}</h3>`);
+			// setEditorState(`<h3>${transcript}</h3>`);
 
 			const { chatCompletion } = await getCorrectedText(
 				transcript,
 				recognition.current?.lang,
 			);
 
+			addChat({
+				type: 'user',
+				message: transcript,
+			});
+
 			const { choices } = chatCompletion;
 			const reply = choices[0]?.message?.content;
 
+			addChat({
+				type: 'assistant',
+				message: reply,
+			});
+
 			speakText(reply, recognition.current?.lang || 'en-US');
-
-			setEditorState(
-				`<br/><b class="my-5">Munna Bhai:</b><em>${reply}</em><br/>`,
-			);
-
-			console.log({ chatCompletion });
 		},
-		[setEditorState],
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		[setEditorState, addChat],
 	);
 
 	const speakText = useCallback((text: string, language: string) => {

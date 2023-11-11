@@ -2,6 +2,7 @@ import React, { ChangeEvent, useCallback } from 'react';
 
 import { languages } from '@/utils/languages';
 import { getConfig, setConfig } from '@/utils/config';
+import Chats from './Chats';
 
 const Sidebar = () => {
 	const updateSetting = useCallback(
@@ -16,6 +17,8 @@ const Sidebar = () => {
 		<div className='drawer z-50'>
 			<input id='sidebar' type='checkbox' className='drawer-toggle' />
 			<div className='drawer-content flex flex-col items-center justify-center'>
+				{/* Page content here */}
+				<Chats />
 				{/* Page content here */}
 				<label
 					htmlFor='sidebar'
@@ -36,7 +39,7 @@ const Sidebar = () => {
 					<span className='sr-only'>Open Drawer</span>
 				</label>
 			</div>
-			<div className='drawer-side'>
+			<aside className='drawer-side'>
 				<label
 					htmlFor='sidebar'
 					aria-label='close sidebar'
@@ -125,7 +128,7 @@ const Sidebar = () => {
 						</div>
 					</li>
 				</ul>
-			</div>
+			</aside>
 		</div>
 	);
 };

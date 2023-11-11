@@ -1,6 +1,6 @@
 'use client';
 
-import { EditorContent } from '@tiptap/react';
+// import { EditorContent } from '@tiptap/react';
 
 import useCustomTiptapEditor from '@/hooks/useCustomTiptapEditor';
 import useSpeech from '@/hooks/useSpeech';
@@ -16,10 +16,10 @@ const Editor = () => {
 		: '';
 
 	return (
-		<div className='flex flex-col'>
-			<div className='border border-slate-400 rounded-2xl h-[100px] overflow-auto m-5'>
+		<div className='flex flex-col fixed bottom-0 left-0 right-0 z-50'>
+			{/* <div className='border border-slate-400 rounded-2xl h-[100px] overflow-auto m-5'>
 				<EditorContent editor={editor} />
-			</div>
+			</div> */}
 			<div className='flex justify-center absolute bottom-0 right-0 my-12 mx-8'>
 				<button
 					className={`p-3 bg-primary rounded-full hover:text-gray-300 hover:shadow-xl hover:shadow-slate-700 ${toggleClasses}`}
