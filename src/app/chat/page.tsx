@@ -18,7 +18,7 @@ const Home = () => {
 
 	return (
 		<Provider>
-			<main className=''>
+			<main className='bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900'>
 				<Sidebar />
 				<div className='flex flex-col justify-end h-screen w-full'>
 					<Editor />
