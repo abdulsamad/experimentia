@@ -5,6 +5,7 @@ import { Provider } from 'jotai';
 import { useUser } from '@auth0/nextjs-auth0/client';
 
 import Editor from '@/components/Editor';
+import Sidebar from '@/components/Sidebar';
 
 const Home = () => {
 	const { user, isLoading } = useUser();
@@ -17,13 +18,11 @@ const Home = () => {
 
 	return (
 		<Provider>
-			<main className='p-5'>
-				<div className='mb-5 flex justify-end'>
-					<a href='/api/auth/logout' className='btn btn-secondary btn-sm'>
-						Logout
-					</a>
+			<main className=''>
+				<Sidebar />
+				<div className='flex flex-col justify-end h-screen w-full'>
+					<Editor />
 				</div>
-				<Editor />
 			</main>
 		</Provider>
 	);

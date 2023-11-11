@@ -4,6 +4,7 @@ import { Editor } from '@tiptap/react';
 
 import { editorAtom } from '@/store';
 import { speechLog, getCorrectedText, speechGrammer } from '@/utils';
+import { getConfig } from '@/utils/config';
 
 const useSpeech = ({ editor }: { editor: Editor | null }) => {
 	const setEditorState = useSetAtom(editorAtom);
@@ -21,7 +22,7 @@ const useSpeech = ({ editor }: { editor: Editor | null }) => {
 		recognition.current = speechRecognition;
 		recognition.current.grammars = speechRecognitionList;
 		recognition.current.continuous = true;
-		recognition.current.lang = 'en-IN';
+		recognition.current.lang = getConfig('language') || 'en-IN';
 		recognition.current.interimResults = false;
 		recognition.current.maxAlternatives = 1;
 		recognition.current.onaudiostart = () => speechLog('Audio Started');
@@ -33,6 +34,10 @@ const useSpeech = ({ editor }: { editor: Editor | null }) => {
 		recognition.current.onstart = () => speechLog('Start');
 		recognition.current.onerror = () => speechLog('Error');
 		recognition.current.onend = () => speechLog('End');
+
+		return () => {
+			//
+		};
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 

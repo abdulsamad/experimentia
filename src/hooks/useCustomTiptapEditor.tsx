@@ -24,7 +24,7 @@ const useCustomTiptapEditor = () => {
 		extensions,
 		editorProps: {
 			attributes: {
-				class: 'w-full h-[250px] p-5 focus:shadow',
+				class: 'w-full h-full p-5 border-box focus:shadow',
 			},
 		},
 		onUpdate({ editor }) {
