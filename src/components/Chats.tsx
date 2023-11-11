@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useAtomValue } from 'jotai';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import dayjs from 'dayjs';
@@ -9,6 +9,17 @@ import { getConfig } from '@/utils/config';
 const Chats = () => {
 	const chats = useAtomValue(chatsAtom);
 	const { user } = useUser();
+
+	useEffect(() => {
+		const chats = document.querySelectorAll('.chat');
+
+		if (!chats.length) return;
+
+		chats[chats.length - 1].scrollIntoView({
+			behavior: 'smooth',
+			block: 'end',
+		});
+	}, [chats]);
 
 	const userInfo = useMemo(
 		() => ({
@@ -29,7 +40,7 @@ const Chats = () => {
 	);
 
 	return (
-		<section className='h-full w-full pt-24 px-5'>
+		<section className='h-full w-full pt-24 px-8 py-2'>
 			{chats.length ? (
 				chats.map(({ type, message, time }, index) => {
 					const { containerClassNames, imageSrc, messageClassNames, name } =
