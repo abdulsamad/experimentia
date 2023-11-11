@@ -10,6 +10,7 @@ const useSpeech = ({ editor }: { editor: Editor | null }) => {
 	const setEditorState = useSetAtom(editorAtom);
 	const addChat = useSetAtom(chatsAtom);
 	const [isListening, setIsListening] = useState(false);
+	const [loading, setLoading] = useState(false);
 
 	const recognition = useRef<SpeechRecognition | null>(null);
 
@@ -73,6 +74,9 @@ const useSpeech = ({ editor }: { editor: Editor | null }) => {
 
 			const transcript = results[last][0].transcript;
 			// setEditorState(`<h3>${transcript}</h3>`);
+			if (!transcript.trim()) return null;
+
+			setLoading(true);
 
 			const { chatCompletion } = await getCorrectedText(
 				transcript,
@@ -92,10 +96,10 @@ const useSpeech = ({ editor }: { editor: Editor | null }) => {
 				message: reply,
 			});
 
+			setLoading(false);
 			speakText(reply, recognition.current?.lang || 'en-US');
 		},
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-		[setEditorState, addChat],
+		[addChat, setLoading],
 	);
 
 	const speakText = useCallback((text: string, language: string) => {
@@ -120,6 +124,7 @@ const useSpeech = ({ editor }: { editor: Editor | null }) => {
 		stopRecognition,
 		recognition,
 		isListening,
+		loading,
 	};
 };
 
