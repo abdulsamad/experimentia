@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useTransition, useState } from 'react';
+import { useCallback, useEffect, useTransition } from 'react';
 import { useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { useAtom, useSetAtom } from 'jotai';

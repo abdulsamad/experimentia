@@ -1,4 +1,3 @@
-import React from 'react';
 import { redirect } from 'next/navigation';
 import { getSession } from '@auth0/nextjs-auth0';
 

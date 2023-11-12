@@ -1,5 +1,5 @@
 'use client';
-import React, { useLayoutEffect } from 'react';
+import { useLayoutEffect } from 'react';
 import { redirect } from 'next/navigation';
 import { Provider } from 'jotai';
 import { useUser } from '@auth0/nextjs-auth0/client';
