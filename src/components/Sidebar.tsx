@@ -5,7 +5,6 @@ import { useSetAtom, useAtomValue } from 'jotai';
 import { flagsAtom, identifierAtom } from '@/store';
 import { languages } from '@/utils/languages';
 import { getConfig, setConfig } from '@/utils/config';
-import Chats from './Chats';
 
 const Sidebar = () => {
 	const flags = useAtomValue(flagsAtom);

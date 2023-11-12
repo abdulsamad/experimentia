@@ -2,7 +2,6 @@ import { atom } from 'jotai';
 import * as configcat from 'configcat-js-ssr';
 
 export const editorAtom = atom('', (get, set, update) => {
-	console.log(get(editorAtom));
 	set(editorAtom, update);
 });
 
