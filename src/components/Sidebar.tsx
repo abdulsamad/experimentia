@@ -39,7 +39,7 @@ const Sidebar = () => {
 			<input id='sidebar' type='checkbox' className='drawer-toggle' />
 			<div className='drawer-content flex flex-col items-center justify-center'>
 				{/* Page content here */}
-				<Chats />
+				{/* Test Content */}
 				{/* Page content here */}
 				<label
 					htmlFor='sidebar'
