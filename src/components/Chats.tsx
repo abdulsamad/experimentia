@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useAtomValue } from 'jotai';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import dayjs from 'dayjs';
@@ -21,8 +21,8 @@ const Chats = () => {
 		});
 	}, [chats]);
 
-	const userInfo = useMemo(
-		() => ({
+	const userInfo = useCallback(
+		(variation: string) => ({
 			user: {
 				containerClassNames: 'chat-end',
 				messageClassNames: 'chat-bubble-info',
@@ -33,7 +33,7 @@ const Chats = () => {
 				containerClassNames: 'chat-start',
 				messageClassNames: 'chat-bubble-primary',
 				name: getConfig('variation'),
-				imageSrc: 'https://xsgames.co/randomusers/avatar.php?g=male',
+				imageSrc: `/${variation}.jpg`,
 			},
 		}),
 		[user],
@@ -43,9 +43,9 @@ const Chats = () => {
 		<section className='h-full w-full relative'>
 			<div className='h-[calc(100vh-100px)] absolute top-0 right-0 left-0 bottom-[80px] pt-20 pb-4 px-8 overflow-x-auto'>
 				{chats.length ? (
-					chats.map(({ type, message, time }, index) => {
+					chats.map(({ type, message, time, variation }, index) => {
 						const { containerClassNames, imageSrc, messageClassNames, name } =
-							userInfo[type];
+							userInfo(variation)[type];
 
 						return (
 							<div key={index} className={`chat ${containerClassNames}`}>
