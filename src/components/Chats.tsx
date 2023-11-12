@@ -67,7 +67,7 @@ const Chats = () => {
 						);
 					})
 				) : (
-					<div className='hero h-[250px] bg-base-200 text-sky-200 border-2 rounded-3xl border-sky-200 shadow-[0_0_1px_#fff,inset_0_0_1px_#fff,0_0_2px_#08f,0_0_6px_#08f,0_0_15px_#08f]'>
+					<div className='hero min-h-[250px] bg-base-200 text-sky-200 border-2 rounded-3xl border-sky-200 shadow-[0_0_1px_#fff,inset_0_0_1px_#fff,0_0_2px_#08f,0_0_6px_#08f,0_0_15px_#08f]'>
 						<div className='hero-content text-center'>
 							<div className='max-w-md'>
 								<h1 className='text-5xl font-bold capitalize'>
