@@ -81,6 +81,7 @@ const Sidebar = () => {
 								</option>
 								<option value='grammar-corrector'>Grammar Corrector</option>
 								<option value='munna'>Munna Bhai</option>
+								<option value='intelligent'>Intelligent AI</option>
 							</select>
 						</div>
 					</li>
