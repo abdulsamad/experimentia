@@ -60,7 +60,7 @@ const Chats = () => {
 										{dayjs(time).format('hh:mm A')}
 									</time>
 								</div>
-								<div className={`capitalize chat-bubble ${messageClassNames}`}>
+								<div className={`chat-bubble ${messageClassNames}`}>
 									{message}
 								</div>
 							</div>
