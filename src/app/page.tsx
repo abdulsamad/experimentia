@@ -10,9 +10,12 @@ const Page = async () => {
 
 	return (
 		<div className='h-screen w-full flex items-center justify-center'>
-			<a href='/api/auth/login' className='btn btn-primary'>
-				Login
-			</a>
+			<div className='flex flex-col gap-4 min-w-[200px] text-center'>
+				Hi there, Please create new account or sign in to get started.
+				<a href='/api/auth/login' className='btn btn-sm btn-primary capitalize'>
+					Login or Sign Up
+				</a>
+			</div>
 		</div>
 	);
 };
