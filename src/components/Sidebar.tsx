@@ -147,8 +147,9 @@ const Sidebar = () => {
 								<span>Text</span>
 							</div>
 							<label className='label'>
-								<span className='label-text-alt'>
-									How you want to give input to GPT?
+								<span className='label-text-alt text-center'>
+									How you want to give input to GPT? <br /> Page will reload to
+									take effect
 								</span>
 							</label>
 						</div>
