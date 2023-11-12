@@ -41,7 +41,7 @@ const Chats = () => {
 
 	return (
 		<section className='h-full w-full relative'>
-			<div className='h-[calc(100vh-100px)] absolute top-0 right-0 left-0 bottom-[80px] pt-16 pb-4 px-8 overflow-x-auto'>
+			<div className='h-[calc(100vh-100px)] absolute top-0 right-0 left-0 bottom-[80px] pt-20 pb-4 px-8 overflow-x-auto'>
 				{chats.length ? (
 					chats.map(({ type, message, time }, index) => {
 						const { containerClassNames, imageSrc, messageClassNames, name } =
