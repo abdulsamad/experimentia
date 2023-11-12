@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback, useTransition } from 'react';
 import { useSetAtom } from 'jotai';
 import dayjs from 'dayjs';
+import { toast } from 'react-toastify';
 
 import { chatsAtom } from '@/store';
 import { speechLog, getCorrectedText, speechGrammer } from '@/utils';
@@ -66,43 +67,50 @@ const useSpeech = () => {
 
 	const onSpeechResult = useCallback(
 		async (ev: SpeechRecognitionEvent) => {
-			const results = ev.results;
-			const last = --Object.keys(results).length;
+			try {
+				const results = ev.results;
+				const last = --Object.keys(results).length;
 
-			// TODO: Clean log results
-			console.log(results);
+				// TODO: Clean log results
+				console.log(results);
 
-			const transcript = results[last][0].transcript;
+				const transcript = results[last][0].transcript;
 
-			if (!transcript.trim()) return null;
-			addChat({
-				type: 'user',
-				message: transcript,
-				time: dayjs(),
-			});
-
-			setLoading(true);
-
-			const { chatCompletion } = await getCorrectedText(
-				transcript,
-				recognition.current?.lang,
-			);
-
-			const { choices } = chatCompletion;
-			const reply = choices[0]?.message?.content;
-
-			startTransition(() => {
+				if (!transcript.trim()) return null;
 				addChat({
-					type: 'assistant',
-					message: reply,
-					variation: getConfig('variation') || 'normal',
+					type: 'user',
+					message: transcript,
 					time: dayjs(),
 				});
 
-				setLoading(false);
-			});
+				setLoading(true);
 
-			speakText(reply, recognition.current?.lang || 'en-US');
+				const { chatCompletion } = await getCorrectedText(
+					transcript,
+					recognition.current?.lang,
+				);
+
+				const { choices } = chatCompletion;
+				const reply = choices[0]?.message?.content;
+
+				startTransition(() => {
+					addChat({
+						type: 'assistant',
+						message: reply,
+						variation: getConfig('variation') || 'normal',
+						time: dayjs(),
+					});
+
+					setLoading(false);
+				});
+
+				speakText(reply, recognition.current?.lang || 'en-US');
+			} catch (err) {
+				setLoading(false);
+				toast.error('Something went Wrong!', {
+					position: toast.POSITION.BOTTOM_RIGHT,
+				});
+			}
 		},
 		[addChat],
 	);

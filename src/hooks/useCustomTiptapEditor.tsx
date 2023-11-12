@@ -3,6 +3,7 @@ import { useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { useAtom, useSetAtom } from 'jotai';
 import dayjs from 'dayjs';
+import { toast } from 'react-toastify';
 
 import { chatsAtom, editorAtom } from '@/store/index';
 import { getCorrectedText } from '@/utils';
@@ -78,6 +79,9 @@ const useCustomTiptapEditor = () => {
 			});
 		} catch (err) {
 			setLoading(false);
+			toast.error('Something went Wrong!', {
+				position: toast.POSITION.BOTTOM_RIGHT,
+			});
 		}
 	}, [addChat, editor, setState]);
 
