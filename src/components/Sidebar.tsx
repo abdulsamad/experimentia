@@ -155,6 +155,24 @@ const Sidebar = () => {
 						</div>
 					</li>
 					<li className='mt-auto'>
+						<div className='mx-auto flex flex-col gap-3'>
+							<div className='avatar'>
+								<div className='w-24 rounded-full'>
+									<img
+										src={user?.picture as string}
+										alt={user?.name as string}
+									/>
+								</div>
+							</div>
+							<span>
+								Name: <strong>{user?.nickname}</strong>
+							</span>
+							<span>
+								Email: <strong>{user?.email}</strong>
+							</span>
+						</div>
+					</li>
+					<li className='mt-auto'>
 						<div className='my-5 mx-auto'>
 							<a
 								href='/api/auth/logout'
