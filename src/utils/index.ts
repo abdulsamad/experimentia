@@ -1,3 +1,5 @@
+import { getConfig } from './config';
+
 export const speechLog = (text: string, styles?: React.CSSProperties) => {
 	console.log(
 		`%cSPEECH RECOGNITION: %c${text}`,
@@ -15,6 +17,8 @@ export const getCorrectedText = async (prompt: string, language?: string) => {
 		body: JSON.stringify({
 			prompt,
 			language,
+			type: getConfig('variation'),
+			model: getConfig('model'),
 		}),
 	});
 
