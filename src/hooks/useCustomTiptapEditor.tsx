@@ -48,9 +48,11 @@ const useCustomTiptapEditor = () => {
 
 	const handleSubmit = useCallback(async () => {
 		try {
+			if (!editor?.getText()?.trim()) return null;
+
 			addChat({
 				type: 'user',
-				message: editor?.getText() as string,
+				message: editor?.getText(),
 				variation: getConfig('variation' || 'normal'),
 				time: dayjs(),
 			});
@@ -58,7 +60,7 @@ const useCustomTiptapEditor = () => {
 			setIsChatResponseLoading(true);
 
 			const { chatCompletion } = await getCorrectedText(
-				editor?.getText() as string,
+				editor?.getText(),
 				getConfig('language') || 'en-IN',
 			);
 
