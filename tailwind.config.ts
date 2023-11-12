@@ -24,9 +24,16 @@ const config: Config = {
 					'70%': { transform: 'rotate(0.0deg)' },
 					'100%': { transform: 'rotate(0.0deg)' },
 				},
+				typing: {
+					'0%': { transform: 'translateY(0)' },
+					'60%': { transform: 'translateY(0)' },
+					'100%': { transform: 'translateY(0)' },
+					'30%': { transform: 'translateY(-4px)' },
+				},
 			},
 			animation: {
 				wave: 'wave 1.5s infinite',
+				typing: 'typing 1.3s linear infinite',
 			},
 		},
 	},

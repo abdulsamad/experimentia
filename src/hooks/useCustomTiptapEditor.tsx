@@ -5,7 +5,7 @@ import { useAtom, useSetAtom } from 'jotai';
 import dayjs from 'dayjs';
 import { toast } from 'react-toastify';
 
-import { chatsAtom, editorAtom } from '@/store/index';
+import { chatLoading, chatsAtom, editorAtom } from '@/store/index';
 import { getCorrectedText } from '@/utils';
 import { getConfig } from '@/utils/config';
 
@@ -24,7 +24,7 @@ const extensions = [
 const useCustomTiptapEditor = () => {
 	const [state, setState] = useAtom(editorAtom);
 	const addChat = useSetAtom(chatsAtom);
-	const [loading, setLoading] = useState(false);
+	const setIsChatResponseLoading = useSetAtom(chatLoading);
 	const [isPending, startTransition] = useTransition();
 
 	const editor = useEditor({
@@ -48,14 +48,14 @@ const useCustomTiptapEditor = () => {
 
 	const handleSubmit = useCallback(async () => {
 		try {
-			setLoading(true);
-
 			addChat({
 				type: 'user',
-				message: editor?.getText(),
+				message: editor?.getText() as string,
 				variation: getConfig('variation' || 'normal'),
 				time: dayjs(),
 			});
+
+			setIsChatResponseLoading(true);
 
 			const { chatCompletion } = await getCorrectedText(
 				editor?.getText() as string,
@@ -73,19 +73,19 @@ const useCustomTiptapEditor = () => {
 					time: dayjs(),
 				});
 
-				setLoading(false);
+				setIsChatResponseLoading(false);
 				setState('');
 				editor?.commands?.clearContent();
 			});
 		} catch (err) {
-			setLoading(false);
+			setIsChatResponseLoading(false);
 			toast.error('Something went Wrong!', {
 				position: toast.POSITION.BOTTOM_RIGHT,
 			});
 		}
-	}, [addChat, editor, setState]);
+	}, [addChat, editor, setIsChatResponseLoading, setState]);
 
-	return { editor, handleSubmit, loading };
+	return { editor, handleSubmit };
 };
 
 export default useCustomTiptapEditor;

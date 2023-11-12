@@ -1,10 +1,13 @@
 import React from 'react';
+import { useAtomValue } from 'jotai';
 
+import { chatLoading } from '@/store';
 import useSpeech from '@/hooks/useSpeech';
 
 const Voice = () => {
-	const { startRecognition, stopRecognition, isListening, loading } =
-		useSpeech();
+	const isChatResponseLoading = useAtomValue(chatLoading);
+
+	const { startRecognition, stopRecognition, isListening } = useSpeech();
 
 	const toggleClasses = isListening
 		? 'bg-purple-500 text-slate-50 shadow-xl shadow-primary'
@@ -15,7 +18,7 @@ const Voice = () => {
 			<button
 				className={`p-3 bg-primary rounded-full flex items-center justify-center hover:text-gray-300 hover:shadow-xl hover:shadow-slate-700 ${toggleClasses}`}
 				onClick={isListening ? stopRecognition : startRecognition}>
-				{loading ? (
+				{isChatResponseLoading ? (
 					<span className='loading loading-spinner text-white'></span>
 				) : (
 					<svg

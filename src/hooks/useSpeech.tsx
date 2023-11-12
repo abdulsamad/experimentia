@@ -3,14 +3,14 @@ import { useSetAtom } from 'jotai';
 import dayjs from 'dayjs';
 import { toast } from 'react-toastify';
 
-import { chatsAtom } from '@/store';
+import { chatLoading, chatsAtom } from '@/store';
 import { speechLog, getCorrectedText, speechGrammer } from '@/utils';
 import { getConfig } from '@/utils/config';
 
 const useSpeech = () => {
 	const addChat = useSetAtom(chatsAtom);
+	const setIsChatResponseLoading = useSetAtom(chatLoading);
 	const [isListening, setIsListening] = useState(false);
-	const [loading, setLoading] = useState(false);
 	const [isPending, startTransition] = useTransition();
 
 	const recognition = useRef<SpeechRecognition | null>(null);
@@ -80,10 +80,11 @@ const useSpeech = () => {
 				addChat({
 					type: 'user',
 					message: transcript,
+					variation: null,
 					time: dayjs(),
 				});
 
-				setLoading(true);
+				setIsChatResponseLoading(true);
 
 				const { chatCompletion } = await getCorrectedText(
 					transcript,
@@ -101,12 +102,12 @@ const useSpeech = () => {
 						time: dayjs(),
 					});
 
-					setLoading(false);
+					setIsChatResponseLoading(false);
 				});
 
 				speakText(reply, recognition.current?.lang || 'en-US');
 			} catch (err) {
-				setLoading(false);
+				setIsChatResponseLoading(false);
 				toast.error('Something went Wrong!', {
 					position: toast.POSITION.BOTTOM_RIGHT,
 				});
@@ -138,7 +139,6 @@ const useSpeech = () => {
 		stopRecognition,
 		recognition,
 		isListening,
-		loading,
 	};
 };
 

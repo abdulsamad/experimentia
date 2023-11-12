@@ -1,15 +1,25 @@
-import { atom } from 'jotai';
+import { atom, WritableAtom } from 'jotai';
 import * as configcat from 'configcat-js-ssr';
+import { Dayjs } from 'dayjs';
 
-export const editorAtom = atom('', (get, set, update) => {
-	set(editorAtom, update);
-});
+export const editorAtom = atom('');
 
-export const chatsAtom = atom([], (get, set, update: object) => {
-	const state = get(chatsAtom);
+export const chatLoading = atom(false);
 
-	set(chatsAtom, [...state, update]);
-});
+export interface IChat {
+	type: 'assistant' | 'user';
+	message: string;
+	variation: string | null;
+	time: Dayjs;
+}
+
+export const chatsAtom: WritableAtom<IChat[], IChat[], void> = atom(
+	[],
+	(get, set, update) => {
+		const state = get(chatsAtom);
+		set(chatsAtom, [...state, update] as any);
+	},
+);
 
 // Flags
 
