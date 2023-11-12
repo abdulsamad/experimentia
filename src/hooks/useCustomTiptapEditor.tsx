@@ -41,7 +41,8 @@ const useCustomTiptapEditor = () => {
 	useEffect(() => {
 		if (!editor) return;
 
-		editor?.commands.setContent(state);
+		editor?.commands?.clearContent();
+		editor?.commands.insertContent(state);
 	}, [state, editor]);
 
 	const handleSubmit = useCallback(async () => {
@@ -73,6 +74,7 @@ const useCustomTiptapEditor = () => {
 
 				setLoading(false);
 				setState('');
+				editor?.commands?.clearContent();
 			});
 		} catch (err) {
 			setLoading(false);
