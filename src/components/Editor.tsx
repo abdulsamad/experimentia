@@ -1,48 +1,15 @@
 'use client';
 
-// import { EditorContent } from '@tiptap/react';
-
-import useCustomTiptapEditor from '@/hooks/useCustomTiptapEditor';
-import useSpeech from '@/hooks/useSpeech';
+import Text from '@/components/Inputs/Text';
+import Voice from '@/components/Inputs/Voice';
+import { getConfig } from '@/utils/config';
 
 const Editor = () => {
-	const editor = useCustomTiptapEditor();
-	const { startRecognition, stopRecognition, isListening, loading } = useSpeech(
-		{
-			editor,
-		},
-	);
-
-	const toggleClasses = isListening
-		? 'bg-purple-500 text-slate-50 shadow-xl shadow-primary'
-		: '';
+	const isTextInput = getConfig('text-input');
 
 	return (
-		<div className='flex flex-col fixed bottom-0 left-0 right-0 z-50'>
-			{/* <div className='border border-slate-400 rounded-2xl h-[100px] overflow-auto m-5'>
-				<EditorContent editor={editor} />
-			</div> */}
-			<div className='flex justify-center absolute bottom-0 right-0 my-12 mx-8'>
-				<button
-					className={`p-3 bg-primary rounded-full flex items-center justify-center hover:text-gray-300 hover:shadow-xl hover:shadow-slate-700 ${toggleClasses}`}
-					onClick={isListening ? stopRecognition : startRecognition}>
-					{loading ? (
-						<span className='loading loading-spinner text-white'></span>
-					) : (
-						<svg
-							xmlns='http://www.w3.org/2000/svg'
-							viewBox='0 0 20 20'
-							fill='currentColor'
-							className='w-5 h-5'>
-							<path d='M7 4a3 3 0 016 0v6a3 3 0 11-6 0V4z' />
-							<path d='M5.5 9.643a.75.75 0 00-1.5 0V10c0 3.06 2.29 5.585 5.25 5.954V17.5h-1.5a.75.75 0 000 1.5h4.5a.75.75 0 000-1.5h-1.5v-1.546A6.001 6.001 0 0016 10v-.357a.75.75 0 00-1.5 0V10a4.5 4.5 0 01-9 0v-.357z' />
-						</svg>
-					)}
-					<span className='sr-only'>
-						{isListening ? 'Stop Voice Recognition' : 'Start Voice Recognition'}
-					</span>
-				</button>
-			</div>
+		<div className='flex flex-col fixed bottom-0 left-0 right-0'>
+			{isTextInput ? <Text /> : <Voice />}
 		</div>
 	);
 };

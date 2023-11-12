@@ -1,9 +1,12 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect, useTransition, useState } from 'react';
 import { useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-import { useAtom } from 'jotai';
+import { useAtom, useSetAtom } from 'jotai';
+import dayjs from 'dayjs';
 
-import { editorAtom } from '@/store/index';
+import { chatsAtom, editorAtom } from '@/store/index';
+import { getCorrectedText } from '@/utils';
+import { getConfig } from '@/utils/config';
 
 const extensions = [
 	StarterKit.configure({
@@ -18,17 +21,20 @@ const extensions = [
 ];
 
 const useCustomTiptapEditor = () => {
-	const [state] = useAtom(editorAtom);
+	const [state, setState] = useAtom(editorAtom);
+	const addChat = useSetAtom(chatsAtom);
+	const [loading, setLoading] = useState(false);
+	const [isPending, startTransition] = useTransition();
 
 	const editor = useEditor({
 		extensions,
 		editorProps: {
 			attributes: {
-				class: 'w-full h-full p-5 border-box focus:shadow',
+				class: 'w-full h-[80px] p-3 border-box focus:shadow',
 			},
 		},
 		onUpdate({ editor }) {
-			// On Update
+			setState(editor.getHTML());
 		},
 	});
 
@@ -38,7 +44,42 @@ const useCustomTiptapEditor = () => {
 		editor?.commands.setContent(state);
 	}, [state, editor]);
 
-	return editor;
+	const handleSubmit = useCallback(async () => {
+		try {
+			setLoading(true);
+
+			addChat({
+				type: 'user',
+				message: editor?.getText(),
+				variation: getConfig('variation' || 'normal'),
+				time: dayjs(),
+			});
+
+			const { chatCompletion } = await getCorrectedText(
+				editor?.getText() as string,
+				getConfig('language') || 'en-IN',
+			);
+
+			const { choices } = chatCompletion;
+			const reply = choices[0]?.message?.content;
+
+			startTransition(() => {
+				addChat({
+					type: 'assistant',
+					message: reply,
+					variation: getConfig('variation') || 'normal',
+					time: dayjs(),
+				});
+
+				setLoading(false);
+				setState('');
+			});
+		} catch (err) {
+			setLoading(false);
+		}
+	}, [addChat, editor, setState]);
+
+	return { editor, handleSubmit, loading };
 };
 
 export default useCustomTiptapEditor;

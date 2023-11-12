@@ -137,9 +137,12 @@ const Sidebar = () => {
 								<input
 									name='text-input'
 									type='checkbox'
-									onChange={updatedCheckedSetting}
+									checked={getConfig('text-input')}
+									onChange={(ev) => {
+										updatedCheckedSetting(ev);
+										window.location.reload();
+									}}
 									className='toggle toggle-lg'
-									disabled
 								/>
 								<span>Text</span>
 							</div>

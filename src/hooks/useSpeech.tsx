@@ -1,14 +1,12 @@
 import { useState, useEffect, useRef, useCallback, useTransition } from 'react';
 import { useSetAtom } from 'jotai';
-import { Editor } from '@tiptap/react';
 import dayjs from 'dayjs';
 
-import { chatsAtom, editorAtom } from '@/store';
+import { chatsAtom } from '@/store';
 import { speechLog, getCorrectedText, speechGrammer } from '@/utils';
 import { getConfig } from '@/utils/config';
 
-const useSpeech = ({ editor }: { editor: Editor | null }) => {
-	const setEditorState = useSetAtom(editorAtom);
+const useSpeech = () => {
 	const addChat = useSetAtom(chatsAtom);
 	const [isListening, setIsListening] = useState(false);
 	const [loading, setLoading] = useState(false);
@@ -75,7 +73,7 @@ const useSpeech = ({ editor }: { editor: Editor | null }) => {
 			console.log(results);
 
 			const transcript = results[last][0].transcript;
-			// setEditorState(`<h3>${transcript}</h3>`);
+
 			if (!transcript.trim()) return null;
 			addChat({
 				type: 'user',
@@ -100,12 +98,13 @@ const useSpeech = ({ editor }: { editor: Editor | null }) => {
 					variation: getConfig('variation') || 'normal',
 					time: dayjs(),
 				});
+
+				setLoading(false);
 			});
 
-			setLoading(false);
 			speakText(reply, recognition.current?.lang || 'en-US');
 		},
-		[addChat, setLoading],
+		[addChat],
 	);
 
 	const speakText = useCallback((text: string, language: string) => {
