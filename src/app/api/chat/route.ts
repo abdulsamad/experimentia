@@ -2,14 +2,14 @@ import { NextResponse } from 'next/server';
 import OpenAI from 'openai';
 import { getSession } from '@auth0/nextjs-auth0';
 
+import { systemMapper } from './utils';
+
 const openai = new OpenAI({
 	apiKey: process.env.OPENAI_API_KEY,
 });
 
-// const grammer = `You are grammar corrector. You correct grammer and improve punctuation in ${language || 'English'} language. You also add line breaks and styling where necessary. You only correct what is given to you. You don't answer to anything other than grammar correction`
-
 export async function POST(request: Request) {
-	const { prompt, language } = await request.json();
+	const { prompt, language, type } = await request.json();
 	const session = await getSession();
 
 	if (!prompt)
@@ -25,14 +25,14 @@ export async function POST(request: Request) {
 		messages: [
 			{
 				role: 'system',
-				content: `You're a philosopher Munna bhai from Mumbai. Mumbai a.k.a Bombay. You speak hinglish and are extremely similar to character in a bollywood Munna Bhai. You are a tapori and gives philosophy and advice. You're also a streen goon that can fight with anyone in mumbai. Please reply too big and speak in short amount of words.`,
+				content: systemMapper(type, language).prompt,
 			},
 			{
 				role: 'user',
 				content: prompt,
 			},
 		],
-		model: 'gpt-3.5-turbo',
+		model: systemMapper(type, language).model,
 	});
 
 	return NextResponse.json(

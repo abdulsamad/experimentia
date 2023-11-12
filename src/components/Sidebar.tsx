@@ -1,10 +1,23 @@
-import React, { ChangeEvent, useCallback } from 'react';
+import React, { ChangeEvent, useCallback, useLayoutEffect } from 'react';
+import { useUser } from '@auth0/nextjs-auth0/client';
+import { useSetAtom, useAtomValue } from 'jotai';
 
+import { flagsAtom, identifierAtom } from '@/store';
 import { languages } from '@/utils/languages';
 import { getConfig, setConfig } from '@/utils/config';
 import Chats from './Chats';
 
 const Sidebar = () => {
+	const flags = useAtomValue(flagsAtom);
+	const { user } = useUser();
+	const setIdentifier = useSetAtom(identifierAtom);
+
+	useLayoutEffect(() => {
+		if (!user?.email) return;
+
+		setIdentifier(user?.email);
+	}, [user?.email, setIdentifier]);
+
 	const updateSetting = useCallback(
 		({ target }: ChangeEvent<HTMLSelectElement>) => {
 			const { name, value } = target;
@@ -63,10 +76,11 @@ const Sidebar = () => {
 								className='select select-bordered w-full'
 								defaultValue={getConfig('variation')}
 								onChange={updateSetting}>
-								<option value='munna'>Munna Bhai</option>
-								<option value='normal' disabled>
+								<option value='normal' disabled={!flags?.normalEnabled}>
 									Normal
 								</option>
+								<option value='grammar-corrector'>Grammar Corrector</option>
+								<option value='munna'>Munna Bhai</option>
 							</select>
 						</div>
 					</li>
@@ -81,7 +95,7 @@ const Sidebar = () => {
 								defaultValue={getConfig('model')}
 								onChange={updateSetting}>
 								<option value='gpt-3.5-turbo'>GPT 3.5 (Chat GPT)</option>
-								<option value='gpt-4' disabled>
+								<option value='gpt-4' disabled={!flags?.gpt4Enabled}>
 									GPT 4
 								</option>
 							</select>
