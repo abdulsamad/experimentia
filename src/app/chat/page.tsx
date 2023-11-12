@@ -6,6 +6,7 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 
 import Editor from '@/components/Editor';
 import Sidebar from '@/components/Sidebar';
+import Chats from '@/components/Chats';
 
 const Home = () => {
 	const { user, isLoading } = useUser();
@@ -20,6 +21,7 @@ const Home = () => {
 		<Provider>
 			<main className='conic-gradient(at right center, rgb(199, 210, 254), rgb(71, 85, 105), rgb(199, 210, 254))'>
 				<Sidebar />
+				<Chats />
 				<div className='flex flex-col justify-end'>
 					<Editor />
 				</div>
