@@ -16,7 +16,7 @@ package = "@netlify/plugin-lighthouse"
 package = "@netlify/plugin-nextjs"
 
 [[redirects]]
-from = "/api/*"
+from = "/netlify-api/*"
 to = "./.netlify/functions/:splat"
 status = 200
 
