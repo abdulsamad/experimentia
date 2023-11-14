@@ -59,18 +59,15 @@ const useCustomTiptapEditor = () => {
 
 			setIsChatResponseLoading(true);
 
-			const { chatCompletion } = await getCorrectedText(
+			const { content } = await getCorrectedText(
 				editor?.getText(),
 				getConfig('language') || 'en-IN',
 			);
 
-			const { choices } = chatCompletion;
-			const reply = choices[0]?.message?.content;
-
 			startTransition(() => {
 				addChat({
 					type: 'assistant',
-					message: reply,
+					message: content,
 					variation: getConfig('variation') || 'normal',
 					time: dayjs(),
 				});

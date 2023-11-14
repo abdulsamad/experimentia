@@ -51,9 +51,10 @@ export async function POST(request: Request) {
 		],
 		model: isGPT4Enabled ? model || 'gpt-3.5-turbo' : 'gpt-3.5-turbo',
 	});
+	const { choices } = chatCompletion;
 
 	return NextResponse.json(
-		{ chatCompletion },
+		{ chatCompletion, content: choices[0]?.message?.content },
 		{
 			status: 200,
 		},

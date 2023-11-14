@@ -86,18 +86,15 @@ const useSpeech = () => {
 
 				setIsChatResponseLoading(true);
 
-				const { chatCompletion } = await getCorrectedText(
+				const { content } = await getCorrectedText(
 					transcript,
 					recognition.current?.lang,
 				);
 
-				const { choices } = chatCompletion;
-				const reply = choices[0]?.message?.content;
-
 				startTransition(() => {
 					addChat({
 						type: 'assistant',
-						message: reply,
+						message: content,
 						variation: getConfig('variation') || 'normal',
 						time: dayjs(),
 					});
@@ -105,7 +102,7 @@ const useSpeech = () => {
 					setIsChatResponseLoading(false);
 				});
 
-				speakText(reply, recognition.current?.lang || 'en-US');
+				speakText(content, recognition.current?.lang || 'en-US');
 			} catch (err) {
 				setIsChatResponseLoading(false);
 				toast.error('Something went Wrong!', {
