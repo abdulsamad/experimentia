@@ -34,7 +34,7 @@ const Chats = () => {
 				containerClassNames: 'chat-start',
 				messageClassNames: 'chat-bubble-primary',
 				name: getConfig('variation'),
-				imageSrc: `/${variation}.jpg`,
+				imageSrc: `icons/${variation}.jpg`,
 			},
 		}),
 		[user],
