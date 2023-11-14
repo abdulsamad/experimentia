@@ -36,6 +36,7 @@ export const getGeneratedImage = async (
 			prompt,
 			size,
 			n,
+			model: getConfig('model'),
 		}),
 	});
 
