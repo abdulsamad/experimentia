@@ -89,11 +89,11 @@ const Chats = () => {
 									Hello {user?.nickname || 'there'},{' '}
 									<span className='animate-wave'>👋</span>
 								</h1>
-								<p className='py-6 italic break-all'>
+								<h1 className='py-6 italic break-words [text-wrap:pretty]'>
 									{getConfig('text-input')
 										? `Type in the input box in the bottom and start chatting. You can also change settings from the hamburger menu in the top left corner.`
 										: `Tap the mic button in the bottom right corner and start speaking. You can also change settings from the hamburger menu in the top left corner.`}
-								</p>
+								</h1>
 							</div>
 						</div>
 					</div>
