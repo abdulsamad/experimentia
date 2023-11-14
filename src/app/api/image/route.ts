@@ -11,13 +11,9 @@ const configCatClient = configcat.getClient(
 	process.env.NEXT_PUBLIC_CONFIGCAT_API_KEY as string,
 );
 
-interface Tim extends OpenAI.Images.ImagesResponse {
-	model: string;
-}
-
 export async function POST(request: Request) {
 	try {
-		const { prompt, size = '1024x1024', n = 1 } = await request.json();
+		const { model, prompt, size = '1024x1024', n = 1 } = await request.json();
 		const session = await getSession();
 		let isDallE3Enabled;
 
@@ -30,14 +26,16 @@ export async function POST(request: Request) {
 				{ status: 400 },
 			);
 
-		// The default user will be used in the evaluation process.
-		const user = new configcat.User(session.user.email);
+		if (model === 'dall-e-3') {
+			const user = new configcat.User(session.user.email);
 
-		isDallE3Enabled = await configCatClient.getValueAsync(
-			'enable-DALL-E-3',
-			false,
-			user,
-		);
+			// The default user will be used in the evaluation process.
+			isDallE3Enabled = await configCatClient.getValueAsync(
+				'enable-DALL-E-3',
+				false,
+				user,
+			);
+		}
 
 		const image = await (openai.images as any).generate({
 			response_format: 'url',
