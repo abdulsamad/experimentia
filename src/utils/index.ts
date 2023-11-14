@@ -27,7 +27,7 @@ export const getGeneratedText = async (prompt: string, language?: string) => {
 
 export const getGeneratedImage = async (
 	prompt: string,
-	size = '1024x1024',
+	size = '512x512',
 	n = 1,
 ) => {
 	const res = await fetch('/api/image', {
