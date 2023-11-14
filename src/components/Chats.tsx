@@ -1,11 +1,10 @@
 import { useCallback, useEffect } from 'react';
 import { useAtomValue } from 'jotai';
 import { useUser } from '@auth0/nextjs-auth0/client';
-import dayjs from 'dayjs';
-import Image from 'next/image';
 
 import { chatLoading, chatsAtom } from '@/store';
 import { getConfig } from '@/utils/config';
+import Chat from './Chat';
 
 const Chats = () => {
 	const chats = useAtomValue(chatsAtom);
@@ -46,32 +45,15 @@ const Chats = () => {
 			<div className='h-[calc(100vh-100px)] absolute top-0 right-0 left-0 bottom-[80px] pt-20 pb-4 px-8 overflow-x-auto'>
 				{chats.length ? (
 					<>
-						{chats.map(({ type, message, time, variation }, index) => {
-							const { containerClassNames, imageSrc, messageClassNames, name } =
-								userInfo(variation)[type];
+						{chats.map((chat, index) => {
+							const { variation, type, ...remainingChat } = chat;
 
 							return (
-								<div key={index} className={`chat ${containerClassNames}`}>
-									<div className='chat-image avatar'>
-										<div className='w-10 rounded-full'>
-											<Image
-												src={imageSrc}
-												alt={name as string}
-												height={40}
-												width={40}
-											/>
-										</div>
-									</div>
-									<div className='chat-header'>
-										<span className='capitalize'>{name}</span>
-										<time className='text-xs opacity-50 ml-1'>
-											{dayjs(time).format('hh:mm A')}
-										</time>
-									</div>
-									<div className={`chat-bubble ${messageClassNames}`}>
-										{message}
-									</div>
-								</div>
+								<Chat
+									key={index}
+									{...userInfo(variation)[type]}
+									{...remainingChat}
+								/>
 							);
 						})}
 						{isChatResponseLoading && (
