@@ -39,7 +39,7 @@ export async function POST(request: Request) {
 
 		const image = await (openai.images as any).generate({
 			response_format: 'url',
-			model: isDallE3Enabled ? 'dall-e-3' : 'dall-e-2',
+			model: isDallE3Enabled ? model : 'dall-e-2',
 			prompt,
 			n,
 			size,
