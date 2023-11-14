@@ -53,7 +53,7 @@ export async function POST(request: Request) {
 	});
 
 	return NextResponse.json(
-		{ chatCompletion, session },
+		{ chatCompletion },
 		{
 			status: 200,
 		},
