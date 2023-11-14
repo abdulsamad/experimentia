@@ -62,30 +62,43 @@ const useCustomTiptapEditor = () => {
 
 			if (['dall-e-2', 'dall-e-3'].includes(getConfig('model'))) {
 				const { url, image } = await getGeneratedImage(editor.getText());
-				console.log({ url, image });
 
-				setIsChatResponseLoading(false);
-				return;
-			}
+				startTransition(() => {
+					addChat({
+						type: 'assistant',
+						image: {
+							url: url[0].url,
+							alt: url[0]?.revised_prompt,
+						},
+						variation: getConfig('variation') || 'normal',
+						time: dayjs(),
+						format: 'image',
+					});
 
-			const { content } = await getGeneratedText(
-				editor.getText(),
-				getConfig('language') || 'en-IN',
-			);
-
-			startTransition(() => {
-				addChat({
-					type: 'assistant',
-					message: content,
-					variation: getConfig('variation') || 'normal',
-					time: dayjs(),
-					format: 'text',
+					setIsChatResponseLoading(false);
+					setState('');
+					editor?.commands?.clearContent();
 				});
+			} else {
+				const { content } = await getGeneratedText(
+					editor.getText(),
+					getConfig('language') || 'en-IN',
+				);
 
-				setIsChatResponseLoading(false);
-				setState('');
-				editor?.commands?.clearContent();
-			});
+				startTransition(() => {
+					addChat({
+						type: 'assistant',
+						message: content,
+						variation: getConfig('variation') || 'normal',
+						time: dayjs(),
+						format: 'text',
+					});
+
+					setIsChatResponseLoading(false);
+					setState('');
+					editor?.commands?.clearContent();
+				});
+			}
 		} catch (err) {
 			setIsChatResponseLoading(false);
 			toast.error('Something went Wrong!', {

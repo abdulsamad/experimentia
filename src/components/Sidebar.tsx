@@ -99,6 +99,10 @@ const Sidebar = () => {
 								<option value='gpt-4' disabled={!flags?.gpt4Enabled}>
 									GPT 4
 								</option>
+								<option value='dall-e-2'>DALL.E</option>
+								<option value='dall-e-3' disabled={!flags?.dallE3Enabled}>
+									DALL.E 3
+								</option>
 							</select>
 						</div>
 					</li>

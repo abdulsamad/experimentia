@@ -24,3 +24,20 @@ export const getGeneratedText = async (prompt: string, language?: string) => {
 
 	return res.json();
 };
+
+export const getGeneratedImage = async (
+	prompt: string,
+	size = '1024x1024',
+	n = 1,
+) => {
+	const res = await fetch('/api/image', {
+		method: 'POST',
+		body: JSON.stringify({
+			prompt,
+			size,
+			n,
+		}),
+	});
+
+	return res.json();
+};

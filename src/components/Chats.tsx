@@ -28,13 +28,13 @@ const Chats = () => {
 				containerClassNames: 'chat-end',
 				messageClassNames: 'chat-bubble-info',
 				name: user?.nickname,
-				imageSrc: user?.picture as string,
+				userImageSrc: user?.picture as string,
 			},
 			assistant: {
 				containerClassNames: 'chat-start',
 				messageClassNames: 'chat-bubble-primary',
 				name: variation,
-				imageSrc: `/icons/${variation}.jpg`,
+				userImageSrc: `/icons/${variation}.jpg`,
 			},
 		}),
 		[user],
@@ -46,14 +46,10 @@ const Chats = () => {
 				{chats.length ? (
 					<>
 						{chats.map((chat, index) => {
-							const { variation, type, ...remainingChat } = chat;
+							const { variation, type } = chat;
 
 							return (
-								<Chat
-									key={index}
-									{...userInfo(variation)[type]}
-									{...remainingChat}
-								/>
+								<Chat key={index} {...userInfo(variation)[type]} {...chat} />
 							);
 						})}
 						{isChatResponseLoading && (

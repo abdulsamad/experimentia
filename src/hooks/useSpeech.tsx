@@ -4,7 +4,12 @@ import dayjs from 'dayjs';
 import { toast } from 'react-toastify';
 
 import { chatLoading, chatsAtom } from '@/store';
-import { speechLog, getGeneratedText, speechGrammer } from '@/utils';
+import {
+	speechLog,
+	getGeneratedText,
+	speechGrammer,
+	getGeneratedImage,
+} from '@/utils';
 import { getConfig } from '@/utils/config';
 
 const useSpeech = () => {
@@ -77,6 +82,7 @@ const useSpeech = () => {
 				const transcript = results[last][0].transcript;
 
 				if (!transcript.trim()) return null;
+
 				addChat({
 					type: 'user',
 					message: transcript,
@@ -87,24 +93,43 @@ const useSpeech = () => {
 
 				setIsChatResponseLoading(true);
 
-				const { content } = await getGeneratedText(
-					transcript,
-					recognition.current?.lang,
-				);
+				if (['dall-e-2', 'dall-e-3'].includes(getConfig('model'))) {
+					const { url, image } = await getGeneratedImage(transcript);
 
-				startTransition(() => {
-					addChat({
-						type: 'assistant',
-						message: content,
-						variation: getConfig('variation') || 'normal',
-						time: dayjs(),
-						format: 'text',
+					startTransition(() => {
+						addChat({
+							type: 'assistant',
+							image: {
+								url: url[0].url,
+								alt: url[0]?.revised_prompt,
+							},
+							variation: getConfig('variation') || 'normal',
+							time: dayjs(),
+							format: 'image',
+						});
+
+						setIsChatResponseLoading(false);
+					});
+				} else {
+					const { content } = await getGeneratedText(
+						transcript,
+						recognition.current?.lang,
+					);
+
+					startTransition(() => {
+						addChat({
+							type: 'assistant',
+							message: content,
+							variation: getConfig('variation') || 'normal',
+							time: dayjs(),
+							format: 'text',
+						});
+
+						setIsChatResponseLoading(false);
 					});
 
-					setIsChatResponseLoading(false);
-				});
-
-				speakText(content, recognition.current?.lang || 'en-US');
+					speakText(content, recognition.current?.lang || 'en-US');
+				}
 			} catch (err) {
 				setIsChatResponseLoading(false);
 				toast.error('Something went Wrong!', {

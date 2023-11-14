@@ -6,13 +6,26 @@ export const editorAtom = atom('');
 
 export const chatLoading = atom(false);
 
-export interface IChat {
+interface IChatCommon {
 	type: 'assistant' | 'user';
-	message: string;
 	variation: string | null;
 	time: Dayjs;
-	format: 'text' | 'image';
 }
+
+interface ITextChat {
+	message: string;
+	format: 'text';
+}
+
+interface IImageChat {
+	image: {
+		url: string;
+		alt: string;
+	};
+	format: 'image';
+}
+
+export type IChat = IChatCommon & (ITextChat | IImageChat);
 
 export const chatsAtom: WritableAtom<IChat[], IChat[], void> = atom(
 	[],
@@ -53,9 +66,16 @@ export const flagsAtom = atom(async (get) => {
 			userObject,
 		);
 
+		const dallE3Enabled = await client.getValueAsync(
+			'enable-DALL-E-3',
+			false,
+			userObject,
+		);
+
 		return {
 			gpt4Enabled,
 			normalEnabled,
+			dallE3Enabled,
 		};
 	}
 
