@@ -6,11 +6,16 @@ import Image from 'next/image';
 import { flagsAtom, identifierAtom } from '@/store';
 import { languages } from '@/utils/languages';
 import { getConfig, setConfig } from '@/utils/config';
+import imageSizes from '@/utils/image-sizes';
 
 const Sidebar = () => {
 	const flags = useAtomValue(flagsAtom);
 	const { user } = useUser();
 	const setIdentifier = useSetAtom(identifierAtom);
+
+	const isImageModelSelected = ['dall-e-2', 'dall-e-3'].includes(
+		getConfig('model'),
+	);
 
 	useLayoutEffect(() => {
 		if (!user?.email) return;
@@ -69,25 +74,6 @@ const Sidebar = () => {
 					<li>
 						<div className='form-control flex flex-col w-full max-w-xs'>
 							<label className='label'>
-								<span className='label-text'>Variation</span>
-							</label>
-							<select
-								name='variation'
-								className='select select-bordered w-full'
-								defaultValue={getConfig('variation')}
-								onChange={updateSetting}>
-								<option value='normal' disabled={!flags?.normalEnabled}>
-									Normal
-								</option>
-								<option value='grammar-corrector'>Grammar Corrector</option>
-								<option value='munna'>Munna Bhai</option>
-								<option value='intelligent'>Intelligent AI</option>
-							</select>
-						</div>
-					</li>
-					<li>
-						<div className='form-control flex flex-col w-full max-w-xs'>
-							<label className='label'>
 								<span className='label-text'>Model</span>
 							</label>
 							<select
@@ -106,6 +92,50 @@ const Sidebar = () => {
 							</select>
 						</div>
 					</li>
+					{!isImageModelSelected && (
+						<li>
+							<div className='form-control flex flex-col w-full max-w-xs'>
+								<label className='label'>
+									<span className='label-text'>Variation</span>
+								</label>
+								<select
+									name='variation'
+									className='select select-bordered w-full'
+									defaultValue={getConfig('variation')}
+									onChange={updateSetting}>
+									<option value='normal' disabled={!flags?.normalEnabled}>
+										Normal
+									</option>
+									<option value='grammar-corrector'>Grammar Corrector</option>
+									<option value='munna'>Munna Bhai</option>
+									<option value='intelligent'>Intelligent AI</option>
+								</select>
+							</div>
+						</li>
+					)}
+					{isImageModelSelected && (
+						<li>
+							<div className='form-control flex flex-col w-full max-w-xs'>
+								<label className='label'>
+									<span className='label-text'>Image Size</span>
+								</label>
+								<select
+									name='image-size'
+									className='select select-bordered w-full'
+									defaultValue={getConfig('image-size') || '512x512'}
+									onChange={(ev) => {
+										updateSetting(ev);
+										window.location.reload();
+									}}>
+									{imageSizes.map((size) => (
+										<option key={size} value={size}>
+											{size}
+										</option>
+									))}
+								</select>
+							</div>
+						</li>
+					)}
 					<li>
 						<div className='form-control flex flex-col w-full max-w-xs'>
 							<label className='label'>
