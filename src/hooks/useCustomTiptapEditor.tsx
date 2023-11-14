@@ -6,7 +6,7 @@ import dayjs from 'dayjs';
 import { toast } from 'react-toastify';
 
 import { chatLoading, chatsAtom, editorAtom } from '@/store/index';
-import { getCorrectedText } from '@/utils';
+import { getGeneratedText } from '@/utils';
 import { getConfig } from '@/utils/config';
 
 const extensions = [
@@ -59,7 +59,7 @@ const useCustomTiptapEditor = () => {
 
 			setIsChatResponseLoading(true);
 
-			const { content } = await getCorrectedText(
+			const { content } = await getGeneratedText(
 				editor?.getText(),
 				getConfig('language') || 'en-IN',
 			);

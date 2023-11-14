@@ -11,7 +11,7 @@ export const speechLog = (text: string, styles?: React.CSSProperties) => {
 export const speechGrammer =
 	'#JSGF V1.0; grammar colors; public <color> = aqua | azure | black | orange ;';
 
-export const getCorrectedText = async (prompt: string, language?: string) => {
+export const getGeneratedText = async (prompt: string, language?: string) => {
 	const res = await fetch('/api/text', {
 		method: 'POST',
 		body: JSON.stringify({

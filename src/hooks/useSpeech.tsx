@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import { toast } from 'react-toastify';
 
 import { chatLoading, chatsAtom } from '@/store';
-import { speechLog, getCorrectedText, speechGrammer } from '@/utils';
+import { speechLog, getGeneratedText, speechGrammer } from '@/utils';
 import { getConfig } from '@/utils/config';
 
 const useSpeech = () => {
@@ -86,7 +86,7 @@ const useSpeech = () => {
 
 				setIsChatResponseLoading(true);
 
-				const { content } = await getCorrectedText(
+				const { content } = await getGeneratedText(
 					transcript,
 					recognition.current?.lang,
 				);
