@@ -54,11 +54,16 @@ const Chats = () => {
 								<div key={index} className={`chat ${containerClassNames}`}>
 									<div className='chat-image avatar'>
 										<div className='w-10 rounded-full'>
-											<Image src={imageSrc} alt={name} height={40} width={40} />
+											<Image
+												src={imageSrc}
+												alt={variation as string}
+												height={40}
+												width={40}
+											/>
 										</div>
 									</div>
 									<div className='chat-header'>
-										<span className='capitalize'>{name}</span>
+										<span className='capitalize'>{variation}</span>
 										<time className='text-xs opacity-50 ml-1'>
 											{dayjs(time).format('hh:mm A')}
 										</time>
