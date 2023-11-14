@@ -1,6 +1,7 @@
 import { ChangeEvent, useCallback, useLayoutEffect } from 'react';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { useSetAtom, useAtomValue } from 'jotai';
+import Image from 'next/image';
 
 import { flagsAtom, identifierAtom } from '@/store';
 import { languages } from '@/utils/languages';
@@ -158,9 +159,11 @@ const Sidebar = () => {
 						<div className='mx-auto flex flex-col gap-3'>
 							<div className='avatar'>
 								<div className='w-24 rounded-full'>
-									<img
+									<Image
 										src={user?.picture as string}
 										alt={user?.name as string}
+										height={96}
+										width={96}
 									/>
 								</div>
 							</div>

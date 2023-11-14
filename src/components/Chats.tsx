@@ -2,6 +2,7 @@ import { useCallback, useEffect } from 'react';
 import { useAtomValue } from 'jotai';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import dayjs from 'dayjs';
+import Image from 'next/image';
 
 import { chatLoading, chatsAtom } from '@/store';
 import { getConfig } from '@/utils/config';
@@ -34,7 +35,7 @@ const Chats = () => {
 				containerClassNames: 'chat-start',
 				messageClassNames: 'chat-bubble-primary',
 				name: getConfig('variation'),
-				imageSrc: `icons/${variation}.jpg`,
+				imageSrc: `/icons/${variation}.jpg`,
 			},
 		}),
 		[user],
@@ -53,7 +54,7 @@ const Chats = () => {
 								<div key={index} className={`chat ${containerClassNames}`}>
 									<div className='chat-image avatar'>
 										<div className='w-10 rounded-full'>
-											<img src={imageSrc} alt={name} />
+											<Image src={imageSrc} alt={name} height={40} width={40} />
 										</div>
 									</div>
 									<div className='chat-header'>

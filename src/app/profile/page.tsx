@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation';
 import { getSession } from '@auth0/nextjs-auth0';
+import Image from 'next/image';
 
 const Profile = async () => {
 	const session = await getSession();
@@ -13,11 +14,11 @@ const Profile = async () => {
 	return (
 		<div className='h-screen w-full flex items-center justify-center'>
 			<div className='flex flex-col items-center justify-center gap-4'>
-				<img
+				<Image
 					className='rounded-full'
+					src={user.picture}
 					height={100}
 					width={100}
-					src={user.picture}
 					alt={user.name}
 				/>
 				<div className='flex'>
