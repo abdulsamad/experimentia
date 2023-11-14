@@ -6,7 +6,7 @@ import dayjs from 'dayjs';
 import { toast } from 'react-toastify';
 
 import { chatLoading, chatsAtom, editorAtom } from '@/store/index';
-import { getGeneratedText } from '@/utils';
+import { getGeneratedImage, getGeneratedText } from '@/utils';
 import { getConfig } from '@/utils/config';
 
 const extensions = [
@@ -55,12 +55,21 @@ const useCustomTiptapEditor = () => {
 				message: editor?.getText(),
 				variation: getConfig('variation' || 'normal'),
 				time: dayjs(),
+				format: 'text',
 			});
 
 			setIsChatResponseLoading(true);
 
+			if (['dall-e-2', 'dall-e-3'].includes(getConfig('model'))) {
+				const { url, image } = await getGeneratedImage(editor.getText());
+				console.log({ url, image });
+
+				setIsChatResponseLoading(false);
+				return;
+			}
+
 			const { content } = await getGeneratedText(
-				editor?.getText(),
+				editor.getText(),
 				getConfig('language') || 'en-IN',
 			);
 
@@ -70,6 +79,7 @@ const useCustomTiptapEditor = () => {
 					message: content,
 					variation: getConfig('variation') || 'normal',
 					time: dayjs(),
+					format: 'text',
 				});
 
 				setIsChatResponseLoading(false);

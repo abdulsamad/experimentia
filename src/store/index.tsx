@@ -11,6 +11,7 @@ export interface IChat {
 	message: string;
 	variation: string | null;
 	time: Dayjs;
+	format: 'text' | 'image';
 }
 
 export const chatsAtom: WritableAtom<IChat[], IChat[], void> = atom(

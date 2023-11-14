@@ -82,6 +82,7 @@ const useSpeech = () => {
 					message: transcript,
 					variation: null,
 					time: dayjs(),
+					format: 'text',
 				});
 
 				setIsChatResponseLoading(true);
@@ -97,6 +98,7 @@ const useSpeech = () => {
 						message: content,
 						variation: getConfig('variation') || 'normal',
 						time: dayjs(),
+						format: 'text',
 					});
 
 					setIsChatResponseLoading(false);
