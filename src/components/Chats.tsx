@@ -34,7 +34,7 @@ const Chats = () => {
 			assistant: {
 				containerClassNames: 'chat-start',
 				messageClassNames: 'chat-bubble-primary',
-				name: getConfig('variation'),
+				name: variation,
 				imageSrc: `/icons/${variation}.jpg`,
 			},
 		}),
@@ -56,14 +56,14 @@ const Chats = () => {
 										<div className='w-10 rounded-full'>
 											<Image
 												src={imageSrc}
-												alt={variation as string}
+												alt={name as string}
 												height={40}
 												width={40}
 											/>
 										</div>
 									</div>
 									<div className='chat-header'>
-										<span className='capitalize'>{variation}</span>
+										<span className='capitalize'>{name}</span>
 										<time className='text-xs opacity-50 ml-1'>
 											{dayjs(time).format('hh:mm A')}
 										</time>
