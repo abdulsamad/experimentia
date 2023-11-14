@@ -61,7 +61,10 @@ const useCustomTiptapEditor = () => {
 			setIsChatResponseLoading(true);
 
 			if (['dall-e-2', 'dall-e-3'].includes(getConfig('model'))) {
-				const { url, image } = await getGeneratedImage(editor.getText());
+				const { url, image } = await getGeneratedImage(
+					editor.getText(),
+					getConfig('image-size'),
+				);
 
 				startTransition(() => {
 					addChat({

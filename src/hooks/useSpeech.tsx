@@ -94,7 +94,10 @@ const useSpeech = () => {
 				setIsChatResponseLoading(true);
 
 				if (['dall-e-2', 'dall-e-3'].includes(getConfig('model'))) {
-					const { url, image } = await getGeneratedImage(transcript);
+					const { url, image } = await getGeneratedImage(
+						transcript,
+						getConfig('image-size'),
+					);
 
 					startTransition(() => {
 						addChat({
