@@ -1,23 +1,24 @@
-import { redirect } from 'next/navigation';
-import { getSession } from '@auth0/nextjs-auth0';
+'use client';
 
-const Page = async () => {
-	const session = await getSession();
+import { Provider } from 'jotai';
+import { withPageAuthRequired } from '@auth0/nextjs-auth0/client';
 
-	if (session?.user) {
-		redirect('/chat');
-	}
+import Editor from '@/components/Editor';
+import Sidebar from '@/components/Sidebar';
+import Chats from '@/components/Chats';
 
+const Home = () => {
 	return (
-		<div className='h-screen w-full flex items-center justify-center'>
-			<div className='flex flex-col gap-4 min-w-[200px] text-center'>
-				Hi there, Please create new account or sign in to get started.
-				<a href='/api/auth/login' className='btn btn-sm btn-primary capitalize'>
-					Login or Sign Up
-				</a>
-			</div>
-		</div>
+		<Provider>
+			<main className='conic-gradient(at right center, rgb(199, 210, 254), rgb(71, 85, 105), rgb(199, 210, 254))'>
+				<Sidebar />
+				<Chats />
+				<div className='flex flex-col justify-end'>
+					<Editor />
+				</div>
+			</main>
+		</Provider>
 	);
 };
 
-export default Page;
+export default withPageAuthRequired(Home);
