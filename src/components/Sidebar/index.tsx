@@ -1,21 +1,20 @@
 import { ChangeEvent, useCallback, useLayoutEffect } from 'react';
 import { useUser } from '@auth0/nextjs-auth0/client';
-import { useSetAtom, useAtomValue } from 'jotai';
+import { useSetAtom, useAtomValue, useAtom } from 'jotai';
 import Image from 'next/image';
 
-import { flagsAtom, identifierAtom } from '@/store';
+import { configAtom, flagsAtom, identifierAtom } from '@/store';
 import { languages } from '@/utils/languages';
-import { getConfig, setConfig } from '@/utils/config';
 import imageSizes from '@/utils/image-sizes';
 
 const Sidebar = () => {
 	const flags = useAtomValue(flagsAtom);
-	const { user } = useUser();
 	const setIdentifier = useSetAtom(identifierAtom);
+	const [config, setConfig] = useAtom(configAtom);
+	const { user } = useUser();
 
-	const isImageModelSelected = ['dall-e-2', 'dall-e-3'].includes(
-		getConfig('model'),
-	);
+	const { language, model, variation, imageSize, textInput } = config;
+	const isImageModelSelected = ['dall-e-2', 'dall-e-3'].includes(model);
 
 	useLayoutEffect(() => {
 		if (!user?.email) return;
@@ -26,17 +25,17 @@ const Sidebar = () => {
 	const updateSetting = useCallback(
 		({ target }: ChangeEvent<HTMLSelectElement>) => {
 			const { name, value } = target;
-			setConfig({ [name]: value });
+			setConfig({ [name]: value } as any);
 		},
-		[],
+		[setConfig],
 	);
 
 	const updatedCheckedSetting = useCallback(
 		({ target }: ChangeEvent<HTMLInputElement>) => {
 			const { name, checked } = target;
-			setConfig({ [name]: checked });
+			setConfig({ [name]: checked } as any);
 		},
-		[],
+		[setConfig],
 	);
 
 	return (
@@ -45,6 +44,9 @@ const Sidebar = () => {
 			<div className='drawer-content flex flex-col items-center justify-center'>
 				{/* Page content here */}
 				{/* Test Content */}
+				<nav className='h-[60px] flex items-center justify-center'>
+					<h1 className='text-3xl italic'>Experimentia</h1>
+				</nav>
 				{/* Page content here */}
 				<label
 					htmlFor='sidebar'
@@ -79,7 +81,7 @@ const Sidebar = () => {
 							<select
 								name='model'
 								className='select select-bordered w-full'
-								defaultValue={getConfig('model')}
+								defaultValue={model}
 								onChange={updateSetting}>
 								<option value='gpt-3.5-turbo'>GPT 3.5 (Chat GPT)</option>
 								<option value='gpt-4' disabled={!flags?.gpt4Enabled}>
@@ -101,7 +103,7 @@ const Sidebar = () => {
 								<select
 									name='variation'
 									className='select select-bordered w-full'
-									defaultValue={getConfig('variation')}
+									defaultValue={variation}
 									onChange={updateSetting}>
 									<option value='normal' disabled={!flags?.normalEnabled}>
 										Normal
@@ -120,13 +122,10 @@ const Sidebar = () => {
 									<span className='label-text'>Image Size</span>
 								</label>
 								<select
-									name='image-size'
+									name='imageSize'
 									className='select select-bordered w-full'
-									defaultValue={getConfig('image-size') || '512x512'}
-									onChange={(ev) => {
-										updateSetting(ev);
-										window.location.reload();
-									}}>
+									defaultValue={imageSize}
+									onChange={updateSetting}>
 									{imageSizes.map((size) => (
 										<option key={size} value={size}>
 											{size}
@@ -144,22 +143,14 @@ const Sidebar = () => {
 							<select
 								name='language'
 								className='select select-bordered w-full'
-								defaultValue={getConfig('language')}
-								onChange={(ev) => {
-									updateSetting(ev);
-									window.location.reload();
-								}}>
+								defaultValue={language}
+								onChange={updateSetting}>
 								{languages.map(({ code, text }) => (
 									<option key={code} value={code}>
 										{text}
 									</option>
 								))}
 							</select>
-							<label className='label'>
-								<span className='label-text-alt'>
-									Page will reload to take effect
-								</span>
-							</label>
 						</div>
 					</li>
 					<li>
@@ -170,21 +161,17 @@ const Sidebar = () => {
 							<div className='flex items-center justify-center space-x-4'>
 								<span>Voice</span>
 								<input
-									name='text-input'
+									name='textInput'
 									type='checkbox'
-									checked={getConfig('text-input')}
-									onChange={(ev) => {
-										updatedCheckedSetting(ev);
-										window.location.reload();
-									}}
+									checked={textInput}
+									onChange={updatedCheckedSetting}
 									className='toggle toggle-lg'
 								/>
 								<span>Text</span>
 							</div>
 							<label className='label'>
 								<span className='label-text-alt text-center'>
-									How you want to give input to GPT? <br /> Page will reload to
-									take effect
+									How you want to give input to GPT?
 								</span>
 							</label>
 						</div>

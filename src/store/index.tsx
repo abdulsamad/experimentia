@@ -1,8 +1,13 @@
 import { atom, WritableAtom } from 'jotai';
+import { atomWithStorage } from 'jotai/utils';
 import * as configcat from 'configcat-js-ssr';
 import { Dayjs } from 'dayjs';
 
+// Editor
+
 export const editorAtom = atom('');
+
+// Chats
 
 export const chatLoading = atom(false);
 
@@ -77,3 +82,45 @@ export const flagsAtom = atom(async (get) => {
 
 	return null;
 });
+
+// Config
+
+interface IConfig {
+	model: string;
+	variation: string;
+	language: string;
+	imageSize: string;
+	textInput: boolean;
+}
+
+export const configAtom = atomWithStorage<IConfig>(
+	'config',
+	{
+		model: 'gpt-3.5-turbo',
+		variation: 'normal',
+		language: 'en-IN',
+		imageSize: '512x512',
+		textInput: false,
+	},
+	{
+		getItem(key, initialValue) {
+			try {
+				const storedValue = JSON.parse(localStorage.getItem(key) as string);
+				return storedValue ?? '';
+			} catch (err) {
+				return initialValue;
+			}
+		},
+		setItem(key, value) {
+			try {
+				const oldConfig = JSON.parse(localStorage.getItem(key) as string);
+				localStorage.setItem(key, JSON.stringify({ ...oldConfig, ...value }));
+			} catch (err) {
+				return null;
+			}
+		},
+		removeItem(key) {
+			localStorage.removeItem(key);
+		},
+	},
+);

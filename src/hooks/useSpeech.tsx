@@ -1,21 +1,21 @@
 import { useState, useEffect, useRef, useCallback, useTransition } from 'react';
-import { useSetAtom } from 'jotai';
+import { useAtomValue, useSetAtom } from 'jotai';
 import dayjs from 'dayjs';
 import { toast } from 'react-toastify';
 
-import { chatLoading, chatsAtom } from '@/store';
+import { chatLoading, chatsAtom, configAtom } from '@/store';
 import {
 	speechLog,
 	getGeneratedText,
 	speechGrammer,
 	getGeneratedImage,
 } from '@/utils';
-import { getConfig } from '@/utils/config';
 
 const useSpeech = () => {
 	const addChat = useSetAtom(chatsAtom);
 	const setIsChatResponseLoading = useSetAtom(chatLoading);
 	const [isListening, setIsListening] = useState(false);
+	const { model, variation, imageSize, language } = useAtomValue(configAtom);
 	const [isPending, startTransition] = useTransition();
 
 	const recognition = useRef<SpeechRecognition | null>(null);
@@ -30,7 +30,7 @@ const useSpeech = () => {
 		recognition.current = speechRecognition;
 		recognition.current.grammars = speechRecognitionList;
 		recognition.current.continuous = true;
-		recognition.current.lang = getConfig('language') || 'en-IN';
+		recognition.current.lang = language;
 		recognition.current.interimResults = false;
 		recognition.current.maxAlternatives = 1;
 		recognition.current.onaudiostart = () => speechLog('Audio Started');
@@ -93,11 +93,8 @@ const useSpeech = () => {
 
 				setIsChatResponseLoading(true);
 
-				if (['dall-e-2', 'dall-e-3'].includes(getConfig('model'))) {
-					const { url, image } = await getGeneratedImage(
-						transcript,
-						getConfig('image-size'),
-					);
+				if (['dall-e-2', 'dall-e-3'].includes(model)) {
+					const { url, image } = await getGeneratedImage(transcript, imageSize);
 
 					startTransition(() => {
 						addChat({
@@ -106,7 +103,7 @@ const useSpeech = () => {
 								url: url[0].url,
 								alt: url[0]?.revised_prompt,
 							},
-							variation: getConfig('variation') || 'normal',
+							variation,
 							time: dayjs(),
 							format: 'image',
 						});
@@ -123,7 +120,7 @@ const useSpeech = () => {
 						addChat({
 							type: 'assistant',
 							message: content,
-							variation: getConfig('variation') || 'normal',
+							variation,
 							time: dayjs(),
 							format: 'text',
 						});
@@ -141,7 +138,7 @@ const useSpeech = () => {
 			}
 		},
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-		[addChat],
+		[addChat, imageSize, model, setIsChatResponseLoading, variation],
 	);
 
 	const speakText = useCallback((text: string, language: string) => {

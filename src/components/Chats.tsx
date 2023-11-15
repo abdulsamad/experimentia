@@ -2,13 +2,13 @@ import { useCallback, useEffect } from 'react';
 import { useAtomValue } from 'jotai';
 import { useUser } from '@auth0/nextjs-auth0/client';
 
-import { chatLoading, chatsAtom } from '@/store';
-import { getConfig } from '@/utils/config';
+import { chatLoading, chatsAtom, configAtom } from '@/store';
 import Chat from './Chat';
 
 const Chats = () => {
 	const chats = useAtomValue(chatsAtom);
 	const isChatResponseLoading = useAtomValue(chatLoading);
+	const { textInput } = useAtomValue(configAtom);
 	const { user } = useUser();
 
 	useEffect(() => {
@@ -73,7 +73,7 @@ const Chats = () => {
 									<span className='animate-wave'>👋</span>
 								</h1>
 								<h1 className='py-6 italic break-words [text-wrap:pretty]'>
-									{getConfig('text-input')
+									{textInput
 										? `Type in the input box in the bottom and start chatting. You can also change settings from the hamburger menu in the top left corner.`
 										: `Tap the mic button in the bottom right corner and start speaking. You can also change settings from the hamburger menu in the top left corner.`}
 								</h1>

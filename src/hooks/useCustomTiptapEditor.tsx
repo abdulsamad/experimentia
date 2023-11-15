@@ -1,13 +1,12 @@
 import { useCallback, useEffect, useTransition } from 'react';
 import { useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-import { useAtom, useSetAtom } from 'jotai';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import dayjs from 'dayjs';
 import { toast } from 'react-toastify';
 
-import { chatLoading, chatsAtom, editorAtom } from '@/store/index';
+import { chatLoading, chatsAtom, configAtom, editorAtom } from '@/store/index';
 import { getGeneratedImage, getGeneratedText } from '@/utils';
-import { getConfig } from '@/utils/config';
 
 const extensions = [
 	StarterKit.configure({
@@ -25,6 +24,7 @@ const useCustomTiptapEditor = () => {
 	const [state, setState] = useAtom(editorAtom);
 	const addChat = useSetAtom(chatsAtom);
 	const setIsChatResponseLoading = useSetAtom(chatLoading);
+	const { variation, model, imageSize, language } = useAtomValue(configAtom);
 	const [isPending, startTransition] = useTransition();
 
 	const editor = useEditor({
@@ -53,17 +53,17 @@ const useCustomTiptapEditor = () => {
 			addChat({
 				type: 'user',
 				message: editor?.getText(),
-				variation: getConfig('variation' || 'normal'),
+				variation,
 				time: dayjs(),
 				format: 'text',
 			});
 
 			setIsChatResponseLoading(true);
 
-			if (['dall-e-2', 'dall-e-3'].includes(getConfig('model'))) {
+			if (['dall-e-2', 'dall-e-3'].includes(model)) {
 				const { url, image } = await getGeneratedImage(
 					editor.getText(),
-					getConfig('image-size'),
+					imageSize,
 				);
 
 				startTransition(() => {
@@ -73,7 +73,7 @@ const useCustomTiptapEditor = () => {
 							url: url[0].url,
 							alt: url[0]?.revised_prompt,
 						},
-						variation: getConfig('variation') || 'normal',
+						variation,
 						time: dayjs(),
 						format: 'image',
 					});
@@ -83,16 +83,13 @@ const useCustomTiptapEditor = () => {
 					editor?.commands?.clearContent();
 				});
 			} else {
-				const { content } = await getGeneratedText(
-					editor.getText(),
-					getConfig('language') || 'en-IN',
-				);
+				const { content } = await getGeneratedText(editor.getText(), language);
 
 				startTransition(() => {
 					addChat({
 						type: 'assistant',
 						message: content,
-						variation: getConfig('variation') || 'normal',
+						variation,
 						time: dayjs(),
 						format: 'text',
 					});
@@ -108,7 +105,16 @@ const useCustomTiptapEditor = () => {
 				position: toast.POSITION.BOTTOM_RIGHT,
 			});
 		}
-	}, [addChat, editor, setIsChatResponseLoading, setState]);
+	}, [
+		addChat,
+		editor,
+		imageSize,
+		language,
+		model,
+		setIsChatResponseLoading,
+		setState,
+		variation,
+	]);
 
 	return { editor, handleSubmit };
 };
