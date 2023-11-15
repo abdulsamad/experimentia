@@ -41,11 +41,7 @@ export const configCatClientAtom = atom(
 	configcat.getClient(process.env.NEXT_PUBLIC_CONFIGCAT_API_KEY as string),
 );
 
-export const identifierAtom = atom('', (get, set, update) => {
-	if (update) {
-		set(identifierAtom, update);
-	}
-});
+export const identifierAtom = atom('');
 
 export const flagsAtom = atom(async (get) => {
 	const identifier = get(identifierAtom);
