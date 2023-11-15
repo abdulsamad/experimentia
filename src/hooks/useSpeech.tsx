@@ -14,8 +14,8 @@ import {
 const useSpeech = () => {
 	const addChat = useSetAtom(chatsAtom);
 	const setIsChatResponseLoading = useSetAtom(chatLoading);
-	const [isListening, setIsListening] = useState(false);
 	const { model, variation, imageSize, language } = useAtomValue(configAtom);
+	const [isListening, setIsListening] = useState(false);
 	const [isPending, startTransition] = useTransition();
 
 	const recognition = useRef<SpeechRecognition | null>(null);
@@ -44,10 +44,10 @@ const useSpeech = () => {
 		recognition.current.onend = () => speechLog('End');
 
 		return () => {
-			//
+			stopRecognition();
 		};
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	}, [language]);
 
 	const startRecognition = useCallback(async () => {
 		if (!recognition.current) return null;

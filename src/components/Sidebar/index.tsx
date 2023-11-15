@@ -8,9 +8,9 @@ import { languages } from '@/utils/languages';
 import imageSizes from '@/utils/image-sizes';
 
 const Sidebar = () => {
+	const [config, setConfig] = useAtom(configAtom);
 	const flags = useAtomValue(flagsAtom);
 	const setIdentifier = useSetAtom(identifierAtom);
-	const [config, setConfig] = useAtom(configAtom);
 	const { user } = useUser();
 
 	const { language, model, variation, imageSize, textInput } = config;
