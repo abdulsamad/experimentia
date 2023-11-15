@@ -61,12 +61,6 @@ export const flagsAtom = atom(async (get) => {
 			userObject,
 		);
 
-		const normalEnabled = await client.getValueAsync(
-			'enable-normal',
-			false,
-			userObject,
-		);
-
 		const dallE3Enabled = await client.getValueAsync(
 			'enable-DALL-E-3',
 			false,
@@ -75,7 +69,6 @@ export const flagsAtom = atom(async (get) => {
 
 		return {
 			gpt4Enabled,
-			normalEnabled,
 			dallE3Enabled,
 		};
 	}

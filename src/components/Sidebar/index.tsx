@@ -105,9 +105,7 @@ const Sidebar = () => {
 									className='select select-bordered w-full'
 									defaultValue={variation}
 									onChange={updateSetting}>
-									<option value='normal' disabled={!flags?.normalEnabled}>
-										Normal
-									</option>
+									<option value='normal'>Normal</option>
 									<option value='grammar-corrector'>Grammar Corrector</option>
 									<option value='munna'>Munna Bhai</option>
 									<option value='intelligent'>Intelligent AI</option>
