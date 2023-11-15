@@ -43,7 +43,6 @@ const Sidebar = () => {
 			<input id='sidebar' type='checkbox' className='drawer-toggle' />
 			<div className='drawer-content flex flex-col items-center justify-center'>
 				{/* Page content here */}
-				{/* Test Content */}
 				<nav className='h-[60px] flex items-center justify-center'>
 					<h1 className='text-3xl italic'>Experimentia</h1>
 				</nav>
