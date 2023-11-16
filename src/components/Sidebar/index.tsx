@@ -83,7 +83,7 @@ const Sidebar = () => {
 							<select
 								name='model'
 								className='select select-bordered w-full'
-								defaultValue={model}
+								value={model}
 								onChange={updateSetting}>
 								<optgroup label='Text'>
 									<option value='gpt-3.5-turbo'>GPT 3.5 (Chat GPT)</option>
@@ -109,7 +109,7 @@ const Sidebar = () => {
 								<select
 									name='variation'
 									className='select select-bordered w-full'
-									defaultValue={variation}
+									value={variation}
 									onChange={updateSetting}>
 									<option value='normal'>Normal</option>
 									<option value='grammar-corrector'>Grammar Corrector</option>
@@ -128,7 +128,7 @@ const Sidebar = () => {
 								<select
 									name='imageSize'
 									className='select select-bordered w-full'
-									defaultValue={imageSize}
+									value={imageSize}
 									onChange={updateSetting}>
 									{imageSizes(model).options.map((size) => (
 										<option key={size} value={size}>
@@ -147,7 +147,7 @@ const Sidebar = () => {
 							<select
 								name='language'
 								className='select select-bordered w-full'
-								defaultValue={language}
+								value={language}
 								onChange={updateSetting}>
 								{languages.map(({ code, text }) => (
 									<option key={code} value={code}>
