@@ -82,14 +82,18 @@ const Sidebar = () => {
 								className='select select-bordered w-full'
 								defaultValue={model}
 								onChange={updateSetting}>
-								<option value='gpt-3.5-turbo'>GPT 3.5 (Chat GPT)</option>
-								<option value='gpt-4' disabled={!flags?.gpt4Enabled}>
-									GPT 4
-								</option>
-								<option value='dall-e-2'>DALL.E</option>
-								<option value='dall-e-3' disabled={!flags?.dallE3Enabled}>
-									DALL.E 3
-								</option>
+								<optgroup label='Text'>
+									<option value='gpt-3.5-turbo'>GPT 3.5 (Chat GPT)</option>
+									<option value='gpt-4' disabled={!flags?.gpt4Enabled}>
+										GPT 4
+									</option>
+								</optgroup>
+								<optgroup label='Image'>
+									<option value='dall-e-2'>DALL.E</option>
+									<option value='dall-e-3' disabled={!flags?.dallE3Enabled}>
+										DALL.E 3
+									</option>
+								</optgroup>
 							</select>
 						</div>
 					</li>
