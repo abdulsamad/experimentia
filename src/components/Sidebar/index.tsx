@@ -128,7 +128,7 @@ const Sidebar = () => {
 								<select
 									name='imageSize'
 									className='select select-bordered w-full'
-									defaultValue={imageSizes(model).default}
+									defaultValue={imageSize}
 									onChange={updateSetting}>
 									{imageSizes(model).options.map((size) => (
 										<option key={size} value={size}>
