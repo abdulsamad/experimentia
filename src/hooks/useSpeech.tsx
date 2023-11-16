@@ -14,7 +14,8 @@ import {
 const useSpeech = () => {
 	const addChat = useSetAtom(chatsAtom);
 	const setIsChatResponseLoading = useSetAtom(chatLoading);
-	const { model, variation, imageSize, language } = useAtomValue(configAtom);
+	const { model, variation, imageSize, language, speakResults } =
+		useAtomValue(configAtom);
 	const [isListening, setIsListening] = useState(false);
 	const [isPending, startTransition] = useTransition();
 
@@ -128,7 +129,8 @@ const useSpeech = () => {
 						setIsChatResponseLoading(false);
 					});
 
-					speakText(content, recognition.current?.lang || 'en-US');
+					if (speakResults)
+						speakText(content, recognition.current?.lang || 'en-US');
 				}
 			} catch (err) {
 				toast.error('Something went Wrong!', {

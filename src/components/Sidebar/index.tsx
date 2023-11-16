@@ -13,7 +13,8 @@ const Sidebar = () => {
 	const setIdentifier = useSetAtom(identifierAtom);
 	const { user } = useUser();
 
-	const { language, model, variation, imageSize, textInput } = config;
+	const { language, model, variation, imageSize, textInput, speakResults } =
+		config;
 	const isImageModelSelected = ['dall-e-2', 'dall-e-3'].includes(model);
 
 	useLayoutEffect(() => {
@@ -179,6 +180,22 @@ const Sidebar = () => {
 							</label>
 						</div>
 					</li>
+					{'speechSynthesis' in window && !textInput && (
+						<li>
+							<div className='form-control mx-auto'>
+								<label className='label cursor-pointer space-x-3'>
+									<span className='label-text'>Speak Results</span>
+									<input
+										name='speakResults'
+										type='checkbox'
+										checked={speakResults}
+										onChange={updatedCheckedSetting}
+										className='checkbox checkbox-primary checkbox-sm'
+									/>
+								</label>
+							</div>
+						</li>
+					)}
 					<li className='mt-auto'>
 						<div className='mx-auto flex flex-col gap-3'>
 							<div className='avatar'>

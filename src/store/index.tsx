@@ -86,6 +86,7 @@ interface IConfig {
 	language: string;
 	imageSize: string;
 	textInput: boolean;
+	speakResults: boolean;
 }
 
 export const configAtom = atomWithStorage<IConfig>(settingsKey, {
@@ -94,4 +95,5 @@ export const configAtom = atomWithStorage<IConfig>(settingsKey, {
 	language: 'en-IN',
 	imageSize: '1024x1024',
 	textInput: false,
+	speakResults: false,
 });
