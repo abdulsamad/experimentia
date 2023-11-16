@@ -43,8 +43,10 @@ const Sidebar = () => {
 			<input id='sidebar' type='checkbox' className='drawer-toggle' />
 			<div className='drawer-content flex flex-col items-center justify-center'>
 				{/* Page content here */}
-				<nav className='h-[60px] flex items-center justify-center'>
-					<h1 className='text-3xl italic'>Experimentia</h1>
+				<nav className='flex items-center justify-center'>
+					<h1 className='text-3xl italic p-4 text-center font-bold from-purple-600 via-pink-600 to-blue-600 bg-gradient-to-r bg-clip-text text-transparent'>
+						Experimentia
+					</h1>
 				</nav>
 				{/* Page content here */}
 				<label
@@ -125,7 +127,7 @@ const Sidebar = () => {
 								<select
 									name='imageSize'
 									className='select select-bordered w-full'
-									defaultValue={imageSize}
+									defaultValue={imageSizes(model).default}
 									onChange={updateSetting}>
 									{imageSizes(model).options.map((size) => (
 										<option key={size} value={size}>
