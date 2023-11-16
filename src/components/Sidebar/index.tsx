@@ -25,17 +25,17 @@ const Sidebar = () => {
 	const updateSetting = useCallback(
 		({ target }: ChangeEvent<HTMLSelectElement>) => {
 			const { name, value } = target;
-			setConfig({ [name]: value } as any);
+			setConfig({ ...config, [name]: value } as any);
 		},
-		[setConfig],
+		[config, setConfig],
 	);
 
 	const updatedCheckedSetting = useCallback(
 		({ target }: ChangeEvent<HTMLInputElement>) => {
 			const { name, checked } = target;
-			setConfig({ [name]: checked } as any);
+			setConfig({ ...config, [name]: checked } as any);
 		},
-		[setConfig],
+		[config, setConfig],
 	);
 
 	return (

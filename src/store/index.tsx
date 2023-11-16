@@ -88,37 +88,10 @@ interface IConfig {
 	textInput: boolean;
 }
 
-export const configAtom = atomWithStorage<IConfig>(
-	settingsKey,
-	{
-		model: 'gpt-3.5-turbo',
-		variation: 'normal',
-		language: 'en-IN',
-		imageSize: '1024x1024',
-		textInput: false,
-	},
-	{
-		getItem(key, initialValue) {
-			try {
-				const storedValue = JSON.parse(localStorage.getItem(key) as string);
-
-				return storedValue;
-			} catch (err) {
-				return initialValue;
-			}
-		},
-		setItem(key, value) {
-			try {
-				const oldConfig = JSON.parse(localStorage.getItem(key) as string);
-				const newConfig = JSON.stringify({ ...oldConfig, ...value });
-
-				localStorage.setItem(key, newConfig);
-			} catch (err) {
-				return null;
-			}
-		},
-		removeItem(key) {
-			localStorage.removeItem(key);
-		},
-	},
-);
+export const configAtom = atomWithStorage<IConfig>(settingsKey, {
+	model: 'gpt-3.5-turbo',
+	variation: 'normal',
+	language: 'en-IN',
+	imageSize: '1024x1024',
+	textInput: false,
+});
