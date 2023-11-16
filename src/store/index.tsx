@@ -3,6 +3,8 @@ import { atomWithStorage } from 'jotai/utils';
 import * as configcat from 'configcat-js-ssr';
 import { Dayjs } from 'dayjs';
 
+import { settingsKey } from '@/utils/config';
+
 // Editor
 
 export const editorAtom = atom('');
@@ -87,19 +89,20 @@ interface IConfig {
 }
 
 export const configAtom = atomWithStorage<IConfig>(
-	'config',
+	settingsKey,
 	{
 		model: 'gpt-3.5-turbo',
 		variation: 'normal',
 		language: 'en-IN',
-		imageSize: '512x512',
+		imageSize: '1024x1024',
 		textInput: false,
 	},
 	{
 		getItem(key, initialValue) {
 			try {
 				const storedValue = JSON.parse(localStorage.getItem(key) as string);
-				return storedValue ?? '';
+
+				return storedValue;
 			} catch (err) {
 				return initialValue;
 			}
@@ -107,7 +110,9 @@ export const configAtom = atomWithStorage<IConfig>(
 		setItem(key, value) {
 			try {
 				const oldConfig = JSON.parse(localStorage.getItem(key) as string);
-				localStorage.setItem(key, JSON.stringify({ ...oldConfig, ...value }));
+				const newConfig = JSON.stringify({ ...oldConfig, ...value });
+
+				localStorage.setItem(key, newConfig);
 			} catch (err) {
 				return null;
 			}
