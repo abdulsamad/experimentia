@@ -100,10 +100,11 @@ const useCustomTiptapEditor = () => {
 				});
 			}
 		} catch (err) {
-			setIsChatResponseLoading(false);
 			toast.error('Something went Wrong!', {
 				position: toast.POSITION.BOTTOM_RIGHT,
 			});
+		} finally {
+			setIsChatResponseLoading(false);
 		}
 	}, [
 		addChat,

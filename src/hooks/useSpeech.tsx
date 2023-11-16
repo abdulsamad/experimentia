@@ -131,10 +131,11 @@ const useSpeech = () => {
 					speakText(content, recognition.current?.lang || 'en-US');
 				}
 			} catch (err) {
-				setIsChatResponseLoading(false);
 				toast.error('Something went Wrong!', {
 					position: toast.POSITION.BOTTOM_RIGHT,
 				});
+			} finally {
+				setIsChatResponseLoading(false);
 			}
 		},
 		// eslint-disable-next-line react-hooks/exhaustive-deps
