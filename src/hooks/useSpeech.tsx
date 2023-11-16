@@ -63,12 +63,12 @@ const useSpeech = () => {
 	}, []);
 
 	const stopRecognition = useCallback(async () => {
-		if (!recognition.current) return null;
+		if (!recognition.current || !isListening) return null;
 
 		recognition.current.stop();
 		speechLog('Stopped');
 		setIsListening(false);
-	}, []);
+	}, [isListening]);
 
 	const onSpeechResult = useCallback(
 		async (ev: SpeechRecognitionEvent) => {
