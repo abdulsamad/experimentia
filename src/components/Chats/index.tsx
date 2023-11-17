@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useLayoutEffect } from 'react';
 import { useAtomValue } from 'jotai';
 import { useUser } from '@auth0/nextjs-auth0/client';
 
@@ -14,7 +14,7 @@ const Chats = () => {
 	const { textInput } = useAtomValue(configAtom);
 	const { user } = useUser();
 
-	useEffect(() => {
+	useLayoutEffect(() => {
 		const chats = document.querySelectorAll('.chat');
 
 		if (!chats.length) return;
