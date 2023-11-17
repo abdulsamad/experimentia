@@ -41,11 +41,11 @@ const Sidebar = () => {
 
 	return (
 		<div className='drawer z-50'>
-			<input id='sidebar' type='checkbox' className='drawer-toggle' />
+			<input id='sidebar' type='checkbox' className='drawer-toggle h-[80px]' />
 			<div className='drawer-content flex flex-col items-center justify-center'>
 				{/* Page content here */}
-				<nav className='flex items-center justify-center'>
-					<h1 className='text-3xl italic p-4 text-center font-bold from-purple-600 via-pink-600 to-blue-600 bg-gradient-to-r bg-clip-text text-transparent'>
+				<nav className='flex items-center justify-center h-[80px] w-full'>
+					<h1 className='text-3xl italic text-center font-bold from-purple-600 via-pink-600 to-blue-600 bg-gradient-to-r bg-clip-text text-transparent'>
 						Experimentia
 					</h1>
 				</nav>
