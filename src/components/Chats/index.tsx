@@ -3,7 +3,10 @@ import { useAtomValue } from 'jotai';
 import { useUser } from '@auth0/nextjs-auth0/client';
 
 import { chatLoading, chatsAtom, configAtom } from '@/store';
+
 import Chat from './Chat';
+import Empty from './Empty';
+import Typing from './Typing';
 
 const Chats = () => {
 	const chats = useAtomValue(chatsAtom);
@@ -52,34 +55,10 @@ const Chats = () => {
 								<Chat key={index} {...userInfo(variation)[type]} {...chat} />
 							);
 						})}
-						{isChatResponseLoading && (
-							<div className='chat chat-start'>
-								<div className='chat-bubble chat-bubble-primary'>
-									<div className='flex items-center justify-center gap-1 h-6'>
-										<div className='w-1 h-1 bg-slate-200 rounded-[50%] animate-typing'></div>
-										<div className='w-1 h-1 bg-slate-200 rounded-[50%] animate-typing [animation-delay:150ms]'></div>
-										<div className='w-1 h-1 bg-slate-200 rounded-[50%] animate-typing [animation-delay:300ms]'></div>
-									</div>
-								</div>
-							</div>
-						)}
+						{isChatResponseLoading && <Typing />}
 					</>
 				) : (
-					<div className='hero min-h-[250px] bg-base-200 text-sky-200 border-2 rounded-3xl border-sky-200 shadow-[0_0_1px_#fff,inset_0_0_1px_#fff,0_0_2px_#08f,0_0_6px_#08f,0_0_15px_#08f]'>
-						<div className='hero-content text-center'>
-							<div className='max-w-md'>
-								<h1 className='text-5xl font-bold capitalize break-all'>
-									Hello {user?.nickname || 'there'},{' '}
-									<span className='animate-wave'>👋</span>
-								</h1>
-								<h1 className='py-6 italic break-words [text-wrap:pretty]'>
-									{textInput
-										? `Type in the input box in the bottom and start chatting. You can also change settings from the hamburger menu in the top left corner.`
-										: `Tap the mic button in the bottom right corner and start speaking. You can also change settings from the hamburger menu in the top left corner.`}
-								</h1>
-							</div>
-						</div>
-					</div>
+					<Empty nickname={user?.nickname} textInput={textInput} />
 				)}
 			</div>
 		</section>
