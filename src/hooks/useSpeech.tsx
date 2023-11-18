@@ -4,12 +4,8 @@ import dayjs from 'dayjs';
 import { toast } from 'react-toastify';
 
 import { chatLoading, chatsAtom, configAtom } from '@/store';
-import {
-	speechLog,
-	getGeneratedText,
-	speechGrammer,
-	getGeneratedImage,
-} from '@/utils';
+import { speechLog, speechGrammer } from '@/utils';
+import { getGeneratedText, getGeneratedImage } from '@/utils/api-calls';
 
 const useSpeech = () => {
 	const addChat = useSetAtom(chatsAtom);

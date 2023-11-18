@@ -6,7 +6,7 @@ import dayjs from 'dayjs';
 import { toast } from 'react-toastify';
 
 import { chatLoading, chatsAtom, configAtom, editorAtom } from '@/store/index';
-import { getGeneratedImage, getGeneratedText } from '@/utils';
+import { getGeneratedText, getGeneratedImage } from '@/utils/api-calls';
 
 const extensions = [
 	StarterKit.configure({
