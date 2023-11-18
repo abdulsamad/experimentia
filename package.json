@@ -16,6 +16,7 @@
 		"@tiptap/pm": "^2.1.11",
 		"@tiptap/react": "^2.1.11",
 		"@tiptap/starter-kit": "^2.1.11",
+		"axios": "^1.6.2",
 		"configcat-js-ssr": "^7.1.1",
 		"dayjs": "^1.11.10",
 		"jotai": "^2.4.3",
