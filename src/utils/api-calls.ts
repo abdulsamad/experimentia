@@ -2,8 +2,12 @@ import axios from 'axios';
 
 import { getConfig } from './config';
 
+const axiosInstance = axios.create({
+	baseURL: '/api',
+});
+
 export const getGeneratedText = async (prompt: string, language?: string) => {
-	const res = await axios.post('/api/text', {
+	const res = await axiosInstance.post('/text', {
 		prompt,
 		language,
 		type: getConfig('variation'),
@@ -18,7 +22,7 @@ export const getGeneratedImage = async (
 	size = '512x512',
 	n = 1,
 ) => {
-	const res = await axios.post('/api/image', {
+	const res = await axiosInstance.post('/image', {
 		prompt,
 		size,
 		n,
