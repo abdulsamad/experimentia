@@ -20,11 +20,14 @@ export async function POST(request: Request) {
 		let isGPT4Enabled;
 
 		if (!prompt)
-			return NextResponse.json({ err: 'Prompt not found' }, { status: 400 });
+			return NextResponse.json(
+				{ success: false, err: 'Prompt not found' },
+				{ status: 400 },
+			);
 
 		if (!session?.user)
 			return NextResponse.json(
-				{ err: 'User is not authenticated' },
+				{ success: false, err: 'User is not authenticated' },
 				{ status: 400 },
 			);
 
