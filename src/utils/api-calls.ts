@@ -11,7 +11,15 @@ export const getApiAccessToken = async () => {
 	return res.data.token.access_token;
 };
 
-export const getGeneratedText = async (prompt: string, language?: string) => {
+interface IgetGeneratedText {
+	prompt: string;
+	language?: string;
+}
+
+export const getGeneratedText = async ({
+	prompt,
+	language,
+}: IgetGeneratedText) => {
 	const token = await getApiAccessToken();
 
 	const res = await axiosInstance.post(
@@ -28,11 +36,17 @@ export const getGeneratedText = async (prompt: string, language?: string) => {
 	return res.data;
 };
 
-export const getGeneratedImage = async (
-	prompt: string,
+interface IgetGeneratedImage {
+	prompt: string;
+	size?: string;
+	n?: number;
+}
+
+export const getGeneratedImage = async ({
+	prompt,
 	size = '512x512',
 	n = 1,
-) => {
+}: IgetGeneratedImage) => {
 	const token = await getApiAccessToken();
 
 	const res = await axiosInstance.post(

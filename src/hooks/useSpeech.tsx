@@ -91,7 +91,10 @@ const useSpeech = () => {
 				setIsChatResponseLoading(true);
 
 				if (['dall-e-2', 'dall-e-3'].includes(model)) {
-					const { url, image } = await getGeneratedImage(transcript, imageSize);
+					const { url, image } = await getGeneratedImage({
+						prompt: transcript,
+						size: imageSize,
+					});
 
 					startTransition(() => {
 						addChat({
@@ -108,10 +111,10 @@ const useSpeech = () => {
 						setIsChatResponseLoading(false);
 					});
 				} else {
-					const { content } = await getGeneratedText(
-						transcript,
-						recognition.current?.lang,
-					);
+					const { content } = await getGeneratedText({
+						prompt: transcript,
+						language: recognition.current?.lang,
+					});
 
 					startTransition(() => {
 						addChat({

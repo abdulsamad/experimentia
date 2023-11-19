@@ -61,10 +61,10 @@ const useCustomTiptapEditor = () => {
 			setIsChatResponseLoading(true);
 
 			if (['dall-e-2', 'dall-e-3'].includes(model)) {
-				const { url, image } = await getGeneratedImage(
-					editor.getText(),
-					imageSize,
-				);
+				const { url, image } = await getGeneratedImage({
+					prompt: editor.getText(),
+					size: imageSize,
+				});
 
 				startTransition(() => {
 					addChat({
@@ -83,7 +83,10 @@ const useCustomTiptapEditor = () => {
 					editor?.commands?.clearContent();
 				});
 			} else {
-				const { content } = await getGeneratedText(editor.getText(), language);
+				const { content } = await getGeneratedText({
+					prompt: editor.getText(),
+					language,
+				});
 
 				startTransition(() => {
 					addChat({
