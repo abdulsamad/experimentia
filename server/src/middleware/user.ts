@@ -6,6 +6,7 @@ const user = (req: Request, res: Response, next: NextFunction) => {
 	if (user && user.email) {
 		req.user = user;
 		next();
+		return;
 	}
 
 	return res
