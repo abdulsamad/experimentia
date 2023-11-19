@@ -14,11 +14,13 @@ export const getApiAccessToken = async () => {
 interface IgetGeneratedText {
 	prompt: string;
 	language?: string;
+	user: any;
 }
 
 export const getGeneratedText = async ({
 	prompt,
 	language,
+	user,
 }: IgetGeneratedText) => {
 	const token = await getApiAccessToken();
 
@@ -29,6 +31,7 @@ export const getGeneratedText = async ({
 			language,
 			type: getConfig('variation'),
 			model: getConfig('model'),
+			user,
 		},
 		{ headers: { Authorization: `Bearer ${token}` } },
 	);
@@ -38,6 +41,7 @@ export const getGeneratedText = async ({
 
 interface IgetGeneratedImage {
 	prompt: string;
+	user: any;
 	size?: string;
 	n?: number;
 }
@@ -46,12 +50,13 @@ export const getGeneratedImage = async ({
 	prompt,
 	size = '512x512',
 	n = 1,
+	user,
 }: IgetGeneratedImage) => {
 	const token = await getApiAccessToken();
 
 	const res = await axiosInstance.post(
 		'/image',
-		{ prompt, size, n, model: getConfig('model') },
+		{ prompt, size, n, model: getConfig('model'), user },
 		{ headers: { Authorization: `Bearer ${token}` } },
 	);
 

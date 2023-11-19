@@ -4,6 +4,7 @@ import StarterKit from '@tiptap/starter-kit';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import dayjs from 'dayjs';
 import { toast } from 'react-toastify';
+import { useUser } from '@auth0/nextjs-auth0/client';
 
 import { chatLoading, chatsAtom, configAtom, editorAtom } from '@/store/index';
 import { getGeneratedText, getGeneratedImage } from '@/utils/api-calls';
@@ -38,6 +39,7 @@ const useCustomTiptapEditor = () => {
 			setState(editor.getHTML());
 		},
 	});
+	const { user } = useUser();
 
 	useEffect(() => {
 		if (!editor) return;
@@ -64,6 +66,7 @@ const useCustomTiptapEditor = () => {
 				const { url, image } = await getGeneratedImage({
 					prompt: editor.getText(),
 					size: imageSize,
+					user,
 				});
 
 				startTransition(() => {
@@ -86,6 +89,7 @@ const useCustomTiptapEditor = () => {
 				const { content } = await getGeneratedText({
 					prompt: editor.getText(),
 					language,
+					user,
 				});
 
 				startTransition(() => {
@@ -117,6 +121,7 @@ const useCustomTiptapEditor = () => {
 		model,
 		setIsChatResponseLoading,
 		setState,
+		user,
 		variation,
 	]);
 

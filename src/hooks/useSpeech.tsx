@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback, useTransition } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
 import dayjs from 'dayjs';
 import { toast } from 'react-toastify';
+import { useUser } from '@auth0/nextjs-auth0/client';
 
 import { chatLoading, chatsAtom, configAtom } from '@/store';
 import { speechLog, speechGrammer } from '@/utils';
@@ -16,6 +17,8 @@ const useSpeech = () => {
 	const [isPending, startTransition] = useTransition();
 
 	const recognition = useRef<SpeechRecognition | null>(null);
+
+	const { user } = useUser();
 
 	useEffect(() => {
 		const speechRecognition = new (webkitSpeechRecognition ||
@@ -94,6 +97,7 @@ const useSpeech = () => {
 					const { url, image } = await getGeneratedImage({
 						prompt: transcript,
 						size: imageSize,
+						user,
 					});
 
 					startTransition(() => {
@@ -114,6 +118,7 @@ const useSpeech = () => {
 					const { content } = await getGeneratedText({
 						prompt: transcript,
 						language: recognition.current?.lang,
+						user,
 					});
 
 					startTransition(() => {
@@ -140,7 +145,7 @@ const useSpeech = () => {
 			}
 		},
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-		[addChat, imageSize, model, setIsChatResponseLoading, variation],
+		[addChat, imageSize, model, setIsChatResponseLoading, user, variation],
 	);
 
 	const speakText = useCallback((text: string, language: string) => {
