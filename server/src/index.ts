@@ -1,9 +1,10 @@
-const express = require('express');
-const { auth } = require('express-oauth2-jwt-bearer');
-const cors = require('cors');
-require('dotenv').config();
+import express from 'express';
+import { auth } from 'express-oauth2-jwt-bearer';
+import cors from 'cors';
 
-const routes = require('./routes');
+import routes from './routes';
+
+require('dotenv').config();
 
 const app = express();
 const PORT = 3001;

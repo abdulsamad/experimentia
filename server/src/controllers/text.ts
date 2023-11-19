@@ -1,13 +1,14 @@
-const configcat = require('configcat-js-ssr');
-const OpenAI = require('openai');
+import { Request, Response } from 'express';
+import OpenAI from 'openai';
+import configCat from 'configcat-js-ssr';
 require('dotenv').config();
 
-const promptMapper = require('../utils/chat-utils');
+import promptMapper from '../utils/chat-utils';
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-const configCatClient = configcat.getClient(process.env.CONFIGCAT_API_KEY);
+const configCatClient = configCat.getClient(process.env.CONFIGCAT_API_KEY);
 
-const chat = async (req, res) => {
+export const chat = async (req: Request, res: Response) => {
 	try {
 		const { prompt, language, type, model } = req.body;
 
@@ -18,7 +19,7 @@ const chat = async (req, res) => {
 		}
 
 		if (model === 'gpt-4') {
-			const user = new configcat.User(session.user.email);
+			const user = new configCat.User(session.user.email);
 			isGPT4Enabled = await configCatClient.getValueAsync(
 				'enable-GPT-4',
 				false,
@@ -32,7 +33,7 @@ const chat = async (req, res) => {
 				{ role: 'user', content: prompt },
 			],
 			model: isGPT4Enabled ? model || 'gpt-3.5-turbo' : 'gpt-3.5-turbo',
-			stream: true,
+			// stream: true,
 		});
 
 		const { choices } = chatCompletion;
@@ -50,4 +51,4 @@ const chat = async (req, res) => {
 	}
 };
 
-module.exports = chat;
+export default chat;

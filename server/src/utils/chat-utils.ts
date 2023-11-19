@@ -1,4 +1,4 @@
-const promptMapper = (variation, language) => {
+const PromptMapper = (variation: string, language: string) => {
 	switch (variation) {
 		case 'munna':
 			return {
@@ -26,4 +26,4 @@ const promptMapper = (variation, language) => {
 	}
 };
 
-module.exports = promptMapper;
+export default PromptMapper;
