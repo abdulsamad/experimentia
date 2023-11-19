@@ -1,12 +1,9 @@
 import { Request, Response } from 'express';
-import OpenAI from 'openai';
 import * as configcat from 'configcat-node';
 require('dotenv').config();
 
+import { configcatClient, openai } from '@utils/index';
 import promptMapper from '@utils/chat-utils';
-
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-const configcatClient = configcat.getClient(process.env.CONFIGCAT_API_KEY);
 
 export const chat = async (req: Request, res: Response) => {
 	try {

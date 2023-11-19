@@ -1,10 +1,8 @@
 import { Request, Response } from 'express';
-import OpenAI from 'openai';
 import * as configcat from 'configcat-node';
 require('dotenv').config();
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-const configcatClient = configcat.getClient(process.env.CONFIGCAT_API_KEY);
+import { configcatClient, openai } from '@utils/index';
 
 export const Image = async (req: Request, res: Response) => {
 	try {
