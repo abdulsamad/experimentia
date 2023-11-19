@@ -1,11 +1,11 @@
 const express = require('express');
 
-const chatController = require('../controllers/chat');
+const textController = require('../controllers/text');
 const imageController = require('../controllers/image');
 
 const router = express.Router();
 
-router.route('/text').post(chatController);
+router.route('/text').post(textController);
 router.route('/image').post(imageController);
 
 module.exports = router;

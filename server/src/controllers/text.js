@@ -32,6 +32,7 @@ const chat = async (req, res) => {
 				{ role: 'user', content: prompt },
 			],
 			model: isGPT4Enabled ? model || 'gpt-3.5-turbo' : 'gpt-3.5-turbo',
+			stream: true,
 		});
 
 		const { choices } = chatCompletion;
