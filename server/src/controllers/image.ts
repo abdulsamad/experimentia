@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import OpenAI from 'openai';
-import configCat from 'configcat-js-ssr';
+import configCat from 'configcat-node';
 require('dotenv').config();
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
@@ -17,7 +17,7 @@ export const Image = async (req: Request, res: Response) => {
 		}
 
 		if (model === 'dall-e-3') {
-			const user = new configCat.User(session.user.email);
+			const user = new configCat.User(req.user.email);
 
 			// The default user will be used in the evaluation process.
 			isDallE3Enabled = await configCatClient.getValueAsync(

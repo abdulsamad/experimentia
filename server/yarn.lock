@@ -256,6 +256,22 @@ concat-map@0.0.1:
   resolved "https://registry.yarnpkg.com/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
   integrity sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==
 
+configcat-common@^8.1.1:
+  version "8.2.0"
+  resolved "https://registry.yarnpkg.com/configcat-common/-/configcat-common-8.2.0.tgz#e5487caaf07b134547e4588c550da7f6e27d0603"
+  integrity sha512-NWCXiiYEPU83wwJkG/vzBGNyvVNRXn0+raIOmE1iG95wKjRkEwB63HdZFD4nCCx449smM9dSNu/Hl+FinNw30A==
+  dependencies:
+    tslib "^2.4.1"
+
+configcat-node@^10.1.1:
+  version "10.1.1"
+  resolved "https://registry.yarnpkg.com/configcat-node/-/configcat-node-10.1.1.tgz#4e2ded683778c6b63e97914a1b0879fe37c34dd2"
+  integrity sha512-Fh0ghfl2M+zgi7NQO9tkNlIp50ba1lD4F3O6mzCmrUs8uffsYOL5WoXcdZIaCEEFOXGjX84Rj5aV1vzFVIxc7Q==
+  dependencies:
+    configcat-common "^8.1.1"
+    tslib "^2.4.1"
+    tunnel "0.0.6"
+
 content-disposition@0.5.4:
   version "0.5.4"
   resolved "https://registry.yarnpkg.com/content-disposition/-/content-disposition-0.5.4.tgz#8b82b4efac82512a02bb0b1dcec9d2c5e8eb5bfe"
@@ -847,6 +863,16 @@ ts-node@^10.9.1:
     make-error "^1.1.1"
     v8-compile-cache-lib "^3.0.1"
     yn "3.1.1"
+
+tslib@^2.4.1:
+  version "2.6.2"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.6.2.tgz#703ac29425e7b37cd6fd456e92404d46d1f3e4ae"
+  integrity sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q==
+
+tunnel@0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/tunnel/-/tunnel-0.0.6.tgz#72f1314b34a5b192db012324df2cc587ca47f92c"
+  integrity sha512-1h/Lnq9yajKY2PEbBadPXj3VxsDDu844OnaAo52UVmIzIvwwtBPIuNvkjuzBlTWpfJyUbG3ez0KSBibQkj4ojg==
 
 type-is@~1.6.18:
   version "1.6.18"
