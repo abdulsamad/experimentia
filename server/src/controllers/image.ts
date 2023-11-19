@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
 import OpenAI from 'openai';
-import configCat from 'configcat-node';
+import * as configcat from 'configcat-node';
 require('dotenv').config();
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-const configCatClient = configCat.getClient(process.env.CONFIGCAT_API_KEY);
+const configcatClient = configcat.getClient(process.env.CONFIGCAT_API_KEY);
 
 export const Image = async (req: Request, res: Response) => {
 	try {
@@ -17,10 +17,10 @@ export const Image = async (req: Request, res: Response) => {
 		}
 
 		if (model === 'dall-e-3') {
-			const user = new configCat.User(req.user.email);
+			const user = new configcat.User(req.user.email);
 
 			// The default user will be used in the evaluation process.
-			isDallE3Enabled = await configCatClient.getValueAsync(
+			isDallE3Enabled = await configcatClient.getValueAsync(
 				'enable-DALL-E-3',
 				false,
 				user,

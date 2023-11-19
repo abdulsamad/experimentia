@@ -1,12 +1,12 @@
 import { Request, Response } from 'express';
 import OpenAI from 'openai';
-import configCat from 'configcat-node';
+import * as configcat from 'configcat-node';
 require('dotenv').config();
 
 import promptMapper from '@utils/chat-utils';
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-const configCatClient = configCat.getClient(process.env.CONFIGCAT_API_KEY);
+const configcatClient = configcat.getClient(process.env.CONFIGCAT_API_KEY);
 
 export const chat = async (req: Request, res: Response) => {
 	try {
@@ -19,8 +19,8 @@ export const chat = async (req: Request, res: Response) => {
 		}
 
 		if (model === 'gpt-4') {
-			const user = new configCat.User(req.user.email);
-			isGPT4Enabled = await configCatClient.getValueAsync(
+			const user = new configcat.User(req.user.email);
+			isGPT4Enabled = await configcatClient.getValueAsync(
 				'enable-GPT-4',
 				false,
 				user,

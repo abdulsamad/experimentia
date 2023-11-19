@@ -3,12 +3,11 @@
 		"types": ["node"],
 		"target": "ES2017",
 		"module": "commonjs",
-		"baseUrl": "src",
 		"paths": {
-			"@controllers/*": ["./controllers/*"],
-			"@routes/*": ["./routes/*"],
-			"@middleware/*": ["./middleware/*"],
-			"@utils/*": ["./utils/*"]
+			"@controllers/*": ["./src/controllers/*"],
+			"@routes/*": ["./src/routes/*"],
+			"@middleware/*": ["./src/middleware/*"],
+			"@utils/*": ["./src/utils/*"]
 		},
 		"allowJs": true,
 		"esModuleInterop": true,
