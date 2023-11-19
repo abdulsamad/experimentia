@@ -3,7 +3,7 @@ import OpenAI from 'openai';
 import configCat from 'configcat-js-ssr';
 require('dotenv').config();
 
-import promptMapper from '../utils/chat-utils';
+import promptMapper from '@utils/chat-utils';
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 const configCatClient = configCat.getClient(process.env.CONFIGCAT_API_KEY);

@@ -3,7 +3,13 @@
 		"types": ["node"],
 		"target": "ES2017",
 		"module": "commonjs",
-		"paths": {},
+		"baseUrl": "src",
+		"paths": {
+			"@controllers/*": ["./controllers/*"],
+			"@routes/*": ["./routes/*"],
+			"@middleware/*": ["./middleware/*"],
+			"@utils/*": ["./utils/*"]
+		},
 		"allowJs": true,
 		"esModuleInterop": true,
 		"forceConsistentCasingInFileNames": true,

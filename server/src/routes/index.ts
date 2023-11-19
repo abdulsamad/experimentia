@@ -1,7 +1,7 @@
 import express from 'express';
 
-import textController from '../controllers/text';
-import imageController from '../controllers/image';
+import textController from '@controllers/text';
+import imageController from '@controllers/image';
 
 const router = express.Router();
 

@@ -2,12 +2,12 @@ import express from 'express';
 import { auth } from 'express-oauth2-jwt-bearer';
 import cors from 'cors';
 
-import routes from './routes';
+import routes from '@routes/index';
 
 require('dotenv').config();
 
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 
 const jwtCheck = auth({
 	audience: process.env.AUTH0_AUDIENCE,
@@ -23,9 +23,9 @@ const corsOption = {
 	],
 };
 
+app.use(express.json());
 app.use(cors(corsOption));
 app.use(jwtCheck);
-app.use(express.json());
 app.use('/api', routes);
 
 app.listen(PORT, () => {
