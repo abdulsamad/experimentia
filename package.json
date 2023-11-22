@@ -22,8 +22,8 @@
     "turbo": "^1.8.3"
   },
   "engines": {
-    "npm": ">=8.0.0",
-    "node": ">=16.0.0"
+    "npm": ">=10.0.0",
+    "node": ">=18.0.0"
   },
-  "packageManager": "yarn@1.22.19"
+  "packageManager": "yarn@3.7.0"
 }
