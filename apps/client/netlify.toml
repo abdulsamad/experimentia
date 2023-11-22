@@ -1,7 +1,7 @@
 [build]
 command = "yarn run build"
 functions = "functions"
-publish = ".next"
+publish = "apps/client/.next"
 
 [dev]
 command = "yarn dev"
