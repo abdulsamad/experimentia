@@ -9,7 +9,7 @@
 /coverage
 
 # next.js
-/.next/
+**/.next/
 /out/
 
 # production
@@ -37,3 +37,6 @@ next-env.d.ts
 
 # Local Netlify folder
 .netlify
+
+# Turbo
+.turbo
