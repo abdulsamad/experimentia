@@ -23,5 +23,9 @@
 		"@types/node": "^20.9.2",
 		"tsconfig-paths": "^4.2.0",
 		"typescript": "^5.2.2"
+	},
+	"engines": {
+		"node": "18.x.x",
+		"yarn": "1.x.x"
 	}
 }
