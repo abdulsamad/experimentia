@@ -13,8 +13,10 @@
     "test": "turbo run test",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "kill-ports": "kill-port 4000 3000",
-    "run:client": "yarn workspace client dev",
-    "run:server": "yarn workspace server dev"
+    "dev:client": "yarn workspace client dev",
+    "dev:server": "yarn workspace server dev",
+    "build:client": "yarn workspace client build",
+    "build:server": "yarn workspace server build"
   },
   "devDependencies": {
     "kill-port": "^2.0.1",
