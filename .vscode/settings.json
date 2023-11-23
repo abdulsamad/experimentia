@@ -2,6 +2,6 @@
   "files.associations": {
     "**/client/src/app/globals.css": "tailwindcss"
   },
-  "npm.scriptExplorerExclude": ["format"],
+  "npm.scriptExplorerExclude": ["format", "build:client", "build:server"],
   "npm.exclude": ["**/apps/**"]
 }
