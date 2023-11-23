@@ -1,0 +1,7 @@
+{
+  "files.associations": {
+    "**/client/src/app/globals.css": "tailwindcss"
+  },
+  "npm.scriptExplorerExclude": ["format"],
+  "npm.exclude": ["**/apps/**"]
+}
