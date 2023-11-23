@@ -10,122 +10,122 @@ import { chatLoading, chatsAtom, configAtom, editorAtom } from '@/store/index';
 import { getGeneratedText, getGeneratedImage } from '@/utils/api-calls';
 
 const extensions = [
-	StarterKit.configure({
-		history: false,
-		heading: {
-			levels: [1, 2, 3],
-			HTMLAttributes: {
-				class: 'tt-heading',
-			},
-		},
-	}),
+  StarterKit.configure({
+    history: false,
+    heading: {
+      levels: [1, 2, 3],
+      HTMLAttributes: {
+        class: 'tt-heading',
+      },
+    },
+  }),
 ];
 
 const useCustomTiptapEditor = () => {
-	const [state, setState] = useAtom(editorAtom);
-	const addChat = useSetAtom(chatsAtom);
-	const setIsChatResponseLoading = useSetAtom(chatLoading);
-	const { variation, model, imageSize, language } = useAtomValue(configAtom);
-	const [isPending, startTransition] = useTransition();
+  const [state, setState] = useAtom(editorAtom);
+  const addChat = useSetAtom(chatsAtom);
+  const setIsChatResponseLoading = useSetAtom(chatLoading);
+  const { variation, model, imageSize, language } = useAtomValue(configAtom);
+  const [isPending, startTransition] = useTransition();
 
-	const editor = useEditor({
-		extensions,
-		editorProps: {
-			attributes: {
-				class: 'w-full h-[80px] p-3 border-box focus:shadow',
-			},
-		},
-		onUpdate({ editor }) {
-			setState(editor.getHTML());
-		},
-	});
-	const { user } = useUser();
+  const editor = useEditor({
+    extensions,
+    editorProps: {
+      attributes: {
+        class: 'w-full h-[80px] p-3 border-box focus:shadow',
+      },
+    },
+    onUpdate({ editor }) {
+      setState(editor.getHTML());
+    },
+  });
+  const { user } = useUser();
 
-	useEffect(() => {
-		if (!editor) return;
+  useEffect(() => {
+    if (!editor) return;
 
-		editor?.commands?.clearContent();
-		editor?.commands.insertContent(state);
-	}, [state, editor]);
+    editor?.commands?.clearContent();
+    editor?.commands.insertContent(state);
+  }, [state, editor]);
 
-	const handleSubmit = useCallback(async () => {
-		try {
-			if (!editor?.getText()?.trim()) return null;
+  const handleSubmit = useCallback(async () => {
+    try {
+      if (!editor?.getText()?.trim()) return null;
 
-			addChat({
-				type: 'user',
-				message: editor?.getText(),
-				variation,
-				time: dayjs(),
-				format: 'text',
-			});
+      addChat({
+        type: 'user',
+        message: editor?.getText(),
+        variation,
+        time: dayjs(),
+        format: 'text',
+      });
 
-			setIsChatResponseLoading(true);
+      setIsChatResponseLoading(true);
 
-			if (['dall-e-2', 'dall-e-3'].includes(model)) {
-				const { url, image } = await getGeneratedImage({
-					prompt: editor.getText(),
-					size: imageSize,
-					user,
-				});
+      if (['dall-e-2', 'dall-e-3'].includes(model)) {
+        const { url, image } = await getGeneratedImage({
+          prompt: editor.getText(),
+          size: imageSize,
+          user,
+        });
 
-				startTransition(() => {
-					addChat({
-						type: 'assistant',
-						image: {
-							url: url[0].url,
-							alt: url[0]?.revised_prompt,
-						},
-						variation,
-						time: dayjs(),
-						format: 'image',
-					});
+        startTransition(() => {
+          addChat({
+            type: 'assistant',
+            image: {
+              url: url[0].url,
+              alt: url[0]?.revised_prompt,
+            },
+            variation,
+            time: dayjs(),
+            format: 'image',
+          });
 
-					setIsChatResponseLoading(false);
-					setState('');
-					editor?.commands?.clearContent();
-				});
-			} else {
-				const { content } = await getGeneratedText({
-					prompt: editor.getText(),
-					language,
-					user,
-				});
+          setIsChatResponseLoading(false);
+          setState('');
+          editor?.commands?.clearContent();
+        });
+      } else {
+        const { content } = await getGeneratedText({
+          prompt: editor.getText(),
+          language,
+          user,
+        });
 
-				startTransition(() => {
-					addChat({
-						type: 'assistant',
-						message: content,
-						variation,
-						time: dayjs(),
-						format: 'text',
-					});
+        startTransition(() => {
+          addChat({
+            type: 'assistant',
+            message: content,
+            variation,
+            time: dayjs(),
+            format: 'text',
+          });
 
-					setIsChatResponseLoading(false);
-					setState('');
-					editor?.commands?.clearContent();
-				});
-			}
-		} catch (err) {
-			toast.error('Something went Wrong!', {
-				position: toast.POSITION.BOTTOM_RIGHT,
-			});
-		} finally {
-			setIsChatResponseLoading(false);
-		}
-	}, [
-		addChat,
-		editor,
-		imageSize,
-		language,
-		model,
-		setIsChatResponseLoading,
-		setState,
-		user,
-		variation,
-	]);
+          setIsChatResponseLoading(false);
+          setState('');
+          editor?.commands?.clearContent();
+        });
+      }
+    } catch (err) {
+      toast.error('Something went Wrong!', {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
+    } finally {
+      setIsChatResponseLoading(false);
+    }
+  }, [
+    addChat,
+    editor,
+    imageSize,
+    language,
+    model,
+    setIsChatResponseLoading,
+    setState,
+    user,
+    variation,
+  ]);
 
-	return { editor, handleSubmit };
+  return { editor, handleSubmit };
 };
 
 export default useCustomTiptapEditor;

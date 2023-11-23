@@ -1,19 +1,19 @@
 {
-	"compilerOptions": {
-		"types": ["node"],
-		"target": "ES2017",
-		"module": "commonjs",
-		"paths": {
-			"@controllers/*": ["./src/controllers/*"],
-			"@routes/*": ["./src/routes/*"],
-			"@middleware/*": ["./src/middleware/*"],
-			"@utils/*": ["./src/utils/*"]
-		},
-		"allowJs": true,
-		"esModuleInterop": true,
-		"forceConsistentCasingInFileNames": true,
-		"strict": true,
-		"skipLibCheck": true,
-		"outDir": "dist"
-	}
+  "compilerOptions": {
+    "types": ["node"],
+    "target": "ES2017",
+    "module": "commonjs",
+    "paths": {
+      "@controllers/*": ["./src/controllers/*"],
+      "@routes/*": ["./src/routes/*"],
+      "@middleware/*": ["./src/middleware/*"],
+      "@utils/*": ["./src/utils/*"]
+    },
+    "allowJs": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "outDir": "dist"
+  }
 }
