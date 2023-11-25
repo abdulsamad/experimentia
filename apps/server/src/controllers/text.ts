@@ -2,8 +2,9 @@ import { Request, Response } from 'express';
 import * as configcat from 'configcat-node';
 require('dotenv').config();
 
+import { promptMapper } from 'chat';
+
 import { configcatClient, openai } from '@utils/index';
-import promptMapper from '@utils/chat-utils';
 
 export const chat = async (req: Request, res: Response) => {
   try {
