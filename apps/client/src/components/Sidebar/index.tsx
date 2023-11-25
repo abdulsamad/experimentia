@@ -3,7 +3,7 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 import { useSetAtom, useAtomValue, useAtom } from 'jotai';
 import Image from 'next/image';
 
-import { languages } from 'utils';
+import { languages, variations } from 'utils';
 
 import { configAtom, flagsAtom, identifierAtom } from '@/store';
 import imageSizes from '@/utils/image-sizes';
@@ -108,10 +108,11 @@ const Sidebar = () => {
                   className="select select-bordered w-full"
                   value={variation}
                   onChange={updateSetting}>
-                  <option value="normal">Normal</option>
-                  <option value="grammar-corrector">Grammar Corrector</option>
-                  <option value="munna">Munna Bhai</option>
-                  <option value="intelligent">Intelligent AI</option>
+                  {variations.map(({ code, text }) => (
+                    <option key={code} value={code}>
+                      {text}
+                    </option>
+                  ))}
                 </select>
               </div>
             </li>
