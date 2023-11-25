@@ -3,7 +3,7 @@ import OpenAI from 'openai';
 import { getSession } from '@auth0/nextjs-auth0';
 import * as configcat from 'configcat-js-ssr';
 
-import { promptMapper } from './utils';
+import { promptMapper } from 'utils';
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
