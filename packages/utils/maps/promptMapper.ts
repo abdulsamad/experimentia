@@ -1,6 +1,6 @@
 import { supportedLanguages, variations } from 'utils/types';
 
-const PromptMapper = (variation: variations, language: supportedLanguages) => {
+export const promptMapper = (variation: variations, language: supportedLanguages) => {
   switch (variation) {
     case 'munna':
       return {
@@ -28,4 +28,4 @@ const PromptMapper = (variation: variations, language: supportedLanguages) => {
   }
 };
 
-export default PromptMapper;
+export default promptMapper;

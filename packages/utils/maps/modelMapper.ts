@@ -1,10 +1,12 @@
 import OpenAI from 'openai';
 
+import { supportedLanguages, variations } from 'utils/types';
+
 import promptMapper from './promptMapper';
 
 interface IModelMapperBase {
-  variation: string;
-  language: string;
+  variation: variations;
+  language: supportedLanguages;
   prompt: string;
 }
 
@@ -22,7 +24,7 @@ type IModelMapper = IModelMapperBase &
     | 'seed'
   >;
 
-const modelMapper = ({
+export const modelMapper = ({
   language,
   model,
   variation,
