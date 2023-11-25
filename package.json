@@ -14,10 +14,10 @@
     "test": "turbo run test",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "kill-ports": "kill-port 3000 3001",
-    "dev:client": "turbo run dev --filter=client",
-    "dev:server": "turbo run dev --filter=server",
-    "build:client": "turbo run build --filter=client",
-    "build:server": "turbo run build --filter=server"
+    "client:dev": "turbo run dev --filter=client",
+    "server:dev": "turbo run dev --filter=server",
+    "client:build": "turbo run build --filter=client",
+    "server:build": "turbo run build --filter=server"
   },
   "devDependencies": {
     "kill-port": "^2.0.1",
