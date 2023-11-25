@@ -16,8 +16,8 @@ export async function GET() {
       'https://abdulsamad.us.auth0.com/oauth/token',
       {
         grant_type: `client_credentials`,
-        client_id: process.env.AUTH0_CLIENT_ID as string,
-        client_secret: process.env.AUTH0_CLIENT_SECRET as string,
+        client_id: process.env.AUTH0_CLIENT_ID,
+        client_secret: process.env.AUTH0_CLIENT_SECRET,
         audience: `http://experimentia.api.com`,
       },
       {
