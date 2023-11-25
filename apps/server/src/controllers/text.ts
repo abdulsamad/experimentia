@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import * as configcat from 'configcat-node';
 require('dotenv').config();
 
-import { promptMapper } from 'chat';
+import { promptMapper } from 'utils';
 
 import { configcatClient, openai } from '@utils/index';
 

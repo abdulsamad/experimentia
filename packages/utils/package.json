@@ -1,5 +1,5 @@
 {
-  "name": "chat",
+  "name": "utils",
   "packageManager": "yarn@3.7.0",
   "main": "index.ts",
   "devDependencies": {
