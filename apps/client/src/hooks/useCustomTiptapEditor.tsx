@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useTransition } from 'react';
+import { useCallback, useLayoutEffect, useTransition } from 'react';
 import { useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
@@ -8,6 +8,14 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 
 import { chatLoading, chatsAtom, configAtom, editorAtom } from '@/store/index';
 import { getGeneratedText, getGeneratedImage } from '@/utils/api-calls';
+
+StarterKit.extend({
+  addKeyboardShortcuts() {
+    return {
+      'Mod-Enter': () => this.editor.commands.toggleBold(),
+    };
+  },
+});
 
 const extensions = [
   StarterKit.configure({
@@ -41,7 +49,7 @@ const useCustomTiptapEditor = () => {
   });
   const { user } = useUser();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!editor) return;
 
     const cursorPos = editor.state.selection.$head.pos;
