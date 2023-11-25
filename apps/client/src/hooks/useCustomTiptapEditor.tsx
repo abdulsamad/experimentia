@@ -44,8 +44,13 @@ const useCustomTiptapEditor = () => {
   useEffect(() => {
     if (!editor) return;
 
+    const cursorPos = editor.state.selection.$head.pos;
+
     editor?.commands?.clearContent();
     editor?.commands.insertContent(state);
+
+    // Reset cursor position after inserting content
+    editor.chain().focus().setTextSelection(cursorPos).run();
   }, [state, editor]);
 
   const handleSubmit = useCallback(async () => {
