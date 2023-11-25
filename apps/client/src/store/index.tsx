@@ -42,7 +42,7 @@ export const chatsAtom: WritableAtom<IChat[], IChat[], void> = atom([], (get, se
 // Flags
 
 export const configCatClientAtom = atom(
-  configcat.getClient(process.env.NEXT_PUBLIC_CONFIGCAT_API_KEY as string)
+  configcat.getClient(process.env.NEXT_PUBLIC_CONFIGCAT_API_KEY)
 );
 
 export const identifierAtom = atom('');

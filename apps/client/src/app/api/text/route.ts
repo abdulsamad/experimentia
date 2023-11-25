@@ -9,7 +9,7 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-const configCatClient = configcat.getClient(process.env.NEXT_PUBLIC_CONFIGCAT_API_KEY as string);
+const configCatClient = configcat.getClient(process.env.NEXT_PUBLIC_CONFIGCAT_API_KEY);
 
 export async function POST(request: Request) {
   try {
