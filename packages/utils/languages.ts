@@ -1,4 +1,12 @@
-export const languages = [
+import { supportedLanguages } from './types';
+
+interface ILanguages {
+  code: supportedLanguages;
+  text: string;
+  selected: boolean;
+}
+
+export const languages: ILanguages[] = [
   {
     code: 'en-IN',
     text: 'English (Indian)',
@@ -35,3 +43,5 @@ export const languages = [
     selected: false,
   },
 ];
+
+export default languages;

@@ -1,4 +1,6 @@
-const PromptMapper = (variation: string, language: string) => {
+import { supportedLanguages, variations } from 'utils/types';
+
+const PromptMapper = (variation: variations, language: supportedLanguages) => {
   switch (variation) {
     case 'munna':
       return {

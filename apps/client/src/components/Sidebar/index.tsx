@@ -3,8 +3,9 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 import { useSetAtom, useAtomValue, useAtom } from 'jotai';
 import Image from 'next/image';
 
+import { languages } from 'utils';
+
 import { configAtom, flagsAtom, identifierAtom } from '@/store';
-import { languages } from '@/utils/languages';
 import imageSizes from '@/utils/image-sizes';
 
 const Sidebar = () => {
