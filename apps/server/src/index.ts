@@ -17,11 +17,7 @@ const jwtCheck = auth({
 });
 
 const corsOption = {
-  origin: [
-    'http://localhost:3000',
-    'https://experimentia.netlify.app',
-    'https://experimentia.vercel.app',
-  ],
+  origin: ['http://localhost:3000', 'https://experimentia.netlify.app'],
 };
 
 app.use(express.json());
