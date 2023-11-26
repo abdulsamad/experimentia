@@ -1,18 +1,30 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Experimentia
+Just testing OpenAI API's 😉
 
-## Getting Started
+### Installation
 
-First, run the development server:
+Clone the repository
 
 ```bash
-yarn dev:client
+git clone https://github.com/abdulsamad/experimentia.git
 ```
 
-## Learn More
+Install dependencies
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+yarn
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Netlify CLI is also required to run serverless functions
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+```bash
+yarn global add netlify-cli
+```
+
+### Environment Variables
+
+Create a .env file in the `apps/client` and `apps/server` add the following variables from `apps/client/.env.example` and `apps/server/.env.example`
+
+### Development
+
+Run **`yarn dev`** command to start local server
