@@ -17,22 +17,30 @@ interface IgetGeneratedText {
   user: any;
 }
 
+/**
+ * Streams the generated text from the API
+ * @param {prompt, language, user}
+ * @returns {Stream}
+ */
 export const getGeneratedText = async ({ prompt, language, user }: IgetGeneratedText) => {
   const token = await getApiAccessToken();
 
-  const res = await axiosInstance.post(
-    '/text',
-    {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/api/text`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
       prompt,
       language,
       type: getConfig('variation'),
       model: getConfig('model'),
       user,
-    },
-    { headers: { Authorization: `Bearer ${token}` } }
-  );
+    }),
+  });
 
-  return res.data;
+  return res.body?.pipeThrough(new TextDecoderStream());
 };
 
 interface IgetGeneratedImage {
