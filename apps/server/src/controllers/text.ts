@@ -27,16 +27,21 @@ export const chat = async (req: Request, res: Response) => {
         { role: 'user', content: prompt },
       ],
       model: isGPT4Enabled ? model || 'gpt-3.5-turbo' : 'gpt-3.5-turbo',
-      // stream: true,
+      stream: true,
     });
 
-    const { choices } = chatCompletion;
+    for await (const part of chatCompletion) {
+      const choice = part.choices[0];
+      const text = choice.delta?.content || '';
 
-    return res.status(200).json({
-      success: true,
-      chatCompletion,
-      content: choices[0]?.message?.content,
-    });
+      if (choice.finish_reason === 'stop') {
+        res.write(text);
+      }
+
+      res.write(text);
+    }
+
+    return res.end();
   } catch (err) {
     console.error(err);
     return res.status(500).json({ success: false, err: 'Something went wrong' });

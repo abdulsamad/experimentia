@@ -99,11 +99,28 @@ const useCustomTiptapEditor = () => {
           editor?.commands?.clearContent();
         });
       } else {
-        const { content } = await getGeneratedText({
+        const stream = await getGeneratedText({
           prompt: editor.getText(),
           language,
           user,
         });
+
+        if (!stream) throw new Error();
+
+        let content = '';
+        const reader = stream.getReader();
+
+        while (true) {
+          const { value, done } = await reader.read();
+
+          if (done) {
+            // Stream is completed
+            console.log('DONE');
+            break;
+          }
+
+          content += value;
+        }
 
         startTransition(() => {
           addChat({
