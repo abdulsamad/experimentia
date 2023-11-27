@@ -18,6 +18,7 @@ const jwtCheck = auth({
 
 const corsOption = {
   origin: ['http://localhost:3000', process.env.ALLOWED_ORIGIN],
+  methods: 'GET,PUT,POST,DELETE',
   optionsSuccessStatus: 200,
 };
 
