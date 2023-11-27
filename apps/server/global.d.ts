@@ -1,10 +1,11 @@
 declare namespace NodeJS {
   interface ProcessEnv {
-    PORT: number;
+    PORT: string;
     CONFIGCAT_API_KEY: string;
     OPENAI_API_KEY: string;
     AUTH0_ISSUER_BASE_URL: string;
     AUTH0_AUDIENCE: string;
+    ALLOWED_ORIGIN: string;
   }
 }
 
