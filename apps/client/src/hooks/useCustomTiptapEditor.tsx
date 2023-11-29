@@ -66,6 +66,7 @@ const useCustomTiptapEditor = () => {
       if (!editor?.getText()?.trim()) return null;
 
       addChat({
+        id: crypto.randomUUID(),
         type: 'user',
         message: editor?.getText(),
         variation,
@@ -84,6 +85,7 @@ const useCustomTiptapEditor = () => {
 
         startTransition(() => {
           addChat({
+            id: crypto.randomUUID(),
             type: 'assistant',
             image: {
               url: url[0].url,
@@ -120,10 +122,12 @@ const useCustomTiptapEditor = () => {
           }
 
           content += value;
+          console.log(value);
         }
 
         startTransition(() => {
           addChat({
+            id: crypto.randomUUID(),
             type: 'assistant',
             message: content,
             variation,

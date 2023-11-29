@@ -14,6 +14,7 @@ export const editorAtom = atom('');
 export const chatLoading = atom(false);
 
 interface IChatCommon {
+  id: string;
   type: 'assistant' | 'user';
   variation: string | null;
   time: Dayjs;
@@ -36,7 +37,16 @@ export type IChat = IChatCommon & (ITextChat | IImageChat);
 
 export const chatsAtom: WritableAtom<IChat[], IChat[], void> = atom([], (get, set, update) => {
   const state = get(chatsAtom);
-  set(chatsAtom, [...state, update] as any);
+  const chatIndex = state.findIndex((chat) => chat.id === update.id);
+
+  if (chatIndex !== -1) {
+    const prevChat = state[chatIndex] as any;
+
+    state[chatIndex] = { ...prevChat, message: prevChat?.message + (update as any).message };
+    set(chatsAtom, state as any);
+  } else {
+    set(chatsAtom, [...state, update] as any);
+  }
 });
 
 // Flags
