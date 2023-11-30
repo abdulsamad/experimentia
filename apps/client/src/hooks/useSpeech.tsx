@@ -123,8 +123,9 @@ const useSpeech = () => {
 
           if (!stream) throw new Error();
 
-          let content = '';
           const reader = stream.getReader();
+          const uid = crypto.randomUUID();
+          let content = '';
 
           while (true) {
             const { value, done } = await reader.read();
@@ -141,7 +142,7 @@ const useSpeech = () => {
 
           startTransition(() => {
             addChat({
-              id: crypto.randomUUID(),
+              id: uid,
               type: 'assistant',
               message: content,
               variation,
