@@ -5,6 +5,7 @@ import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import dayjs from 'dayjs';
 import { toast } from 'react-toastify';
 import { useUser } from '@auth0/nextjs-auth0/client';
+import axios from 'axios';
 
 import { chatLoading, chatsAtom, configAtom, editorAtom } from '@/store/index';
 import { getGeneratedText, getGeneratedImage } from '@/utils/api-calls';
@@ -142,6 +143,12 @@ const useCustomTiptapEditor = () => {
         });
       }
     } catch (err) {
+      if (axios.isAxiosError(err)) {
+        return toast.error(err.response?.data.err, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+        });
+      }
+
       toast.error('Something went Wrong!', {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
