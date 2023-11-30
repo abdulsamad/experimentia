@@ -12,7 +12,7 @@ const Editor = () => {
   return (
     <div className="flex flex-col fixed bottom-0 left-0 right-0">
       {textInput ? <Text /> : <Voice />}
-      <ToastContainer />
+      <ToastContainer theme='dark' pauseOnHover draggable hideProgressBar />
     </div>
   );
 };
