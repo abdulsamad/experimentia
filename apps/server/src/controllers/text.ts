@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import * as configcat from 'configcat-node';
+import { BadRequestError } from 'openai/error';
 require('dotenv').config();
 
 import { promptMapper } from 'utils';
@@ -44,6 +45,16 @@ export const chat = async (req: Request, res: Response) => {
     return res.end();
   } catch (err) {
     console.error(err);
+    if (err instanceof BadRequestError) {
+      const openAiErr = err?.error as { message: string };
+
+      if (err.code === 'content_policy_violation') {
+        return res.status(400).json({ success: false, err: openAiErr?.message });
+      }
+
+      return res.status(500).json({ success: false, err: 'Something wrong with your prompt' });
+    }
+
     return res.status(500).json({ success: false, err: 'Something went wrong' });
   }
 };
