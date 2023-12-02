@@ -1,3 +1,11 @@
+// shadcn/ui utility
+import { type ClassValue, clsx } from 'clsx';
+import { twMerge } from 'tailwind-merge';
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+
 export const speechLog = (text: string, styles?: React.CSSProperties) => {
   console.log(
     `%cSPEECH RECOGNITION: %c${text}`,

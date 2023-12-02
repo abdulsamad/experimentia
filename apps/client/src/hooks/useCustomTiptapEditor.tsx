@@ -1,6 +1,7 @@
 import { useCallback, useLayoutEffect, useTransition } from 'react';
 import { useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
+import Placeholder from '@tiptap/extension-placeholder';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import dayjs from 'dayjs';
 import { toast } from 'react-toastify';
@@ -22,11 +23,19 @@ const extensions = [
   StarterKit.configure({
     history: false,
     heading: {
-      levels: [1, 2, 3],
+      levels: [1, 2, 3, 4, 5, 6],
       HTMLAttributes: {
-        class: 'tt-heading',
+        class: 'heading',
       },
     },
+    paragraph: {
+      HTMLAttributes: {
+        class: 'paragraph',
+      },
+    },
+  }),
+  Placeholder.configure({
+    placeholder: 'Message',
   }),
 ];
 
@@ -41,7 +50,7 @@ const useCustomTiptapEditor = () => {
     extensions,
     editorProps: {
       attributes: {
-        class: 'w-full h-[80px] p-3 border-box focus:shadow',
+        class: 'w-full h-[50px] p-3 box-border focus:shadow',
       },
     },
     onUpdate({ editor }) {

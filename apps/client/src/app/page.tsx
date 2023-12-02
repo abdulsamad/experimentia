@@ -6,11 +6,13 @@ import { withPageAuthRequired } from '@auth0/nextjs-auth0/client';
 import Editor from '@/components/Editor';
 import Sidebar from '@/components/Sidebar';
 import Chats from '@/components/Chats';
+import Nav from '@/components/Nav';
 
 const Home = () => {
   return (
     <Provider>
       <main className="conic-gradient(at right center, rgb(199, 210, 254), rgb(71, 85, 105), rgb(199, 210, 254))">
+        <Nav />
         <Sidebar />
         <Chats />
         <div className="flex flex-col justify-end">
