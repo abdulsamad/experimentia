@@ -1,6 +1,5 @@
 import { useAtomValue } from 'jotai';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { Toaster } from 'sonner';
 
 import { configAtom } from '@/store';
 import Text from '@/components/Inputs/Text';
@@ -12,7 +11,7 @@ const Editor = () => {
   return (
     <div className="flex flex-col">
       {textInput ? <Text /> : <Voice />}
-      <ToastContainer theme="dark" pauseOnHover draggable hideProgressBar />
+      <Toaster richColors />
     </div>
   );
 };
