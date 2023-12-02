@@ -1,4 +1,4 @@
-import { useCallback, useLayoutEffect, useTransition } from 'react';
+import { useCallback, useLayoutEffect, useState, useTransition } from 'react';
 import { useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Placeholder from '@tiptap/extension-placeholder';
@@ -10,14 +10,6 @@ import axios from 'axios';
 
 import { chatLoading, chatsAtom, configAtom, editorAtom } from '@/store/index';
 import { getGeneratedText, getGeneratedImage } from '@/utils/api-calls';
-
-StarterKit.extend({
-  addKeyboardShortcuts() {
-    return {
-      'Mod-Enter': () => this.editor.commands.toggleBold(),
-    };
-  },
-});
 
 const extensions = [
   StarterKit.configure({
@@ -51,6 +43,16 @@ const useCustomTiptapEditor = () => {
     editorProps: {
       attributes: {
         class: 'w-full h-[50px] p-3 box-border focus:shadow',
+      },
+      handleDOMEvents: {
+        keydown: (view, ev) => {
+          if (ev.metaKey && ev.key.toLowerCase() === 'enter') {
+            ev.preventDefault();
+
+            // TODO: Fix directly accessing DOM
+            document.getElementById('text-submit-btn')?.click();
+          }
+        },
       },
     },
     onUpdate({ editor }) {
