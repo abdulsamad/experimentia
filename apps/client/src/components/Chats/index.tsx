@@ -39,7 +39,7 @@ const Chats = () => {
       },
       assistant: {
         containerClassNames: '',
-        nameContainerClassNames: 'ml-[45px]',
+        nameContainerClassNames: 'ml-[55px]',
         messageContainerClassNames: '',
         messageClassNames:
           'bg-secondary before:left-0 before:-translate-x-[70%] before:rotate-180 before:border-l-secondary',

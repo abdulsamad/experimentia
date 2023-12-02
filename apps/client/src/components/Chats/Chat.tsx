@@ -41,7 +41,7 @@ const Chat = ({
     <motion.div
       initial={{ translateY: type === 'assistant' ? '-10px' : '10px' }}
       animate={{ translateY: 0 }}
-      className="chat flex my-4"
+      className="chat flex my-4 scroll-mb-10"
       data-type={type}>
       <div className={`${containerClassNames}`}>
         {/* Name and Time */}
