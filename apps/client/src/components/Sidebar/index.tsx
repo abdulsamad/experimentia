@@ -75,7 +75,7 @@ const Sidebar = () => {
     <AnimatePresence>
       {sidebarOpen && (
         <div
-          className="absolute inset-0 w-screen h-[100dvh] backdrop-blur-md z-40"
+          className="absolute inset-0 w-screen h-[100dvh] backdrop-blur-md z-40 overflow-hidden"
           onClick={(ev) => {
             if (ev.currentTarget === ev.target) setSidebarOpen(false);
           }}>
@@ -91,7 +91,7 @@ const Sidebar = () => {
                   <X />
                 </Button>
               </div>
-              <ul className="space-y-10">
+              <ul className="space-y-10 mb-5">
                 <li>
                   <div className="flex flex-col space-y-2">
                     <label className="ml-1">Model</label>
