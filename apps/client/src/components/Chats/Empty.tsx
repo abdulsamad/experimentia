@@ -9,13 +9,14 @@ const Empty = ({ nickname, textInput }: IEmpty) => {
       <div className="hero-content text-center">
         <div className="max-w-md">
           <h1 className="text-5xl font-bold capitalize break-all">
-            Hello {nickname || 'there'}, <span className="animate-wave">👋</span>
+            Hello {nickname || 'there'},{' '}
+            <span className="animate-wave origin-[70%_70%] inline-block">👋</span>
           </h1>
-          <h1 className="py-6 italic break-words [text-wrap:pretty]">
+          <h2 className="py-6 italic break-words [text-wrap:pretty]">
             {textInput
               ? `Type in the input box in the bottom and start chatting. You can also change settings from the hamburger menu in the top left corner.`
               : `Tap the mic button in the bottom right corner and start speaking. You can also change settings from the hamburger menu in the top left corner.`}
-          </h1>
+          </h2>
         </div>
       </div>
     </div>

@@ -109,6 +109,8 @@ const useCustomTiptapEditor = () => {
           setIsChatResponseLoading(false);
           setState('');
           editor?.commands?.clearContent();
+          // Haptic feedback
+          navigator.vibrate(100);
         });
       } else {
         const stream = await getGeneratedText({
@@ -127,6 +129,8 @@ const useCustomTiptapEditor = () => {
           const { value, done } = await reader.read();
 
           if (done) {
+            // Haptic feedback
+            navigator.vibrate(100);
             // Stream is completed
             console.log('DONE');
             break;
