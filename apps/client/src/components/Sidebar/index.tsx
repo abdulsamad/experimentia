@@ -80,7 +80,7 @@ const Sidebar = () => {
             if (ev.currentTarget === ev.target) setSidebarOpen(false);
           }}>
           <motion.aside
-            className="h-full w-[300px] pb-10 pt-5 px-4 flex flex-col justify-between overflow-hidden shadow-2xl bg-white dark:bg-black"
+            className="h-full w-[300px] pb-10 pt-5 px-4 flex flex-col justify-between overflow-x-hidden overflow-y-auto shadow-2xl bg-white dark:bg-black"
             initial="hidden"
             animate="show"
             exit="hidden"
