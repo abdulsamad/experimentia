@@ -2945,7 +2945,7 @@ __metadata:
     react: ^18
     react-dom: ^18
     react-hook-form: ^7.48.2
-    react-toastify: ^9.1.3
+    sonner: ^1.2.4
     tailwind-merge: ^2.0.0
     tailwindcss: ^3
     tailwindcss-animate: ^1.0.7
@@ -2971,13 +2971,6 @@ __metadata:
   version: 2.0.0
   resolution: "clsx@npm:2.0.0"
   checksum: a2cfb2351b254611acf92faa0daf15220f4cd648bdf96ce369d729813b85336993871a4bf6978ddea2b81b5a130478339c20d9d0b5c6fc287e5147f0c059276e
-  languageName: node
-  linkType: hard
-
-"clsx@npm:^1.1.1":
-  version: 1.2.1
-  resolution: "clsx@npm:1.2.1"
-  checksum: 30befca8019b2eb7dbad38cff6266cf543091dae2825c856a62a8ccf2c3ab9c2907c4d12b288b73101196767f66812365400a227581484a05f968b0307cfaf12
   languageName: node
   linkType: hard
 
@@ -7149,18 +7142,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-toastify@npm:^9.1.3":
-  version: 9.1.3
-  resolution: "react-toastify@npm:9.1.3"
-  dependencies:
-    clsx: ^1.1.1
-  peerDependencies:
-    react: ">=16"
-    react-dom: ">=16"
-  checksum: e8bd92c5cbf831b43a042644ab9bc69abe6ceb3ce91ba71f5cd2d8b6a2c9885ca52770e1f1ba64c5632607f6df962db344a26c7fba57606faf5aa0e7bfc8535f
-  languageName: node
-  linkType: hard
-
 "react@npm:^18":
   version: 18.2.0
   resolution: "react@npm:18.2.0"
@@ -7646,6 +7627,16 @@ __metadata:
     ip: ^2.0.0
     smart-buffer: ^4.2.0
   checksum: 259d9e3e8e1c9809a7f5c32238c3d4d2a36b39b83851d0f573bfde5f21c4b1288417ce1af06af1452569cd1eb0841169afd4998f0e04ba04656f6b7f0e46d748
+  languageName: node
+  linkType: hard
+
+"sonner@npm:^1.2.4":
+  version: 1.2.4
+  resolution: "sonner@npm:1.2.4"
+  peerDependencies:
+    react: ^18.0.0
+    react-dom: ^18.0.0
+  checksum: b6c7cca3bc090b33a43e7960cbc427af947b509a2f3c6928c3ca4b3f6d0327fafd7ddb88f80b556c71b4d6b9d9c0e93efa8fe40bfdc4ba84b63a0fc7894421e4
   languageName: node
   linkType: hard
 

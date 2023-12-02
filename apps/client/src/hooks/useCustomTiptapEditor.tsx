@@ -4,7 +4,7 @@ import StarterKit from '@tiptap/starter-kit';
 import Placeholder from '@tiptap/extension-placeholder';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import dayjs from 'dayjs';
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import axios from 'axios';
 import { useSound } from 'use-sound';
@@ -165,14 +165,10 @@ const useCustomTiptapEditor = () => {
       console.error(err);
 
       if (axios.isAxiosError(err)) {
-        return toast.error(err.response?.data.err, {
-          position: toast.POSITION.BOTTOM_RIGHT,
-        });
+        return toast.error(err.response?.data.err);
       }
 
-      toast.error('Something went Wrong!', {
-        position: toast.POSITION.BOTTOM_RIGHT,
-      });
+      toast.error('Something went Wrong!');
     } finally {
       setIsChatResponseLoading(false);
     }
