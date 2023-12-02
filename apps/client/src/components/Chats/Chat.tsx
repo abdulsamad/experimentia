@@ -39,9 +39,15 @@ const Chat = ({
 
   return (
     <motion.div
-      initial={{ translateY: type === 'assistant' ? '-10px' : '10px' }}
-      animate={{ translateY: 0 }}
-      className="chat flex my-4 scroll-mb-10"
+      initial={
+        type === 'assistant'
+          ? { translateY: '-10px', scaleX: 0.5 }
+          : { translateY: '10px', scaleX: 0.5 }
+      }
+      animate={{ translateY: 0, scaleX: 1 }}
+      className={`chat flex my-4 scroll-mb-10 ${
+        type === 'assistant' ? 'origin-left' : 'origin-right'
+      }`}
       data-type={type}>
       <div className={`${containerClassNames}`}>
         {/* Name and Time */}
