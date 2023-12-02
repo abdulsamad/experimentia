@@ -20,7 +20,7 @@ function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head />
-      <body className={cn('min-h-screen font-sans antialiased', fontSans.variable)}>
+      <body className={cn('min-h-[100svh] font-sans antialiased', fontSans.variable)}>
         <ThemeProvider attribute="class" defaultTheme="dark">
           <UserProvider>{children}</UserProvider>
         </ThemeProvider>
