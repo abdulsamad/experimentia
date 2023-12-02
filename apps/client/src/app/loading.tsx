@@ -1,6 +1,6 @@
 const Loading = () => (
   <div
-    className="h-[100svh] w-screen flex items-center justify-center"
+    className="h-full w-screen flex items-center justify-center"
     aria-label="Loading. Please wait..."
     aria-hidden="true">
     <span className="loading loading-ball loading-xs"></span>
