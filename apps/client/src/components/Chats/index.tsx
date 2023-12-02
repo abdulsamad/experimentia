@@ -1,8 +1,9 @@
-import { useCallback, useLayoutEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useAtomValue } from 'jotai';
 import { useUser } from '@auth0/nextjs-auth0/client';
 
 import { chatLoading, chatsAtom, configAtom } from '@/store';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 import Chat from './Chat';
 import Empty from './Empty';
@@ -14,7 +15,7 @@ const Chats = () => {
   const { textInput } = useAtomValue(configAtom);
   const { user } = useUser();
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const chats = document.querySelectorAll('.chat');
 
     if (!chats.length) return;
@@ -28,14 +29,20 @@ const Chats = () => {
   const userInfo = useCallback(
     (variation: string | null) => ({
       user: {
-        containerClassNames: 'chat-end',
-        messageClassNames: 'chat-bubble-info',
+        containerClassNames: 'ml-auto',
+        messageContainerClassNames: 'flex-row-reverse',
+        nameContainerClassNames: 'mr-[45px]',
+        messageClassNames:
+          'bg-primary text-secondary before:right-0 before:translate-x-[70%] before:border-l-primary',
         name: user?.nickname,
         userImageSrc: user?.picture as string,
       },
       assistant: {
-        containerClassNames: 'chat-start',
-        messageClassNames: 'chat-bubble-primary',
+        containerClassNames: '',
+        nameContainerClassNames: 'ml-[45px]',
+        messageContainerClassNames: '',
+        messageClassNames:
+          'bg-secondary before:left-0 before:-translate-x-[70%] before:rotate-180 before:border-l-secondary',
         name: variation,
         userImageSrc: `/icons/${variation}.jpg`,
       },
@@ -44,13 +51,12 @@ const Chats = () => {
   );
 
   return (
-    <section className="h-full w-full relative">
-      <div className="h-[calc(100vh-180px)] absolute top-0 right-0 left-0 bottom-[80px] pt-8 pb-4 px-3 lg:px-8 overflow-x-auto">
+    <section>
+      <ScrollArea className="h-[calc(100vh-170px)] w-full px-3 lg:px-8">
         {chats.length ? (
           <>
             {chats.map((chat, index) => {
               const { variation, type } = chat;
-
               return <Chat key={index} {...userInfo(variation)[type]} {...chat} />;
             })}
             {isChatResponseLoading && <Typing />}
@@ -58,7 +64,7 @@ const Chats = () => {
         ) : (
           <Empty nickname={user?.nickname} textInput={textInput} />
         )}
-      </div>
+      </ScrollArea>
     </section>
   );
 };

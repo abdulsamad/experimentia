@@ -96,3 +96,6 @@ export const configAtom = atomWithStorage<IConfig>(settingsKey, {
   textInput: false,
   speakResults: false,
 });
+
+// Sidebar
+export const sidebarAtom = atom(false);

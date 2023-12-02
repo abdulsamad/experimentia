@@ -1,15 +1,31 @@
-import { ChangeEvent, useCallback, useLayoutEffect } from 'react';
+import { useCallback, useLayoutEffect } from 'react';
 import { useUser } from '@auth0/nextjs-auth0/client';
-import { useSetAtom, useAtomValue, useAtom } from 'jotai';
 import Image from 'next/image';
+import { useSetAtom, useAtomValue, useAtom } from 'jotai';
 
 import { languages, variations } from 'utils';
 
-import { configAtom, flagsAtom, identifierAtom } from '@/store';
+import { configAtom, flagsAtom, identifierAtom, sidebarAtom } from '@/store';
+import { cn } from '@/utils';
 import imageSizes from '@/utils/image-sizes';
+import { Button, buttonVariants } from '@/components/ui/button';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  SelectGroup,
+  SelectLabel,
+} from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
+import { Badge } from '@/components/ui/badge';
+import { LogOut, X } from 'lucide-react';
+import { Checkbox } from '@/components/ui/checkbox';
 
 const Sidebar = () => {
   const [config, setConfig] = useAtom(configAtom);
+  const [sidebarOpen, setSidebarOpen] = useAtom(sidebarAtom);
   const flags = useAtomValue(flagsAtom);
   const setIdentifier = useSetAtom(identifierAtom);
   const { user } = useUser();
@@ -24,217 +40,195 @@ const Sidebar = () => {
   }, [user?.email, setIdentifier]);
 
   const updateSetting = useCallback(
-    ({ target }: ChangeEvent<HTMLSelectElement>) => {
-      const { name, value } = target;
-      setConfig({ ...config, [name]: value } as any);
+    (name: string, value: string) => {
+      setConfig({ ...config, [name]: value });
     },
     [config, setConfig]
   );
 
-  const updatedCheckedSetting = useCallback(
-    ({ target }: ChangeEvent<HTMLInputElement>) => {
-      const { name, checked } = target;
-      setConfig({ ...config, [name]: checked } as any);
+  const updateCheckSetting = useCallback(
+    (name: string, checked: boolean) => {
+      setConfig({ ...config, [name]: checked });
     },
     [config, setConfig]
   );
+
+  if (!sidebarOpen) return null;
 
   return (
-    <div className="drawer z-50">
-      <input id="sidebar" type="checkbox" className="drawer-toggle h-[80px]" />
-      <div className="drawer-content flex flex-col items-center justify-center">
-        {/* Page content here */}
-        <nav className="flex items-center justify-center h-[80px] w-full">
-          <h1 className="text-3xl italic text-center font-bold from-purple-600 via-pink-600 to-blue-600 bg-gradient-to-r bg-clip-text text-transparent">
-            Experimentia
-          </h1>
-        </nav>
-        {/* Page content here */}
-        <label
-          htmlFor="sidebar"
-          className="btn btn-primary drawer-button absolute top-0 left-0 m-4">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-6 h-6">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-            />
-          </svg>
-          <span className="sr-only">Open Drawer</span>
-        </label>
-      </div>
-      <aside className="drawer-side">
-        <label htmlFor="sidebar" aria-label="close sidebar" className="drawer-overlay"></label>
-        <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
-          <li>
-            <div className="form-control flex flex-col w-full max-w-xs">
-              <label className="label">
-                <span className="label-text">Model</span>
-              </label>
-              <select
-                name="model"
-                className="select select-bordered w-full"
-                value={model}
-                onChange={updateSetting}>
-                <optgroup label="Text">
-                  <option value="gpt-3.5-turbo">GPT 3.5 (Chat GPT)</option>
-                  <option value="gpt-4" disabled={!flags?.gpt4Enabled}>
-                    GPT 4
-                  </option>
-                </optgroup>
-                <optgroup label="Image">
-                  <option value="dall-e-2">DALL.E</option>
-                  <option value="dall-e-3" disabled={!flags?.dallE3Enabled}>
-                    DALL.E 3
-                  </option>
-                </optgroup>
-              </select>
-            </div>
-          </li>
-          {!isImageModelSelected && (
+    <div
+      className="absolute inset-0 w-screen h-screen backdrop-blur-md z-40"
+      onClick={(ev) => {
+        if (ev.currentTarget === ev.target) setSidebarOpen(false);
+      }}>
+      <aside className="min-h-screen w-[300px] pb-10 pt-5 px-4 flex flex-col justify-between overflow-hidden shadow-2xl bg-white dark:bg-black">
+        <div>
+          <div className="flex justify-end mb-5">
+            <Button className="px-2" variant="ghost" onClick={() => setSidebarOpen(false)}>
+              <X />
+            </Button>
+          </div>
+          <ul className="space-y-10">
             <li>
-              <div className="form-control flex flex-col w-full max-w-xs">
-                <label className="label">
-                  <span className="label-text">Variation</span>
-                </label>
-                <select
-                  name="variation"
-                  className="select select-bordered w-full"
-                  value={variation}
-                  onChange={updateSetting}>
-                  {variations.map(({ code, text }) => (
-                    <option key={code} value={code}>
-                      {text}
-                    </option>
-                  ))}
-                </select>
+              <div className="flex flex-col space-y-2">
+                <label className="ml-1">Model</label>
+                <Select value={model} onValueChange={(value) => updateSetting('model', value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Model" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Text</SelectLabel>
+                      <SelectItem value="gpt-3.5-turbo">GPT 3.5 (Chat GPT)</SelectItem>
+                      <SelectItem value="gpt-4" disabled={!flags?.gpt4Enabled}>
+                        <span className="mr-2">GPT 4</span>
+                        <Badge variant="outline" className="dark:bg-slate-50 dark:text-slate-900">
+                          Special
+                        </Badge>
+                      </SelectItem>
+                    </SelectGroup>
+                    <SelectGroup>
+                      <SelectLabel>Image</SelectLabel>
+                      <SelectItem value="dall-e-2">DALL.E</SelectItem>
+                      <SelectItem value="dall-e-3" disabled={!flags?.dallE3Enabled}>
+                        <span className="mr-2">DALL.E 3</span>
+                        <Badge variant="outline" className="dark:bg-slate-50 dark:text-slate-900">
+                          Special
+                        </Badge>
+                      </SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
               </div>
             </li>
-          )}
-          {isImageModelSelected && (
+            {!isImageModelSelected && (
+              <li>
+                <div className="flex flex-col space-y-2">
+                  <label className="ml-1">Variation</label>
+                  <Select
+                    value={variation}
+                    onValueChange={(value) => updateSetting('variation', value)}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Variation" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {variations.map(({ code, text }) => (
+                        <SelectItem key={code} value={code}>
+                          {text}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </li>
+            )}
+            {isImageModelSelected && (
+              <li>
+                <div className="flex flex-col space-y-2">
+                  <label className="ml-1">Image Size</label>
+                  <Select
+                    value={imageSize}
+                    onValueChange={(value) => updateSetting('imageSize', value)}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Image Size" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {imageSizes(model).options.map((size) => (
+                        <SelectItem key={size} value={size}>
+                          {size}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </li>
+            )}
             <li>
-              <div className="form-control flex flex-col w-full max-w-xs">
-                <label className="label">
-                  <span className="label-text">Image Size</span>
-                </label>
-                <select
-                  name="imageSize"
-                  className="select select-bordered w-full"
-                  value={imageSize}
-                  onChange={updateSetting}>
-                  {imageSizes(model).options.map((size) => (
-                    <option key={size} value={size}>
-                      {size}
-                    </option>
-                  ))}
-                </select>
+              <div className="flex flex-col space-y-2">
+                <label className="ml-1">Language</label>
+                <Select
+                  value={language}
+                  onValueChange={(value) => updateSetting('language', value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Language" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {languages.map(({ code, text }) => (
+                      <SelectItem key={code} value={code}>
+                        {text}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
             </li>
-          )}
-          <li>
-            <div className="form-control flex flex-col w-full max-w-xs">
-              <label className="label">
-                <span className="label-text">Language</span>
-              </label>
-              <select
-                name="language"
-                className="select select-bordered w-full"
-                value={language}
-                onChange={updateSetting}>
-                {languages.map(({ code, text }) => (
-                  <option key={code} value={code}>
-                    {text}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </li>
-          <li>
-            <div className="form-control flex w-full max-w-xs">
-              <label className="label">
-                <span className="label-text">Input Type</span>
-              </label>
-              <div className="flex items-center justify-center space-x-4">
-                <span>Voice</span>
-                <input
-                  name="textInput"
-                  type="checkbox"
-                  checked={textInput}
-                  onChange={updatedCheckedSetting}
-                  className="toggle toggle-lg"
-                />
-                <span>Text</span>
-              </div>
-              <label className="label">
-                <span className="label-text-alt text-center">
+            <li>
+              <div className="flex flex-col items-center justify-center space-y-3.5">
+                <h3 className="text-md">Input Type</h3>
+                <div className="flex items-center space-x-3 text-sm">
+                  <span>Voice</span>
+                  <Switch
+                    checked={textInput}
+                    onCheckedChange={(value) => updateCheckSetting('textInput', value)}
+                  />
+                  <span>Text</span>
+                </div>
+                <p className="text-slate-700 dark:text-slate-300 text-xs italic">
                   How you want to give input to GPT?
-                </span>
-              </label>
-            </div>
-          </li>
-          {'speechSynthesis' in window && !textInput && (
-            <li>
-              <div className="form-control mx-auto">
-                <label className="label cursor-pointer space-x-3">
-                  <span className="label-text">Speak Results</span>
-                  <input
-                    name="speakResults"
-                    type="checkbox"
-                    checked={speakResults}
-                    onChange={updatedCheckedSetting}
-                    className="checkbox checkbox-primary checkbox-sm"
-                  />
-                </label>
+                </p>
               </div>
             </li>
-          )}
-          <li className="mt-auto">
-            <div className="mx-auto flex flex-col gap-3">
-              <div className="avatar">
-                <div className="w-24 rounded-full">
-                  <Image
-                    src={user?.picture as string}
-                    alt={user?.name as string}
-                    height={96}
-                    width={96}
+            {'speechSynthesis' in window && !textInput && (
+              <li>
+                <div className="flex justify-center space-x-2">
+                  <Checkbox
+                    id="terms1"
+                    checked={speakResults}
+                    onCheckedChange={(value) =>
+                      updateCheckSetting('speakResults', value as boolean)
+                    }
                   />
+                  <div className="grid gap-1.5 leading-none">
+                    <label
+                      htmlFor="terms1"
+                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                      Speak Results
+                    </label>
+                  </div>
+                </div>
+              </li>
+            )}
+          </ul>
+        </div>
+        <div>
+          <ul className="space-y-5">
+            <li className="mb-6">
+              <div className="space-y-1">
+                <Image
+                  className="rounded-full mx-auto"
+                  src={user?.picture as string}
+                  alt={user?.name as string}
+                  height={96}
+                  width={96}
+                />
+                <div className="truncate space-x-1">
+                  <span className="font-semibold">Name:</span>
+                  <span className="capitalize truncate">{user?.nickname}</span>
+                </div>
+                <div className="truncate space-x-1">
+                  <span className="font-semibold">Email:</span>
+                  <span className="italic truncate">{user?.email}</span>
                 </div>
               </div>
-              <span>
-                Name: <strong>{user?.nickname}</strong>
-              </span>
-              <span>
-                Email: <strong>{user?.email}</strong>
-              </span>
-            </div>
-          </li>
-          <li className="mt-auto">
-            <div className="my-5 mx-auto">
-              <a href="/api/auth/logout" className="btn btn-secondary btn-sm btn-wide h-12">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-6 h-6">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"
-                  />
-                </svg>
+            </li>
+            <li>
+              <a href="/api/auth/logout" className={cn(buttonVariants(), 'w-full')}>
+                <LogOut />
                 Logout
               </a>
-            </div>
-          </li>
-        </ul>
+            </li>
+          </ul>
+        </div>
       </aside>
     </div>
   );

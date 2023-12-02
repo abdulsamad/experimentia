@@ -1,10 +1,14 @@
 import Image from 'next/image';
 import dayjs from 'dayjs';
+import { Download } from 'lucide-react';
 
 import { IChat } from '@/store';
+import { Button } from '@/components/ui/button';
 
 interface ExtraProps {
   containerClassNames: string;
+  nameContainerClassNames: string;
+  messageContainerClassNames: string;
   messageClassNames: string;
   userImageSrc: string;
   name: string | null | undefined;
@@ -20,57 +24,63 @@ type ChatProps = IChat & ExtraProps;
 const Chat = ({
   name,
   containerClassNames,
+  nameContainerClassNames,
+  messageContainerClassNames,
   messageClassNames,
   userImageSrc,
   time,
   format,
   message,
   image,
+  type,
 }: ChatProps) => {
   const isImage = format === 'image';
 
   return (
-    <div className={`chat ${containerClassNames}`}>
-      {!isImage && (
-        <div className="chat-image avatar">
-          <div className="w-10 rounded-full">
-            <Image src={userImageSrc} alt={name as string} height={40} width={40} />
-          </div>
+    <div className="chat flex my-4" data-type={type}>
+      <div className={`${containerClassNames}`}>
+        {/* Name and Time */}
+        <div className={`flex items-center gap-x-1 ${isImage ? 'mb-1' : nameContainerClassNames}`}>
+          <div className="text-sm">{!isImage && <span className="capitalize">{name}</span>}</div>
+          <time className="text-xs italic opacity-60 ml-1">{dayjs(time).format('hh:mm A')}</time>
         </div>
-      )}
-      <div className="chat-header">
-        {!isImage && <span className="capitalize">{name}</span>}
-        <time className="text-xs opacity-50 ml-1">{dayjs(time).format('hh:mm A')}</time>
-      </div>
-      <div className={`chat-bubble ${messageClassNames}`}>
-        {isImage ? (
-          <div className="group max-w-[300px]">
-            <figure>
-              <img src={image?.url} height={300} width={300} alt={image?.alt} />
-              {/* <figcaption>{image?.alt}</figcaption> */}
-            </figure>
-            <a
-              href={image?.url}
-              className="group-hover:flex hidden btn btn-sm btn-circle absolute bottom-0 right-0 m-3 items-center justify-center"
-              download>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-6 h-6">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"
+        <div className={`flex justify-start items-center gap-x-3 ${messageContainerClassNames}`}>
+          {/* User or Variation Image */}
+          {!isImage && (
+            <div className="w-[40px] rounded-[100px] overflow-hidden">
+              <Image src={userImageSrc} alt={name as string} height={40} width={40} />
+            </div>
+          )}
+          {/* Image or Message */}
+          {isImage ? (
+            <div className="group max-w-[400px] relative">
+              <figure>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={image?.url}
+                  alt={image?.alt}
+                  className="rounded-xl"
+                  height={300}
+                  width={300}
                 />
-              </svg>
-            </a>
-          </div>
-        ) : (
-          message
-        )}
+                <figcaption>{image?.alt}</figcaption>
+              </figure>
+              <Button variant="outline" size="icon" asChild>
+                <a
+                  href={image?.url}
+                  className="group-hover:flex hidden absolute bottom-0 right-0 m-3 items-center justify-center"
+                  download>
+                  <Download />
+                  <span className="sr-only">Download image</span>
+                </a>
+              </Button>
+            </div>
+          ) : (
+            <span
+              className={`message relative inline-block max-w-[600px] py-1.5 px-3 rounded-xl before:content-[''] before:block before:h-0 before:w-0 before:border-y-8 before:border-y-transparent before:border-l-[14px] before:border-l-primary before:absolute before:top-1/2 before:-translate-y-1/2 ${messageClassNames}`}
+              dangerouslySetInnerHTML={{ __html: message as string }}></span>
+          )}
+        </div>
       </div>
     </div>
   );

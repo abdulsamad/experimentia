@@ -10,9 +10,9 @@ const Editor = () => {
   const { textInput } = useAtomValue(configAtom);
 
   return (
-    <div className="flex flex-col fixed bottom-0 left-0 right-0">
+    <div className="flex flex-col">
       {textInput ? <Text /> : <Voice />}
-      <ToastContainer theme='dark' pauseOnHover draggable hideProgressBar />
+      <ToastContainer theme="dark" pauseOnHover draggable hideProgressBar />
     </div>
   );
 };
