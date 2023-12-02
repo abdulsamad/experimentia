@@ -18,6 +18,7 @@ const Text = () => {
       <div className="flex items-center">
         <Button
           size="lg"
+          id="text-submit-btn"
           className="rounded-3xl px-3 hover:text-gray-400 hover:shadow-xl"
           onClick={handleSubmit}
           disabled={isChatResponseLoading}>
