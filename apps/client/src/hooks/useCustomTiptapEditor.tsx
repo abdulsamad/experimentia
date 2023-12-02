@@ -7,6 +7,7 @@ import dayjs from 'dayjs';
 import { toast } from 'react-toastify';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import axios from 'axios';
+import { useSound } from 'use-sound';
 
 import { chatLoading, chatsAtom, configAtom, editorAtom } from '@/store/index';
 import { getGeneratedText, getGeneratedImage } from '@/utils/api-calls';
@@ -60,6 +61,7 @@ const useCustomTiptapEditor = () => {
     },
   });
   const { user } = useUser();
+  const [play] = useSound('notification.mp3');
 
   useLayoutEffect(() => {
     if (!editor) return;
@@ -111,8 +113,9 @@ const useCustomTiptapEditor = () => {
           setIsChatResponseLoading(false);
           setState('');
           editor?.commands?.clearContent();
-          // Haptic feedback
+          // Haptic feedback and sound
           navigator.vibrate(100);
+          play();
         });
       } else {
         const stream = await getGeneratedText({
@@ -131,8 +134,6 @@ const useCustomTiptapEditor = () => {
           const { value, done } = await reader.read();
 
           if (done) {
-            // Haptic feedback
-            navigator.vibrate(100);
             // Stream is completed
             console.log('DONE');
             break;
@@ -155,6 +156,9 @@ const useCustomTiptapEditor = () => {
           setIsChatResponseLoading(false);
           setState('');
           editor?.commands?.clearContent();
+          // Haptic feedback and sound
+          navigator.vibrate(100);
+          play();
         });
       }
     } catch (err) {
@@ -180,6 +184,7 @@ const useCustomTiptapEditor = () => {
     setState,
     user,
     variation,
+    play,
   ]);
 
   return { editor, handleSubmit };
