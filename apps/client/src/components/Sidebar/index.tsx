@@ -232,7 +232,7 @@ const Sidebar = () => {
                 <li className="mb-6">
                   <div className="space-y-1">
                     <Image
-                      className="rounded-full mx-auto"
+                      className="rounded-full mx-auto mb-5"
                       src={user?.picture as string}
                       alt={user?.name as string}
                       height={96}
