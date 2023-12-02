@@ -162,6 +162,8 @@ const useCustomTiptapEditor = () => {
         });
       }
     } catch (err) {
+      console.error(err);
+
       if (axios.isAxiosError(err)) {
         return toast.error(err.response?.data.err, {
           position: toast.POSITION.BOTTOM_RIGHT,
