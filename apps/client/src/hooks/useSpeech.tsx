@@ -22,34 +22,6 @@ const useSpeech = () => {
   const { user } = useUser();
   const [play] = useSound('notification.mp3');
 
-  useEffect(() => {
-    const speechRecognition = new (webkitSpeechRecognition || SpeechRecognition)();
-    const speechRecognitionList = new webkitSpeechGrammarList();
-
-    speechRecognitionList.addFromString(speechGrammer, 1);
-
-    recognition.current = speechRecognition;
-    recognition.current.grammars = speechRecognitionList;
-    recognition.current.continuous = true;
-    recognition.current.lang = language;
-    recognition.current.interimResults = false;
-    recognition.current.maxAlternatives = 1;
-    recognition.current.onaudiostart = () => speechLog('Audio Started');
-    recognition.current.onaudioend = () => speechLog('Audio Ended');
-    recognition.current.onspeechstart = () => speechLog('Speech Started');
-    recognition.current.onspeechend = stopRecognition;
-    recognition.current.onresult = onSpeechResult;
-    recognition.current.onnomatch = () => speechLog('No Match');
-    recognition.current.onstart = () => speechLog('Start');
-    recognition.current.onerror = () => speechLog('Error');
-    recognition.current.onend = () => speechLog('End');
-
-    return () => {
-      stopRecognition();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [language]);
-
   const startRecognition = useCallback(async () => {
     if (!recognition.current) return null;
 
@@ -64,12 +36,29 @@ const useSpeech = () => {
   }, []);
 
   const stopRecognition = useCallback(async () => {
-    if (!recognition.current || !isListening) return null;
+    if (!recognition.current) return null;
 
     recognition.current.stop();
     speechLog('Stopped');
     setIsListening(false);
-  }, [isListening]);
+  }, []);
+
+  const speakText = useCallback((text: string, language: string) => {
+    // Check if the browser supports the Web Speech API
+    if ('speechSynthesis' in window) {
+      // Create a SpeechSynthesisUtterance object
+      const utterance = new SpeechSynthesisUtterance();
+
+      // Set the utterance text and language
+      utterance.text = text;
+      utterance.lang = language;
+
+      // Speak the utterance
+      speechSynthesis.speak(utterance);
+    } else {
+      console.error('SpeechSynthesis API not supported');
+    }
+  }, []);
 
   const onSpeechResult = useCallback(
     async (ev: SpeechRecognitionEvent) => {
@@ -84,9 +73,6 @@ const useSpeech = () => {
 
         if (!transcript.trim()) return null;
 
-        // Stop recognition
-        stopRecognition();
-
         addChat({
           id: crypto.randomUUID(),
           type: 'user',
@@ -97,6 +83,7 @@ const useSpeech = () => {
         });
 
         setIsChatResponseLoading(true);
+        stopRecognition();
 
         if (['dall-e-2', 'dall-e-3'].includes(model)) {
           const { url, image } = await getGeneratedImage({
@@ -181,26 +168,46 @@ const useSpeech = () => {
         setIsChatResponseLoading(false);
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [addChat, imageSize, model, setIsChatResponseLoading, user, variation]
+    [
+      addChat,
+      setIsChatResponseLoading,
+      stopRecognition,
+      model,
+      imageSize,
+      user,
+      variation,
+      play,
+      speakResults,
+      speakText,
+    ]
   );
 
-  const speakText = useCallback((text: string, language: string) => {
-    // Check if the browser supports the Web Speech API
-    if ('speechSynthesis' in window) {
-      // Create a SpeechSynthesisUtterance object
-      const utterance = new SpeechSynthesisUtterance();
+  useEffect(() => {
+    const speechRecognition = new (webkitSpeechRecognition || SpeechRecognition)();
+    const speechRecognitionList = new webkitSpeechGrammarList();
 
-      // Set the utterance text and language
-      utterance.text = text;
-      utterance.lang = language;
+    speechRecognitionList.addFromString(speechGrammer, 1);
 
-      // Speak the utterance
-      speechSynthesis.speak(utterance);
-    } else {
-      console.error('SpeechSynthesis API not supported');
-    }
-  }, []);
+    recognition.current = speechRecognition;
+    recognition.current.grammars = speechRecognitionList;
+    recognition.current.continuous = true;
+    recognition.current.lang = language;
+    recognition.current.interimResults = false;
+    recognition.current.maxAlternatives = 1;
+    recognition.current.onaudiostart = () => speechLog('Audio Started');
+    recognition.current.onaudioend = () => speechLog('Audio Ended');
+    recognition.current.onspeechstart = () => speechLog('Speech Started');
+    recognition.current.onspeechend = stopRecognition;
+    recognition.current.onresult = onSpeechResult;
+    recognition.current.onnomatch = () => speechLog('No Match');
+    recognition.current.onstart = () => speechLog('Start');
+    recognition.current.onerror = () => speechLog('Error');
+    recognition.current.onend = () => speechLog('End');
+
+    return () => {
+      stopRecognition();
+    };
+  }, [language, onSpeechResult, stopRecognition]);
 
   return {
     startRecognition,
