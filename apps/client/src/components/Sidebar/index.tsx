@@ -75,7 +75,7 @@ const Sidebar = () => {
     <AnimatePresence>
       {sidebarOpen && (
         <div
-          className="absolute inset-0 w-screen h-[100dvh] backdrop-blur-md z-40 overflow-hidden"
+          className="absolute inset-0 w-screen h-[100svh] backdrop-blur-md z-40 overflow-hidden"
           onClick={(ev) => {
             if (ev.currentTarget === ev.target) setSidebarOpen(false);
           }}>
