@@ -75,12 +75,12 @@ const Sidebar = () => {
     <AnimatePresence>
       {sidebarOpen && (
         <div
-          className="absolute inset-0 w-screen h-screen backdrop-blur-md z-40"
+          className="absolute inset-0 w-screen h-[100dvh] backdrop-blur-md z-40"
           onClick={(ev) => {
             if (ev.currentTarget === ev.target) setSidebarOpen(false);
           }}>
           <motion.aside
-            className="min-h-screen w-[300px] pb-10 pt-5 px-4 flex flex-col justify-between overflow-hidden shadow-2xl bg-white dark:bg-black"
+            className="h-full w-[300px] pb-10 pt-5 px-4 flex flex-col justify-between overflow-hidden shadow-2xl bg-white dark:bg-black"
             initial="hidden"
             animate="show"
             exit="hidden"
