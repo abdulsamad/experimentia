@@ -4,6 +4,7 @@ import dayjs from 'dayjs';
 import { toast } from 'react-toastify';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import axios from 'axios';
+import { useSound } from 'use-sound';
 
 import { chatLoading, chatsAtom, configAtom } from '@/store';
 import { speechLog, speechGrammer } from '@/utils';
@@ -19,6 +20,7 @@ const useSpeech = () => {
   const recognition = useRef<SpeechRecognition | null>(null);
 
   const { user } = useUser();
+  const [play] = useSound('notification.mp3');
 
   useEffect(() => {
     const speechRecognition = new (webkitSpeechRecognition || SpeechRecognition)();
@@ -117,8 +119,9 @@ const useSpeech = () => {
             });
 
             setIsChatResponseLoading(false);
-            // Haptic feedback
+            // Haptic feedback and sound
             navigator.vibrate(100);
+            play();
           });
         } else {
           const stream = await getGeneratedText({
@@ -137,8 +140,6 @@ const useSpeech = () => {
             const { value, done } = await reader.read();
 
             if (done) {
-              // Haptic feedback
-              navigator.vibrate(100);
               // Stream is completed
               console.log('DONE');
               break;
@@ -159,6 +160,9 @@ const useSpeech = () => {
             });
 
             setIsChatResponseLoading(false);
+            // Haptic feedback
+            navigator.vibrate(100);
+            if (!speakResults) play();
           });
 
           if (speakResults) speakText(content, recognition.current?.lang || 'en-US');

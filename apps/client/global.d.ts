@@ -10,3 +10,8 @@ declare namespace NodeJS {
     OPENAI_API_KEY: string;
   }
 }
+
+// use-sound
+declare module 'use-sound' {
+  export const useSound = (filepath: string) => [(play = () => null)];
+}
