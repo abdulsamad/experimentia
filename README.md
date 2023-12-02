@@ -1,6 +1,9 @@
 ## Experimentia
 Just testing OpenAI API's 😉
 
+## Support
+Only Chrome and webkit based browsers are supported
+
 ### Installation
 
 Clone the repository
