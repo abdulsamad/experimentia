@@ -182,12 +182,17 @@ const useSpeech = () => {
 
   useEffect(() => {
     const speechRecognition = new (webkitSpeechRecognition || SpeechRecognition)();
-    const speechRecognitionList = new webkitSpeechGrammarList();
-
-    speechRecognitionList.addFromString(speechGrammer, 1);
 
     recognition.current = speechRecognition;
-    recognition.current.grammars = speechRecognitionList;
+
+    // Add speech grammar
+    if (window.webkitSpeechGrammarList) {
+      const speechRecognitionList = new webkitSpeechGrammarList();
+
+      speechRecognitionList.addFromString(speechGrammer, 1);
+      recognition.current.grammars = speechRecognitionList;
+    }
+
     recognition.current.continuous = true;
     recognition.current.lang = language;
     recognition.current.interimResults = false;
