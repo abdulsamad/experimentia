@@ -186,8 +186,8 @@ const useSpeech = () => {
     recognition.current = speechRecognition;
 
     // Add speech grammar
-    if (window.webkitSpeechGrammarList) {
-      const speechRecognitionList = new webkitSpeechGrammarList();
+    if (window.webkitSpeechGrammarList || window.SpeechGrammarList) {
+      const speechRecognitionList = new (webkitSpeechGrammarList || SpeechGrammarList)();
 
       speechRecognitionList.addFromString(speechGrammer, 1);
       recognition.current.grammars = speechRecognitionList;
