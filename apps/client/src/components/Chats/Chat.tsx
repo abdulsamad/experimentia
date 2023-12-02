@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import dayjs from 'dayjs';
 import { Download } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 import { IChat } from '@/store';
 import { Button } from '@/components/ui/button';
@@ -37,7 +38,11 @@ const Chat = ({
   const isImage = format === 'image';
 
   return (
-    <div className="chat flex my-4" data-type={type}>
+    <motion.div
+      initial={{ translateY: type === 'assistant' ? '-10px' : '10px' }}
+      animate={{ translateY: 0 }}
+      className="chat flex my-4"
+      data-type={type}>
       <div className={`${containerClassNames}`}>
         {/* Name and Time */}
         <div className={`flex items-center gap-x-1 ${isImage ? 'mb-1' : nameContainerClassNames}`}>
@@ -82,7 +87,7 @@ const Chat = ({
           )}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

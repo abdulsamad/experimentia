@@ -2,6 +2,7 @@ import React from 'react';
 import { useSetAtom } from 'jotai';
 import { Moon, Sun, Menu } from 'lucide-react';
 import { useTheme } from 'next-themes';
+import { motion } from 'framer-motion';
 
 import { sidebarAtom } from '@/store';
 import { Button } from '@/components/ui/button';
@@ -24,9 +25,12 @@ const Nav = () => {
         onClick={() => setSidebarOpen(true)}>
         <Menu />
       </Button>
-      <h1 className="text-3xl italic text-center font-bold from-purple-600 via-pink-600 to-blue-600 bg-gradient-to-r bg-clip-text text-transparent">
+      <motion.h1
+        initial={{ translateY: '-10px' }}
+        animate={{ translateY: 0 }}
+        className="text-3xl italic text-center font-bold from-purple-600 via-pink-600 to-blue-600 bg-gradient-to-r bg-clip-text text-transparent">
         Experimentia
-      </h1>
+      </motion.h1>
       <div className="absolute right-0 top-0 mr-5 mt-5">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

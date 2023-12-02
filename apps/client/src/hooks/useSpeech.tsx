@@ -82,6 +82,9 @@ const useSpeech = () => {
 
         if (!transcript.trim()) return null;
 
+        // Stop recognition
+        stopRecognition();
+
         addChat({
           id: crypto.randomUUID(),
           type: 'user',
@@ -114,6 +117,8 @@ const useSpeech = () => {
             });
 
             setIsChatResponseLoading(false);
+            // Haptic feedback
+            navigator.vibrate(100);
           });
         } else {
           const stream = await getGeneratedText({
@@ -132,6 +137,8 @@ const useSpeech = () => {
             const { value, done } = await reader.read();
 
             if (done) {
+              // Haptic feedback
+              navigator.vibrate(100);
               // Stream is completed
               console.log('DONE');
               break;
