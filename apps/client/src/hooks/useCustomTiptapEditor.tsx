@@ -43,7 +43,7 @@ const useCustomTiptapEditor = () => {
     extensions,
     editorProps: {
       attributes: {
-        class: 'w-full h-[50px] p-3 box-border focus:shadow',
+        class: 'w-full h-[50px] p-3 box-border',
       },
       handleDOMEvents: {
         keydown: (view, ev) => {
