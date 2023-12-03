@@ -44,7 +44,7 @@ const Chats = () => {
         messageClassNames:
           'bg-secondary before:left-0 before:-translate-x-[70%] before:rotate-180 before:border-l-secondary',
         name: variation,
-        userImageSrc: `/icons/${variation}.jpg`,
+        userImageSrc: `/icons/${variation}.png`,
       },
     }),
     [user]
