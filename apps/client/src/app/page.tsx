@@ -14,9 +14,11 @@ const Home = () => {
       <main className="conic-gradient(at right center, rgb(199, 210, 254), rgb(71, 85, 105), rgb(199, 210, 254))">
         <Nav />
         <Sidebar />
-        <Chats />
-        <div className="flex flex-col justify-end">
-          <Editor />
+        <div className="lg:container">
+          <Chats />
+          <div className="flex flex-col justify-end">
+            <Editor />
+          </div>
         </div>
       </main>
     </Provider>
