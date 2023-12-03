@@ -1,8 +1,11 @@
 {
   "name": "utils",
-  "packageManager": "yarn@3.7.0",
+  "packageManager": "pnpm@8.11.0",
   "main": "index.ts",
   "devDependencies": {
     "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "openai": "^4.20.1"
   }
 }

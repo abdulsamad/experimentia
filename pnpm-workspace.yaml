@@ -1,0 +1,5 @@
+packages:
+  - "apps/*"
+  - 'packages/*'
+
+# apps/** packages/** means "all subdirectories" resulting in next error. Once an app has built, your workspace declaration is picking up apps/docs/.next as a workspace.

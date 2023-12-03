@@ -1,4 +1,4 @@
-import { variations as variationsTypes } from 'utils/types';
+import { variations as variationsTypes } from '../types';
 
 interface IVariations {
   code: variationsTypes;
@@ -20,11 +20,6 @@ export const variations: IVariations[] = [
   {
     code: 'munna',
     text: 'Munna Bhai',
-    selected: false,
-  },
-  {
-    code: 'intelligent',
-    text: 'Intelligent AI',
     selected: false,
   },
 ];

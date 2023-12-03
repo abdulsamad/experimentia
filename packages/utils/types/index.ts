@@ -7,4 +7,4 @@ export type supportedLanguages =
   | 'ar-EG'
   | 'tr-TR';
 
-export type variations = 'munna' | 'grammar-corrector' | 'intelligent' | 'normal';
+export type variations = 'munna' | 'grammar-corrector' | 'normal';
