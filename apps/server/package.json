@@ -17,7 +17,7 @@
     "nodemon": "^3.0.1",
     "openai": "^4.19.0",
     "ts-node": "^10.9.1",
-    "utils": "workspace:^"
+    "utils": "workspace:*"
   },
   "devDependencies": {
     "@types/cors": "^2.8.16",

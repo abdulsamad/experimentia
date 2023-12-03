@@ -1,6 +1,6 @@
 import OpenAI from 'openai';
 
-import { supportedLanguages, variations } from 'utils/types';
+import { supportedLanguages, variations } from '../types';
 
 import promptMapper from './promptMapper';
 
@@ -57,23 +57,6 @@ export const modelMapper = ({
       };
 
     case 'grammar-corrector':
-      return {
-        model,
-        temperature,
-        max_tokens,
-        stop,
-        top_p,
-        seed,
-        tools,
-        tool_choice,
-        stream,
-        messages: [
-          { role: 'system', content: promptMapper(variation, language).prompt },
-          { role: 'user', content: prompt },
-        ],
-      };
-
-    case 'intelligent':
       return {
         model,
         temperature,

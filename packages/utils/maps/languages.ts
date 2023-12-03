@@ -1,4 +1,4 @@
-import { supportedLanguages } from 'utils/types';
+import { supportedLanguages } from '../types';
 
 interface ILanguages {
   code: supportedLanguages;
