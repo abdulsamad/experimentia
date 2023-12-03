@@ -29,6 +29,7 @@ export const chat = async (req: Request, res: Response) => {
       ],
       model: isGPT4Enabled ? model || 'gpt-3.5-turbo' : 'gpt-3.5-turbo',
       stream: true,
+      temperature: 0.5,
     });
 
     for await (const part of chatCompletion) {
