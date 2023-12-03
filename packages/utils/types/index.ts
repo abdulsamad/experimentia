@@ -7,4 +7,24 @@ export type supportedLanguages =
   | 'ar-EG'
   | 'tr-TR';
 
-export type variations = 'munna' | 'grammar-corrector' | 'normal';
+export type variations =
+  | 'normal'
+  | 'grammar-corrector'
+  | 'doctor'
+  | 'web-design-consultant'
+  | 'poet'
+  | 'rapper'
+  | 'math-teacher'
+  | 'historian'
+  | 'chef'
+  | 'makeup-artist'
+  | 'data-scientist'
+  | 'advertiser'
+  | 'legal-advisor'
+  | 'it-expert'
+  | 'technical-writer'
+  | 'regex-generator'
+  | 'social-media-influencer'
+  | 'gavin-belson'
+  | 'russ-hanneman'
+  | 'munna';
