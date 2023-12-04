@@ -3,12 +3,12 @@
 import { Provider } from 'jotai';
 import { withPageAuthRequired } from '@auth0/nextjs-auth0/client';
 
-import Editor from '@/components/Editor';
+import Home from '@/components/Home';
 import Sidebar from '@/components/Sidebar';
 import Chats from '@/components/Chats';
 import Nav from '@/components/Nav';
 
-const Home = () => {
+const Page = () => {
   return (
     <Provider>
       <main className="conic-gradient(at right center, rgb(199, 210, 254), rgb(71, 85, 105), rgb(199, 210, 254))">
@@ -17,7 +17,7 @@ const Home = () => {
         <div className="lg:container">
           <Chats />
           <div className="flex flex-col justify-end">
-            <Editor />
+            <Home />
           </div>
         </div>
       </main>
@@ -25,4 +25,4 @@ const Home = () => {
   );
 };
 
-export default withPageAuthRequired(Home);
+export default withPageAuthRequired(Page);
