@@ -86,6 +86,16 @@
 }
 
 /* Message */
+.chat:not([data-type='user']) :is(.message > *) {
+  margin: 10px 0;
+}
+
+.chat:not([data-type='user']) :is(.message table) {
+  border-collapse: separate;
+  border-spacing: 0 1em;
+  text-wrap: pretty;
+}
+
 .chat:not([data-type='user']) .message code {
   display: block;
   margin: 0.75em 0;
