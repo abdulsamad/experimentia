@@ -107,6 +107,11 @@ export const variations: IVariations[] = [
     text: 'Munna Bhai',
     selected: false,
   },
+  {
+    code: 'prompt_generator',
+    text: 'Prompt Generator',
+    selected: false,
+  },
 ];
 
 export default variations;

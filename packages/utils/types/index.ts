@@ -27,4 +27,5 @@ export type variations =
   | 'social-media-influencer'
   | 'gavin-belson'
   | 'russ-hanneman'
-  | 'munna';
+  | 'munna'
+  | 'prompt_generator';
