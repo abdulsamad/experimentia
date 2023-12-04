@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { UserProvider } from '@auth0/nextjs-auth0/client';
+import { Toaster } from 'sonner';
 
 import ThemeProvider from '@/components/ThemeProvider';
 import { cn } from '@/utils';
@@ -23,6 +24,7 @@ function RootLayout({ children }: { children: React.ReactNode }) {
       <body className={cn('h-[100svh] font-sans antialiased', fontSans.variable)}>
         <ThemeProvider attribute="class" defaultTheme="dark">
           <UserProvider>{children}</UserProvider>
+          <Toaster richColors />
         </ThemeProvider>
       </body>
     </html>
