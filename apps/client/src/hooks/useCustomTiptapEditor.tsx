@@ -89,6 +89,7 @@ const useCustomTiptapEditor = () => {
       });
 
       setIsChatResponseLoading(true);
+      setState('');
 
       if (['dall-e-2', 'dall-e-3'].includes(model)) {
         const { url, image } = await getGeneratedImage({
@@ -111,8 +112,6 @@ const useCustomTiptapEditor = () => {
           });
 
           setIsChatResponseLoading(false);
-          setState('');
-          editor?.commands?.clearContent();
           // Haptic feedback and sound
           navigator.vibrate(100);
           play();
@@ -154,8 +153,6 @@ const useCustomTiptapEditor = () => {
           });
 
           setIsChatResponseLoading(false);
-          setState('');
-          editor?.commands?.clearContent();
           // Haptic feedback and sound
           navigator.vibrate(100);
           play();
