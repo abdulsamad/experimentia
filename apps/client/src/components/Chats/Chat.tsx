@@ -1,7 +1,9 @@
 import Image from 'next/image';
 import dayjs from 'dayjs';
-import { Download } from 'lucide-react';
+import { Download, Copy } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { toast } from 'sonner';
 
 import { IChat } from '@/store';
 import { Button } from '@/components/ui/button';
@@ -36,7 +38,9 @@ const Chat = ({
     <motion.div
       initial={isUser ? { translateY: '10px', scaleX: 0.5 } : { translateY: '-10px', scaleX: 0.5 }}
       animate={{ translateY: 0, scaleX: 1 }}
-      className={`chat flex my-4 scroll-mb-10 ${isUser ? 'origin-right' : 'origin-left'}`}
+      className={`chat relative group/chat flex my-4 scroll-mb-10 ${
+        isUser ? 'origin-right' : 'origin-left'
+      }`}
       data-type={type}>
       <div className={`${isUser ? 'ml-auto' : ''}`}>
         {/* Name and Time */}
@@ -80,9 +84,20 @@ const Chat = ({
               </Button>
             </div>
           ) : (
-            <span
-              className={`message relative inline-block max-w-[400px] py-1.5 px-3 rounded-xl before:content-[''] before:block before:h-0 before:w-0 before:border-y-8 before:border-y-transparent before:border-l-[14px] before:border-l-primary before:absolute before:top-1/2 before:-translate-y-1/2 ${messageClassNames}`}
-              dangerouslySetInnerHTML={{ __html: message as string }}></span>
+            <div className="relative">
+              <span
+                className={`message relative inline-block max-w-[400px] py-1.5 px-3 rounded-xl before:content-[''] before:block before:h-0 before:w-0 before:border-y-8 before:border-y-transparent before:border-l-[14px] before:border-l-primary before:absolute before:top-1/2 before:-translate-y-1/2 ${messageClassNames}`}
+                dangerouslySetInnerHTML={{ __html: message as string }}></span>
+              {!isUser && (
+                <CopyToClipboard text={message as string} onCopy={() => toast.success('Copied!')}>
+                  <Button
+                    size="icon"
+                    className="h-6 w-6 absolute bottom-0 -right-8 -translate-y-1/2 group-hover/chat:visible invisible">
+                    <Copy className="h-4 w-4" />
+                  </Button>
+                </CopyToClipboard>
+              )}
+            </div>
           )}
         </div>
       </div>

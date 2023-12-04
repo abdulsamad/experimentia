@@ -15,3 +15,17 @@ declare namespace NodeJS {
 declare module 'use-sound' {
   export const useSound = (filepath: string) => [(play = () => null)];
 }
+
+// react-copy-to-clipboard
+declare module 'react-copy-to-clipboard' {
+  import * as React from 'react';
+  export const CopyToClipboard = ({
+    children,
+    text,
+    onCopy,
+  }: {
+    children: React.Node;
+    text: string;
+    onCopy: func;
+  }) => children;
+}
