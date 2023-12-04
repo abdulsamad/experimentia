@@ -7,9 +7,6 @@ import { IChat } from '@/store';
 import { Button } from '@/components/ui/button';
 
 interface ExtraProps {
-  containerClassNames: string;
-  nameContainerClassNames: string;
-  messageContainerClassNames: string;
   messageClassNames: string;
   userImageSrc: string;
   name: string | null | undefined;
@@ -24,9 +21,6 @@ type ChatProps = IChat & ExtraProps;
 
 const Chat = ({
   name,
-  containerClassNames,
-  nameContainerClassNames,
-  messageContainerClassNames,
   messageClassNames,
   userImageSrc,
   time,
@@ -36,26 +30,25 @@ const Chat = ({
   type,
 }: ChatProps) => {
   const isImage = format === 'image';
+  const isUser = type === 'user';
 
   return (
     <motion.div
-      initial={
-        type === 'assistant'
-          ? { translateY: '-10px', scaleX: 0.5 }
-          : { translateY: '10px', scaleX: 0.5 }
-      }
+      initial={isUser ? { translateY: '10px', scaleX: 0.5 } : { translateY: '-10px', scaleX: 0.5 }}
       animate={{ translateY: 0, scaleX: 1 }}
-      className={`chat flex my-4 scroll-mb-10 ${
-        type === 'assistant' ? 'origin-left' : 'origin-right'
-      }`}
+      className={`chat flex my-4 scroll-mb-10 ${isUser ? 'origin-right' : 'origin-left'}`}
       data-type={type}>
-      <div className={`${containerClassNames}`}>
+      <div className={`${isUser ? 'ml-auto' : ''}`}>
         {/* Name and Time */}
-        <div className={`flex items-center gap-x-1 ${isImage ? 'mb-1' : nameContainerClassNames}`}>
+        <div
+          className={`flex items-center gap-x-1 ${
+            isImage ? 'mb-1' : isUser ? 'mr-[45px]' : 'ml-[55px]'
+          }`}>
           <div className="text-sm">{!isImage && <span className="capitalize">{name}</span>}</div>
           <time className="text-xs italic opacity-60 ml-1">{dayjs(time).format('hh:mm A')}</time>
         </div>
-        <div className={`flex justify-start items-center gap-x-3 ${messageContainerClassNames}`}>
+        <div
+          className={`flex justify-start items-center gap-x-3 ${isUser ? 'flex-row-reverse' : ''}`}>
           {/* User or Variation Image */}
           {!isImage && (
             <div className="min-w-[40px] rounded-[100px] overflow-hidden">

@@ -29,22 +29,16 @@ const Chats = () => {
   const userInfo = useCallback(
     (variation: string | null) => ({
       user: {
-        containerClassNames: 'ml-auto',
-        messageContainerClassNames: 'flex-row-reverse',
-        nameContainerClassNames: 'mr-[45px]',
-        messageClassNames:
-          'bg-primary text-secondary before:right-0 before:translate-x-[70%] before:border-l-primary',
         name: user?.nickname,
         userImageSrc: user?.picture as string,
+        messageClassNames:
+          'bg-primary text-secondary before:right-0 before:translate-x-[70%] before:border-l-primary',
       },
       assistant: {
-        containerClassNames: '',
-        nameContainerClassNames: 'ml-[55px]',
-        messageContainerClassNames: '',
+        name: variation?.split('-').join(' '),
+        userImageSrc: `/icons/${variation}.png`,
         messageClassNames:
           'bg-secondary before:left-0 before:-translate-x-[70%] before:rotate-180 before:border-l-secondary',
-        name: variation,
-        userImageSrc: `/icons/${variation}.png`,
       },
     }),
     [user]
