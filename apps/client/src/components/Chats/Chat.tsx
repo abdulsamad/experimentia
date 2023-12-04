@@ -51,7 +51,7 @@ const Chat = ({
           className={`flex justify-start items-center gap-x-3 ${isUser ? 'flex-row-reverse' : ''}`}>
           {/* User or Variation Image */}
           {!isImage && (
-            <div className="min-w-[40px] rounded-[100px] overflow-hidden">
+            <div className="min-w-[40px] rounded-[999px] overflow-hidden">
               <Image src={userImageSrc} alt={name as string} height={40} width={40} />
             </div>
           )}
