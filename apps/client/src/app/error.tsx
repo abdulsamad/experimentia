@@ -13,8 +13,7 @@ const Error = () => {
           Client Error
         </h1>
         <p className="text-gray-500 max-w-[700px] mt-8 py-2 border-y-2 text-center">
-          Whoops, Something went wrong. Experimentia is supported only on webkit based browser such
-          as Chrome. Please try again with Chrome.
+          Whoops, Something went wrong.
         </p>
       </div>
     </div>
