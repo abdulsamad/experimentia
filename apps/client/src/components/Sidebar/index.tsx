@@ -199,7 +199,7 @@ const Sidebar = () => {
                     </Select>
                   </div>
                 </li>
-                {IS_SPEECH_RECOGNITION_SUPPORTED && (
+                {IS_SPEECH_RECOGNITION_SUPPORTED() && (
                   <li>
                     <div className="flex flex-col items-center justify-center space-y-3.5">
                       <h3 className="text-md">Input Type</h3>
