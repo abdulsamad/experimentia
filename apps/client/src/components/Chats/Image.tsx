@@ -2,6 +2,9 @@ import React from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { toast } from 'sonner';
 import { Download, Copy } from 'lucide-react';
+import ImageGallery from 'react-image-gallery';
+
+import 'react-image-gallery/styles/css/image-gallery.css';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -21,8 +24,27 @@ const Image = ({ src, alt }: IImage) => {
     <div className="group max-w-[400px]">
       <figure>
         <div className="relative inline-block">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={src} alt={alt} className="rounded-xl" height={300} width={300} />
+          <ImageGallery
+            items={[
+              { original: src as string, originalAlt: alt, originalClass: 'image-gallery-image' },
+            ]}
+            renderCustomControls={() => (
+              <Button variant="outline" size="icon" asChild>
+                <a
+                  href={src}
+                  title="Download"
+                  className="group-hover:flex hidden m-3 items-center justify-center absolute bottom-0 left-0 z-10"
+                  download>
+                  <Download />
+                  <span className="sr-only">Download image</span>
+                </a>
+              </Button>
+            )}
+            showThumbnails={false}
+            showPlayButton={false}
+            showNav={false}
+          />
+          {/* <img src={src} alt={alt} className="rounded-xl" height={300} width={300} />
           <Button variant="outline" size="icon" asChild>
             <a
               href={src}
@@ -32,9 +54,9 @@ const Image = ({ src, alt }: IImage) => {
               <Download />
               <span className="sr-only">Download image</span>
             </a>
-          </Button>
+          </Button> */}
         </div>
-        <Accordion type="single" className="w-[300px]" collapsible>
+        <Accordion type="single" className="w-full" collapsible>
           <AccordionItem value="prompt">
             <AccordionTrigger>Prompt</AccordionTrigger>
             <AccordionContent className="group/prompt relative">
