@@ -16,3 +16,6 @@ export const speechLog = (text: string, styles?: React.CSSProperties) => {
 
 export const speechGrammer =
   '#JSGF V1.0; grammar colors; public <color> = aqua | azure | black | orange ;';
+
+export const IS_SPEECH_RECOGNITION_SUPPORTED = () =>
+  'webkitSpeechRecognition' in window || 'SpeechRecognition' in window;

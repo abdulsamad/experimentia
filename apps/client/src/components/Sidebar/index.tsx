@@ -7,7 +7,7 @@ import { AnimatePresence, motion, Variants } from 'framer-motion';
 import { languages, variations } from 'utils';
 
 import { configAtom, flagsAtom, identifierAtom, sidebarAtom } from '@/store';
-import { cn } from '@/utils';
+import { cn, IS_SPEECH_RECOGNITION_SUPPORTED } from '@/utils';
 import imageSizes from '@/utils/image-sizes';
 import { Button, buttonVariants } from '@/components/ui/button';
 import {
@@ -199,22 +199,24 @@ const Sidebar = () => {
                     </Select>
                   </div>
                 </li>
-                <li>
-                  <div className="flex flex-col items-center justify-center space-y-3.5">
-                    <h3 className="text-md">Input Type</h3>
-                    <div className="flex items-center space-x-3 text-sm">
-                      <span>Voice</span>
-                      <Switch
-                        checked={textInput}
-                        onCheckedChange={(value) => updateCheckSetting('textInput', value)}
-                      />
-                      <span>Text</span>
+                {IS_SPEECH_RECOGNITION_SUPPORTED && (
+                  <li>
+                    <div className="flex flex-col items-center justify-center space-y-3.5">
+                      <h3 className="text-md">Input Type</h3>
+                      <div className="flex items-center space-x-3 text-sm">
+                        <span>Voice</span>
+                        <Switch
+                          checked={textInput}
+                          onCheckedChange={(value) => updateCheckSetting('textInput', value)}
+                        />
+                        <span>Text</span>
+                      </div>
+                      <p className="text-slate-700 dark:text-slate-300 text-xs italic">
+                        How you want to give input to GPT?
+                      </p>
                     </div>
-                    <p className="text-slate-700 dark:text-slate-300 text-xs italic">
-                      How you want to give input to GPT?
-                    </p>
-                  </div>
-                </li>
+                  </li>
+                )}
                 {'speechSynthesis' in window && !textInput && (
                   <li>
                     <div className="flex justify-center space-x-2">
