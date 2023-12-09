@@ -17,7 +17,7 @@ Welcome to Experimentia, where I explore the OpenAI's API! Below, you'll find in
 
 ## Support
 
-Experimentia currently supports only Chrome and webkit-based browsers. Make sure you are using one of these browsers for the best experience.
+Voice input currently supports only Chrome and webkit-based browsers. Make sure you are using one of these browsers for the best experience.
 
 ## Installation
 
