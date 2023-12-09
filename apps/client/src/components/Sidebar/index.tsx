@@ -3,6 +3,8 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 import Image from 'next/image';
 import { useSetAtom, useAtomValue, useAtom } from 'jotai';
 import { AnimatePresence, motion, Variants } from 'framer-motion';
+import { useTheme } from 'next-themes';
+import { LogOut, X, Moon, Sun } from 'lucide-react';
 
 import { languages, variations } from 'utils';
 
@@ -21,8 +23,13 @@ import {
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { Badge } from '@/components/ui/badge';
-import { LogOut, X } from 'lucide-react';
 import { Checkbox } from '@/components/ui/checkbox';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 export const sidebarVariants: Variants = {
   hidden: {
@@ -47,6 +54,7 @@ const Sidebar = () => {
   const flags = useAtomValue(flagsAtom);
   const setIdentifier = useSetAtom(identifierAtom);
   const { user } = useUser();
+  const { setTheme } = useTheme();
 
   const { language, model, variation, imageSize, textInput, speakResults } = config;
   const isImageModelSelected = ['dall-e-2', 'dall-e-3'].includes(model);
@@ -96,7 +104,21 @@ const Sidebar = () => {
             exit="hidden"
             variants={sidebarVariants}>
             <div>
-              <div className="flex justify-end mb-5">
+              <div className="flex justify-between mb-5">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" size="icon">
+                      <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                      <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                      <span className="sr-only">Toggle theme</span>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem onClick={() => setTheme('light')}>Light</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => setTheme('dark')}>Dark</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => setTheme('system')}>System</DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
                 <Button className="px-2" variant="ghost" onClick={() => setSidebarOpen(false)}>
                   <X />
                 </Button>
