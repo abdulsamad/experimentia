@@ -7,7 +7,7 @@ import { AnimatePresence, motion, Variants } from 'framer-motion';
 import { languages, variations } from 'utils';
 
 import { configAtom, flagsAtom, identifierAtom, sidebarAtom } from '@/store';
-import { cn, IS_SPEECH_RECOGNITION_SUPPORTED } from '@/utils';
+import { cn, IS_SPEECH_RECOGNITION_SUPPORTED, IS_SPEECH_SYNTHESIS_SUPPORTED } from '@/utils';
 import imageSizes from '@/utils/image-sizes';
 import { Button, buttonVariants } from '@/components/ui/button';
 import {
@@ -217,7 +217,7 @@ const Sidebar = () => {
                     </div>
                   </li>
                 )}
-                {'speechSynthesis' in window && !textInput && (
+                {IS_SPEECH_SYNTHESIS_SUPPORTED() && !textInput && (
                   <li>
                     <div className="flex justify-center space-x-2">
                       <Checkbox

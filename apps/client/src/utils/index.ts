@@ -19,3 +19,5 @@ export const speechGrammer =
 
 export const IS_SPEECH_RECOGNITION_SUPPORTED = () =>
   'webkitSpeechRecognition' in window || 'SpeechRecognition' in window;
+
+export const IS_SPEECH_SYNTHESIS_SUPPORTED = () => 'speechSynthesis' in window;
