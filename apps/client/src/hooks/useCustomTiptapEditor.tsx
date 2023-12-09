@@ -1,4 +1,4 @@
-import { useCallback, useLayoutEffect, useState, useTransition } from 'react';
+import { useCallback, useLayoutEffect, useTransition } from 'react';
 import { useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Placeholder from '@tiptap/extension-placeholder';
@@ -33,7 +33,7 @@ const extensions = [
 ];
 
 const useCustomTiptapEditor = () => {
-  const [state, setState] = useAtom(editorAtom);
+  const [editorState, setEditorState] = useAtom(editorAtom);
   const addChat = useSetAtom(chatsAtom);
   const setIsChatResponseLoading = useSetAtom(chatLoading);
   const { variation, model, imageSize, language } = useAtomValue(configAtom);
@@ -57,7 +57,7 @@ const useCustomTiptapEditor = () => {
       },
     },
     onUpdate({ editor }) {
-      setState(editor.getHTML());
+      setEditorState(editor.getHTML());
     },
   });
   const { user } = useUser();
@@ -69,11 +69,11 @@ const useCustomTiptapEditor = () => {
     const cursorPos = editor.state.selection.$head.pos;
 
     editor?.commands?.clearContent();
-    editor?.commands.insertContent(state);
+    editor?.commands.insertContent(editorState);
 
     // Reset cursor position after inserting content
     editor.chain().focus().setTextSelection(cursorPos).run();
-  }, [state, editor]);
+  }, [editorState, editor]);
 
   const handleSubmit = useCallback(async () => {
     try {
@@ -89,7 +89,7 @@ const useCustomTiptapEditor = () => {
       });
 
       setIsChatResponseLoading(true);
-      setState('');
+      setEditorState('');
 
       if (['dall-e-2', 'dall-e-3'].includes(model)) {
         const { url, image } = await getGeneratedImage({
@@ -176,7 +176,7 @@ const useCustomTiptapEditor = () => {
     language,
     model,
     setIsChatResponseLoading,
-    setState,
+    setEditorState,
     user,
     variation,
     play,
