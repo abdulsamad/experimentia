@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "nodemon --watch 'src/**' --ext 'ts,json' --exec 'ts-node -r tsconfig-paths/register --files src/index.ts'",
-    "start": "ts-node -r tsconfig-paths/register --files src/index.ts",
+    "start": "ts-node -r tsconfig-paths/register --transpile-only --files src/index.ts",
     "build": "npx tsc"
   },
   "dependencies": {
