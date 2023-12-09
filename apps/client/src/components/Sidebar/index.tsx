@@ -71,6 +71,16 @@ const Sidebar = () => {
     [config, setConfig]
   );
 
+  const setImageSizeValue = useCallback(() => {
+    if (!imageSizes(model).options.includes(imageSize)) {
+      const defaultSize = imageSizes(model).default;
+      updateSetting('imageSize', defaultSize);
+      return defaultSize;
+    }
+
+    return imageSize;
+  }, [imageSize, model, updateSetting]);
+
   return (
     <AnimatePresence>
       {sidebarOpen && (
@@ -154,7 +164,7 @@ const Sidebar = () => {
                     <div className="flex flex-col space-y-2">
                       <label className="ml-1">Image Size</label>
                       <Select
-                        value={imageSize}
+                        value={setImageSizeValue()}
                         onValueChange={(value) => updateSetting('imageSize', value)}>
                         <SelectTrigger>
                           <SelectValue placeholder="Image Size" />
