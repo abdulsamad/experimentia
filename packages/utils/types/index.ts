@@ -28,4 +28,4 @@ export type variations =
   | 'gavin-belson'
   | 'russ-hanneman'
   | 'munna'
-  | 'prompt_generator';
+  | 'prompt-generator';
