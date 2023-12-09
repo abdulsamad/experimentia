@@ -28,7 +28,7 @@ const extensions = [
     },
   }),
   Placeholder.configure({
-    placeholder: 'Message',
+    placeholder: 'Ask any thing or discuss...',
   }),
 ];
 
