@@ -1,5 +1,5 @@
 [build]
-command = "pnpm build --filter client"
+command = "pnpm --filter client build"
 functions = "functions"
 publish = "apps/client/.next"
 ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF apps/client packages/utils"
