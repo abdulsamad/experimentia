@@ -7,7 +7,7 @@ import axios from 'axios';
 import { useSound } from 'use-sound';
 
 import { chatLoading, chatsAtom, configAtom } from '@/store';
-import { speechLog, speechGrammer } from '@/utils';
+import { speechLog, speechGrammer, IS_SPEECH_RECOGNITION_SUPPORTED } from '@/utils';
 import { getGeneratedText, getGeneratedImage } from '@/utils/api-calls';
 
 const useSpeech = () => {
@@ -181,6 +181,8 @@ const useSpeech = () => {
   );
 
   useEffect(() => {
+    if (!IS_SPEECH_RECOGNITION_SUPPORTED()) return;
+
     const speechRecognition = new (webkitSpeechRecognition || SpeechRecognition)();
 
     recognition.current = speechRecognition;
