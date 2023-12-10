@@ -45,17 +45,6 @@ const Image = ({ url, alt }: Partial<IImageChat['image']>) => {
             showPlayButton={false}
             showNav={false}
           />
-          {/* <img src={src} alt={alt} className="rounded-xl" height={300} width={300} />
-          <Button variant="outline" size="icon" asChild>
-            <a
-              href={src}
-              title="Download"
-              className="group-hover:flex hidden m-3 absolute bottom-0 right-0 items-center justify-center"
-              download>
-              <Download />
-              <span className="sr-only">Download image</span>
-            </a>
-          </Button> */}
         </div>
         <Accordion type="single" className="w-full" collapsible>
           <AccordionItem value="prompt">
