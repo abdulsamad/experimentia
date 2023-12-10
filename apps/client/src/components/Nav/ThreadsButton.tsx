@@ -4,6 +4,7 @@ import { ChevronDown, Trash } from 'lucide-react';
 import dayjs from 'dayjs';
 
 import { IThreads, chatAtom, currentThreadIdAtom } from '@/store';
+import { lforage } from '@/utils/config';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,7 +12,6 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
-import { lforage } from '@/utils';
 
 const ThreadsButton = () => {
   const [currentChatId, setCurrentChatId] = useAtom(currentThreadIdAtom);

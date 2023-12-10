@@ -6,8 +6,7 @@ import dayjs from 'dayjs';
 
 import { variations, supportedLanguages } from 'utils/types';
 
-import { lforage } from '@/utils';
-import { settingsKey } from '@/utils/config';
+import { settingsKey, threadsKey, lforage } from '@/utils/config';
 
 // Editor
 
@@ -100,7 +99,7 @@ export const chatSaveEffect = atomEffect((get, set) => {
 
     if (!threads) {
       updatedThreads = [chatsItem];
-      await lforage.setItem('threads', updatedThreads);
+      await lforage.setItem(threadsKey, updatedThreads);
       return;
     }
 
@@ -115,7 +114,7 @@ export const chatSaveEffect = atomEffect((get, set) => {
     }
 
     // Save threads
-    await lforage.setItem('threads', updatedThreads);
+    await lforage.setItem(threadsKey, updatedThreads);
   })();
 });
 

@@ -1,3 +1,5 @@
+import localforage from 'localforage';
+
 export const settingsKey = 'config';
 
 export const getConfig = (setting: string) => {
@@ -13,3 +15,11 @@ export const getConfig = (setting: string) => {
   const config = settings ? JSON.parse(settings) : null;
   return config;
 };
+
+export const threadsKey = 'threads';
+
+export const lforage = localforage.createInstance({
+  name: 'experimentia',
+  description: 'A chat application',
+  version: 1.0,
+});
