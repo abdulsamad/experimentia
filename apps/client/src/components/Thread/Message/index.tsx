@@ -2,7 +2,7 @@ import NextImage from 'next/image';
 import dayjs from 'dayjs';
 import { motion } from 'framer-motion';
 
-import { IChat, IImageMessage } from '@/store';
+import { IMessage, IImageMessage } from '@/store';
 
 import Image from './Image';
 import Text from './Text';
@@ -15,7 +15,7 @@ interface ExtraProps {
   image?: IImageMessage['image'];
 }
 
-type MessageProps = IChat & ExtraProps;
+type MessageProps = IMessage & ExtraProps;
 
 const Message = ({
   name,
