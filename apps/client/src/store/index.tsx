@@ -15,9 +15,9 @@ export const editorAtom = atom('');
 
 // Chats
 
-export const chatLoadingAtom = atom(false);
+export const threadLoadingAtom = atom(false);
 
-export const currentChatIdAtom = atom(crypto.randomUUID());
+export const currentThreadIdAtom = atom(crypto.randomUUID());
 
 export interface IChatCommon {
   id: string;
@@ -83,7 +83,7 @@ export type IThreads = IThread[];
 export const chatSaveEffect = atomEffect((get, set) => {
   (async () => {
     const thread = get(chatAtom);
-    const chatId = get(currentChatIdAtom);
+    const chatId = get(currentThreadIdAtom);
     const chatsItem: IThread = {
       id: chatId,
       thread,

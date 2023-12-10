@@ -9,7 +9,7 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 import axios from 'axios';
 import { useSound } from 'use-sound';
 
-import { chatLoadingAtom, chatAtom, configAtom, editorAtom } from '@/store/index';
+import { threadLoadingAtom, chatAtom, configAtom, editorAtom } from '@/store/index';
 import { getGeneratedText, getGeneratedImage } from '@/utils/api-calls';
 
 const extensions = [
@@ -35,7 +35,7 @@ const extensions = [
 const useCustomTiptapEditor = () => {
   const [editorState, setEditorState] = useAtom(editorAtom);
   const addChat = useSetAtom(chatAtom);
-  const setIsChatResponseLoading = useSetAtom(chatLoadingAtom);
+  const setIsChatResponseLoading = useSetAtom(threadLoadingAtom);
   const { variation, model, imageSize, language, quality, style } = useAtomValue(configAtom);
   const [isPending, startTransition] = useTransition();
 
