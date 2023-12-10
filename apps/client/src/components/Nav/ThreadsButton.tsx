@@ -20,7 +20,7 @@ const ThreadsButton = () => {
 
   const fetchThreads = useCallback(async () => {
     // Retrieve saved threads
-    const threads = (await lforage.getItem('chats')) as IThreads;
+    const threads = (await lforage.getItem('threads')) as IThreads;
     setThreads(threads);
   }, []);
 
@@ -70,11 +70,11 @@ const ThreadsButton = () => {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          {threads.map(({ id, chat, timestamp, name }) => (
+          {threads.map(({ id, thread, timestamp, name }) => (
             <DropdownMenuItem
               key={id}
               className={`max-w-screen ${id === currentChatId ? 'bg-accent' : ''}`}
-              onClick={() => updateCurrentChatId(id, chat)}>
+              onClick={() => updateCurrentChatId(id, thread)}>
               <div className="flex items-center gap-2">
                 <p className="truncate max-w-[250px] lg:max-w-[500px]">
                   {name || dayjs(timestamp).format('hh:mm A - DD/MM/YY')}

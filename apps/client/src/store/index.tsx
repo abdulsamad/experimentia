@@ -73,7 +73,7 @@ export const chatAtom: WritableAtom<IChat[], IChat[], void> = atom(
 
 export interface IThread {
   id: string;
-  chat: IChat[];
+  thread: IChat[];
   timestamp: number;
   name: string;
 }
@@ -82,11 +82,11 @@ export type IThreads = IThread[];
 
 export const chatSaveEffect = atomEffect((get, set) => {
   (async () => {
-    const chat = get(chatAtom);
+    const thread = get(chatAtom);
     const chatId = get(currentChatIdAtom);
     const chatsItem: IThread = {
       id: chatId,
-      chat,
+      thread,
       timestamp: dayjs(Date.now()).valueOf(),
       name: `Chat (${dayjs(Date.now()).format('hh:mm - DD/MM/YY')})`,
     };
@@ -94,12 +94,13 @@ export const chatSaveEffect = atomEffect((get, set) => {
     let updatedThreads;
 
     // Return if chats doesn't exist
-    if (!chat.length || !chatId) return null;
+    if (!thread.length || !chatId) return null;
 
     const threads: IThreads | null = await lforage.getItem('chats');
 
     if (!threads) {
-      lforage.setItem('chats', [chatsItem]);
+      updatedThreads = [chatsItem];
+      await lforage.setItem('threads', updatedThreads);
       return;
     }
 
@@ -114,7 +115,7 @@ export const chatSaveEffect = atomEffect((get, set) => {
     }
 
     // Save threads
-    await lforage.setItem('chats', updatedThreads);
+    await lforage.setItem('threads', updatedThreads);
   })();
 });
 
