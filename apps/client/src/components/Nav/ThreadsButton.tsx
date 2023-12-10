@@ -4,7 +4,7 @@ import { ChevronDown, Trash } from 'lucide-react';
 import dayjs from 'dayjs';
 
 import { IThreads, chatAtom, currentThreadIdAtom } from '@/store';
-import { lforage } from '@/utils/config';
+import { lforage, threadsKey } from '@/utils/config';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,12 +15,12 @@ import { Button } from '@/components/ui/button';
 
 const ThreadsButton = () => {
   const [currentChatId, setCurrentChatId] = useAtom(currentThreadIdAtom);
-  const setChats = useSetAtom(chatAtom);
+  const setChat = useSetAtom(chatAtom);
   const [threads, setThreads] = useState<IThreads>([]);
 
   const fetchThreads = useCallback(async () => {
     // Retrieve saved threads
-    const threads = (await lforage.getItem('threads')) as IThreads;
+    const threads = (await lforage.getItem(threadsKey)) as IThreads;
     setThreads(threads);
   }, []);
 
@@ -39,23 +39,28 @@ const ThreadsButton = () => {
 
   const updateCurrentChatId = useCallback(
     (id: string, chats: any) => {
-      setChats(chats, true as any);
+      setChat(chats, true as any);
       setCurrentChatId(id);
     },
-    [setChats, setCurrentChatId]
+    [setChat, setCurrentChatId]
   );
 
   const deleteChats = useCallback(
-    (ev: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>, id: string) => {
+    async (ev: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>, threadId: string) => {
       ev.stopPropagation();
 
-      window?.alert('Delete is not implemented yet! \nYou can clear site data to delete the chats');
-      if (currentChatId === id) {
-        //
-        return;
+      if (currentChatId === threadId) {
+        setChat([] as any, true as any);
       }
+
+      const threads: IThreads | null = await lforage.getItem(threadsKey);
+      const filterThreads = threads?.filter(({ id }) => id !== threadId);
+      await lforage.setItem(threadsKey, filterThreads);
+
+      // Reset
+      fetchThreads();
     },
-    [currentChatId]
+    [currentChatId, fetchThreads, setChat]
   );
 
   if (!threads || !Array.isArray(threads)) return null;
