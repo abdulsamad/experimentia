@@ -56,8 +56,9 @@ const Sidebar = () => {
   const { user } = useUser();
   const { setTheme } = useTheme();
 
-  const { language, model, variation, imageSize, textInput, speakResults } = config;
+  const { language, model, variation, imageSize, textInput, speakResults, style, quality } = config;
   const isImageModelSelected = ['dall-e-2', 'dall-e-3'].includes(model);
+  const isDallE3Selected = model === 'dall-e-3';
 
   useLayoutEffect(() => {
     if (!user?.email) return;
@@ -201,6 +202,42 @@ const Sidebar = () => {
                       </Select>
                     </div>
                   </li>
+                )}
+                {isDallE3Selected && (
+                  <>
+                    <li>
+                      <div className="flex flex-col space-y-2">
+                        <label className="ml-1">Quality</label>
+                        <Select
+                          value={quality}
+                          onValueChange={(value) => updateSetting('quality', value)}>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Quality" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="standard">Standard</SelectItem>
+                            <SelectItem value="hd">HD</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </li>
+                    <li>
+                      <div className="flex flex-col space-y-2">
+                        <label className="ml-1">Style</label>
+                        <Select
+                          value={style}
+                          onValueChange={(value) => updateSetting('style', value)}>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Style" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="vivid">Vivid</SelectItem>
+                            <SelectItem value="natural">Natural</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </li>
+                  </>
                 )}
                 <li>
                   <div className="flex flex-col space-y-2">

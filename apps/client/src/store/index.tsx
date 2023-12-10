@@ -145,13 +145,15 @@ export const flagsAtom = atom(async (get) => {
 
 // Config
 
-interface IConfig {
+export interface IConfig {
   model: string;
   variation: string;
   language: string;
   imageSize: string;
   textInput: boolean;
   speakResults: boolean;
+  quality: 'standard' | 'hd';
+  style: 'vivid' | 'natural';
 }
 
 export const configAtom = atomWithStorage<IConfig>(settingsKey, {
@@ -161,6 +163,8 @@ export const configAtom = atomWithStorage<IConfig>(settingsKey, {
   imageSize: '1024x1024',
   textInput: false,
   speakResults: false,
+  quality: 'standard',
+  style: 'vivid',
 });
 
 // Sidebar

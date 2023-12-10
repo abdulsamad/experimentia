@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+import { IConfig } from '@/store/index';
+
 import { getConfig } from './config';
 
 const axiosInstance = axios.create({
@@ -11,7 +13,7 @@ export const getApiAccessToken = async () => {
   return res.data.token.access_token;
 };
 
-interface IgetGeneratedText {
+interface IGetGeneratedText {
   prompt: string;
   language?: string;
   user: any;
@@ -22,7 +24,7 @@ interface IgetGeneratedText {
  * @param {prompt, language, user}
  * @returns {Stream}
  */
-export const getGeneratedText = async ({ prompt, language, user }: IgetGeneratedText) => {
+export const getGeneratedText = async ({ prompt, language, user }: IGetGeneratedText) => {
   const token = await getApiAccessToken();
 
   const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/api/text`, {
@@ -43,24 +45,26 @@ export const getGeneratedText = async ({ prompt, language, user }: IgetGenerated
   return res.body?.pipeThrough(new TextDecoderStream());
 };
 
-interface IgetGeneratedImage {
+interface IGetGeneratedImage {
   prompt: string;
   user: any;
+  quality: IConfig['quality'];
+  style: IConfig['style'];
   size?: string;
-  n?: number;
 }
 
 export const getGeneratedImage = async ({
   prompt,
-  size = '512x512',
-  n = 1,
   user,
-}: IgetGeneratedImage) => {
+  quality,
+  style,
+  size,
+}: IGetGeneratedImage) => {
   const token = await getApiAccessToken();
 
   const res = await axiosInstance.post(
     '/image',
-    { prompt, size, n, model: getConfig('model'), user },
+    { prompt, user, model: getConfig('model'), quality, style, size },
     { headers: { Authorization: `Bearer ${token}` } }
   );
 

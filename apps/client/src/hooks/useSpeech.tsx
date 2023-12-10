@@ -13,7 +13,8 @@ import { getGeneratedText, getGeneratedImage } from '@/utils/api-calls';
 const useSpeech = () => {
   const addChat = useSetAtom(chatsAtom);
   const setIsChatResponseLoading = useSetAtom(chatLoadingAtom);
-  const { model, variation, imageSize, language, speakResults } = useAtomValue(configAtom);
+  const { model, variation, imageSize, language, speakResults, quality, style } =
+    useAtomValue(configAtom);
   const [isListening, setIsListening] = useState(false);
   const [isPending, startTransition] = useTransition();
 
@@ -90,6 +91,8 @@ const useSpeech = () => {
             prompt: transcript,
             size: imageSize,
             user,
+            quality,
+            style,
           });
 
           startTransition(() => {
