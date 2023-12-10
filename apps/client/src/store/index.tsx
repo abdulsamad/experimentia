@@ -1,4 +1,5 @@
 import { atom, WritableAtom } from 'jotai';
+import { atomEffect } from 'jotai-effect';
 import { atomWithStorage } from 'jotai/utils';
 import * as configcat from 'configcat-js-ssr';
 import { Dayjs } from 'dayjs';
@@ -11,7 +12,9 @@ export const editorAtom = atom('');
 
 // Chats
 
-export const chatLoading = atom(false);
+export const chatLoadingAtom = atom(false);
+
+export const currentChatIdAtom = atom(crypto.randomUUID());
 
 interface IChatCommon {
   id: string;
