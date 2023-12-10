@@ -13,6 +13,7 @@ interface ExtraProps {
   name: string | null | undefined;
   message?: string;
   image?: IImageMessage['image'];
+  size: string;
 }
 
 type MessageProps = IMessage & ExtraProps;
@@ -26,9 +27,12 @@ const Message = ({
   message,
   image,
   type,
+  size,
 }: MessageProps) => {
   const isImage = format === 'image';
   const isUser = type === 'user';
+
+  console.log({ size });
 
   // Contional classes
   const nameTimeMargin = isUser ? 'mr-[45px]' : 'ml-[55px]';
@@ -58,7 +62,8 @@ const Message = ({
           )}
           {/* Image or Message */}
           {isImage ? (
-            <Image url={image?.url} alt={image?.alt} />
+            // eslint-disable-next-line jsx-a11y/alt-text
+            <Image image={image as any} size={size} />
           ) : (
             <Text isUser={isUser} messageClassNames={messageClassNames} message={message} />
           )}
