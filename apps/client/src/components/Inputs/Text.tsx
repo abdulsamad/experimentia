@@ -2,13 +2,13 @@ import { EditorContent } from '@tiptap/react';
 import { useAtomValue } from 'jotai';
 import { SendHorizonal } from 'lucide-react';
 
-import { chatLoading } from '@/store';
+import { chatLoadingAtom } from '@/store';
 import useCustomTiptapEditor from '@/hooks/useCustomTiptapEditor';
 import { Button } from '@/components/ui/button';
 
 const Text = () => {
   const { editor, handleSubmit } = useCustomTiptapEditor();
-  const isChatResponseLoading = useAtomValue(chatLoading);
+  const isChatResponseLoading = useAtomValue(chatLoadingAtom);
 
   return (
     <div className="flex gap-5 items-center p-5">
