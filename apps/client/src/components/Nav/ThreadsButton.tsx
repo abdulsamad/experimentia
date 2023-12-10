@@ -3,7 +3,7 @@ import { useAtom, useSetAtom } from 'jotai';
 import { ChevronDown, Trash } from 'lucide-react';
 import dayjs from 'dayjs';
 
-import { IThreads, chatAtom, currentChatIdAtom } from '@/store';
+import { IThreads, chatAtom, currentThreadIdAtom } from '@/store';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,7 +14,7 @@ import { Button } from '@/components/ui/button';
 import { lforage } from '@/utils';
 
 const ThreadsButton = () => {
-  const [currentChatId, setCurrentChatId] = useAtom(currentChatIdAtom);
+  const [currentChatId, setCurrentChatId] = useAtom(currentThreadIdAtom);
   const setChats = useSetAtom(chatAtom);
   const [threads, setThreads] = useState<IThreads>([]);
 

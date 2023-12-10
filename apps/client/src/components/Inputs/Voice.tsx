@@ -1,12 +1,12 @@
 import { useAtomValue } from 'jotai';
 import { Mic, Loader2 } from 'lucide-react';
 
-import { chatLoadingAtom } from '@/store';
+import { threadLoadingAtom } from '@/store';
 import useSpeech from '@/hooks/useSpeech';
 import { Button } from '@/components/ui/button';
 
 const Voice = () => {
-  const isChatResponseLoading = useAtomValue(chatLoadingAtom);
+  const isChatResponseLoading = useAtomValue(threadLoadingAtom);
 
   const { startRecognition, stopRecognition, isListening } = useSpeech();
 
