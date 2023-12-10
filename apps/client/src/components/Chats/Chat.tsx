@@ -61,7 +61,7 @@ const Chat = ({
           )}
           {/* Image or Message */}
           {isImage ? (
-            <Image src={image?.url} alt={image?.alt} />
+            <Image url={image?.url} alt={image?.alt} />
           ) : (
             <Message isUser={isUser} messageClassNames={messageClassNames} message={message} />
           )}
