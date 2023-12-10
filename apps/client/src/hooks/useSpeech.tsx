@@ -86,7 +86,7 @@ const useSpeech = () => {
         stopRecognition();
 
         if (['dall-e-2', 'dall-e-3'].includes(model)) {
-          const { url, image } = await getGeneratedImage({
+          const { b64_json, image } = await getGeneratedImage({
             prompt: transcript,
             size: imageSize,
             user,
@@ -97,8 +97,8 @@ const useSpeech = () => {
               id: crypto.randomUUID(),
               type: 'assistant',
               image: {
-                url: url[0].url,
-                alt: url[0]?.revised_prompt,
+                url: `data:image/png;base64,${b64_json}`,
+                alt: image.data[0]?.revised_prompt,
               },
               variation,
               timestamp: dayjs().valueOf(),
