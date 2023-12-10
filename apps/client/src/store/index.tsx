@@ -106,7 +106,7 @@ export const chatSaveEffect = atomEffect((get, set) => {
     if (threadExists) {
       updatedThreads = threads.map((thread) => (thread.id === chatId ? chatsItem : thread));
     } else {
-      updatedThreads = [...threads, chatsItem];
+      updatedThreads = [chatsItem, ...threads];
     }
 
     // Save threads
