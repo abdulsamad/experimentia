@@ -1,3 +1,5 @@
+import React from 'react';
+
 interface IEmpty {
   nickname: string | null | undefined;
   textInput: boolean;

@@ -82,7 +82,7 @@ const useCustomTiptapEditor = () => {
         type: 'user',
         message: editor?.getText(),
         variation,
-        time: dayjs(),
+        timestamp: dayjs().valueOf(),
         format: 'text',
       });
 
@@ -105,7 +105,7 @@ const useCustomTiptapEditor = () => {
               alt: url[0]?.revised_prompt,
             },
             variation,
-            time: dayjs(),
+            timestamp: dayjs().valueOf(),
             format: 'image',
           });
 
@@ -146,7 +146,7 @@ const useCustomTiptapEditor = () => {
             type: 'assistant',
             message: content,
             variation,
-            time: dayjs(),
+            timestamp: dayjs().valueOf(),
             format: 'text',
           });
 

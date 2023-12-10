@@ -78,7 +78,7 @@ const useSpeech = () => {
           type: 'user',
           message: transcript,
           variation: null,
-          time: dayjs(),
+          timestamp: dayjs().valueOf(),
           format: 'text',
         });
 
@@ -101,7 +101,7 @@ const useSpeech = () => {
                 alt: url[0]?.revised_prompt,
               },
               variation,
-              time: dayjs(),
+              timestamp: dayjs().valueOf(),
               format: 'image',
             });
 
@@ -142,7 +142,7 @@ const useSpeech = () => {
               type: 'assistant',
               message: content,
               variation,
-              time: dayjs(),
+              timestamp: dayjs().valueOf(),
               format: 'text',
             });
 
