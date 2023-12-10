@@ -11,7 +11,7 @@ import Nav from '@/components/Nav';
 const Page = () => {
   return (
     <Provider>
-      <main className="conic-gradient(at right center, rgb(199, 210, 254), rgb(71, 85, 105), rgb(199, 210, 254))">
+      <main className="h-[100svh] conic-gradient(at right center, rgb(199, 210, 254), rgb(71, 85, 105), rgb(199, 210, 254))">
         <Nav />
         <Sidebar />
         <div className="lg:container">
