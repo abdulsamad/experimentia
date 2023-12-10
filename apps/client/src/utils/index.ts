@@ -1,5 +1,3 @@
-import localforage from 'localforage';
-
 // shadcn/ui utility
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -23,9 +21,3 @@ export const IS_SPEECH_RECOGNITION_SUPPORTED = () =>
   'webkitSpeechRecognition' in window || 'SpeechRecognition' in window;
 
 export const IS_SPEECH_SYNTHESIS_SUPPORTED = () => 'speechSynthesis' in window;
-
-export const lforage = localforage.createInstance({
-  name: 'experimentia',
-  description: 'A chat application',
-  version: 1.0,
-});
