@@ -2,25 +2,22 @@ import NextImage from 'next/image';
 import dayjs from 'dayjs';
 import { motion } from 'framer-motion';
 
-import { IChat } from '@/store';
+import { IChat, IImageMessage } from '@/store';
 
 import Image from './Image';
-import Message from './Message';
+import Text from './Text';
 
 interface ExtraProps {
   messageClassNames: string;
   userImageSrc: string;
   name: string | null | undefined;
   message?: string;
-  image?: {
-    url: string;
-    alt: string;
-  };
+  image?: IImageMessage['image'];
 }
 
-type ChatProps = IChat & ExtraProps;
+type MessageProps = IChat & ExtraProps;
 
-const Chat = ({
+const Message = ({
   name,
   messageClassNames,
   userImageSrc,
@@ -29,7 +26,7 @@ const Chat = ({
   message,
   image,
   type,
-}: ChatProps) => {
+}: MessageProps) => {
   const isImage = format === 'image';
   const isUser = type === 'user';
 
@@ -63,7 +60,7 @@ const Chat = ({
           {isImage ? (
             <Image url={image?.url} alt={image?.alt} />
           ) : (
-            <Message isUser={isUser} messageClassNames={messageClassNames} message={message} />
+            <Text isUser={isUser} messageClassNames={messageClassNames} message={message} />
           )}
         </div>
       </div>
@@ -71,4 +68,4 @@ const Chat = ({
   );
 };
 
-export default Chat;
+export default Message;

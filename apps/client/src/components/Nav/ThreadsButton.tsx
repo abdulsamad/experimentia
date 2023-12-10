@@ -3,7 +3,7 @@ import { useAtom, useSetAtom } from 'jotai';
 import { ChevronDown, Trash } from 'lucide-react';
 import dayjs from 'dayjs';
 
-import { IThreads, chatsAtom, currentChatIdAtom } from '@/store';
+import { IThreads, chatAtom, currentChatIdAtom } from '@/store';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,7 +15,7 @@ import { lforage } from '@/utils';
 
 const ThreadsButton = () => {
   const [currentChatId, setCurrentChatId] = useAtom(currentChatIdAtom);
-  const setChats = useSetAtom(chatsAtom);
+  const setChats = useSetAtom(chatAtom);
   const [threads, setThreads] = useState<IThreads>([]);
 
   const fetchThreads = useCallback(async () => {
@@ -70,11 +70,11 @@ const ThreadsButton = () => {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          {threads.map(({ id, chats, timestamp, name }) => (
+          {threads.map(({ id, chat, timestamp, name }) => (
             <DropdownMenuItem
               key={id}
               className={`max-w-screen ${id === currentChatId ? 'bg-accent' : ''}`}
-              onClick={() => updateCurrentChatId(id, chats)}>
+              onClick={() => updateCurrentChatId(id, chat)}>
               <div className="flex items-center gap-2">
                 <p className="truncate max-w-[250px] lg:max-w-[500px]">
                   {name || dayjs(timestamp).format('hh:mm A - DD/MM/YY')}

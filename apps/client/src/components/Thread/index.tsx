@@ -2,15 +2,15 @@ import { useCallback, useEffect } from 'react';
 import { useAtomValue } from 'jotai';
 import { useUser } from '@auth0/nextjs-auth0/client';
 
-import { chatLoadingAtom, chatsAtom, configAtom } from '@/store';
+import { chatLoadingAtom, chatAtom, configAtom } from '@/store';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
-import Chat from './Chat';
+import Message from './Message';
 import Empty from './Empty';
 import Typing from './Typing';
 
 const Chats = () => {
-  const chats = useAtomValue(chatsAtom);
+  const chats = useAtomValue(chatAtom);
   const isChatResponseLoading = useAtomValue(chatLoadingAtom);
   const { textInput } = useAtomValue(configAtom);
   const { user } = useUser();
@@ -53,7 +53,7 @@ const Chats = () => {
           <>
             {chats.map((chat, index) => {
               const { variation, type } = chat;
-              return <Chat key={index} {...userInfo(variation)[type]} {...chat} />;
+              return <Message key={index} {...userInfo(variation)[type]} {...chat} />;
             })}
             {isChatResponseLoading && <Typing />}
           </>
