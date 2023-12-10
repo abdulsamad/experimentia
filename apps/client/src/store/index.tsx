@@ -24,6 +24,7 @@ export interface IChatCommon {
   type: 'assistant' | 'user';
   variation: null | variations;
   timestamp: number;
+  model: 'gpt-3.5-turbo' | 'gpt-4' | 'dall-e-2' | 'dall-e-3';
 }
 
 export interface ITextChat {
