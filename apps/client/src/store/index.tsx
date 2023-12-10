@@ -17,19 +17,19 @@ export const chatLoadingAtom = atom(false);
 
 export const currentChatIdAtom = atom(crypto.randomUUID());
 
-interface IChatCommon {
+export interface IChatCommon {
   id: string;
   type: 'assistant' | 'user';
   variation: string | null;
   timestamp: number;
 }
 
-interface ITextChat {
+export interface ITextChat {
   message: string;
   format: 'text';
 }
 
-interface IImageChat {
+export interface IImageChat {
   image: {
     url: string;
     alt: string;
