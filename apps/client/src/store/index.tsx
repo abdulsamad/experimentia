@@ -27,12 +27,12 @@ export interface IChatCommon {
   model: 'gpt-3.5-turbo' | 'gpt-4' | 'dall-e-2' | 'dall-e-3';
 }
 
-export interface ITextChat {
+export interface ITextMessage {
   message: string;
   format: 'text';
 }
 
-export interface IImageChat {
+export interface IImageMessage {
   image: {
     url: string;
     alt: string;
@@ -41,31 +41,31 @@ export interface IImageChat {
   format: 'image';
 }
 
-export type IChat = IChatCommon & (ITextChat | IImageChat);
+export type IChat = IChatCommon & (ITextMessage | IImageMessage);
 
-export const chatsAtom: WritableAtom<IChat[], IChat[], void> = atom(
+export const chatAtom: WritableAtom<IChat[], IChat[], void> = atom(
   [],
   (get, set, update, reset) => {
     // Reset current chat
     if (reset) {
-      set(chatsAtom, update);
+      set(chatAtom, update);
       return;
     }
 
     // Add chat normally
-    const state = get(chatsAtom);
+    const state = get(chatAtom);
     const chatIndex = state.findIndex((chat) => chat.id === update.id);
-    let chats;
+    let chat;
 
     if (chatIndex !== -1) {
       const prevChat = state[chatIndex] as any;
       state[chatIndex] = { ...prevChat, message: prevChat?.message + (update as any).message };
-      chats = state;
+      chat = state;
     } else {
-      chats = [...state, update] as any;
+      chat = [...state, update] as any;
     }
 
-    set(chatsAtom, chats);
+    set(chatAtom, chat);
   }
 );
 
@@ -73,7 +73,7 @@ export const chatsAtom: WritableAtom<IChat[], IChat[], void> = atom(
 
 export interface IThread {
   id: string;
-  chats: IChat[];
+  chat: IChat[];
   timestamp: number;
   name: string;
 }
@@ -82,11 +82,11 @@ export type IThreads = IThread[];
 
 export const chatSaveEffect = atomEffect((get, set) => {
   (async () => {
-    const chats = get(chatsAtom);
+    const chat = get(chatAtom);
     const chatId = get(currentChatIdAtom);
     const chatsItem: IThread = {
       id: chatId,
-      chats,
+      chat,
       timestamp: dayjs(Date.now()).valueOf(),
       name: `Chat (${dayjs(Date.now()).format('hh:mm - DD/MM/YY')})`,
     };
@@ -94,7 +94,7 @@ export const chatSaveEffect = atomEffect((get, set) => {
     let updatedThreads;
 
     // Return if chats doesn't exist
-    if (!chats.length || !chatId) return null;
+    if (!chat.length || !chatId) return null;
 
     const threads: IThreads | null = await lforage.getItem('chats');
 

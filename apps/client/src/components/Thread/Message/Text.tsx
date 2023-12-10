@@ -6,13 +6,13 @@ import parse from 'html-react-parser';
 
 import { Button } from '@/components/ui/button';
 
-interface IMessage {
+interface IText {
   isUser: boolean;
   messageClassNames: string;
   message?: string;
 }
 
-const Message = ({ isUser, messageClassNames, message }: IMessage) => {
+const Text = ({ isUser, messageClassNames, message }: IText) => {
   return (
     <div className="relative">
       <span
@@ -33,4 +33,4 @@ const Message = ({ isUser, messageClassNames, message }: IMessage) => {
   );
 };
 
-export default Message;
+export default Text;

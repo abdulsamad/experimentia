@@ -6,7 +6,7 @@ import ImageGallery from 'react-image-gallery';
 
 import 'react-image-gallery/styles/css/image-gallery.css';
 
-import { IImageChat } from '@/store/index';
+import { IImageMessage } from '@/store/index';
 import { Button } from '@/components/ui/button';
 import {
   Accordion,
@@ -15,7 +15,7 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 
-const Image = ({ url, alt }: Partial<IImageChat['image']>) => {
+const Image = ({ url, alt }: Partial<IImageMessage['image']>) => {
   // const width = parseInt(imageSize.split('x')[0]);
   // const height = parseInt(imageSize.split('x')[1]);
 

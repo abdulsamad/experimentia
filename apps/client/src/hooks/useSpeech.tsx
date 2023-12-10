@@ -6,12 +6,12 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 import axios from 'axios';
 import { useSound } from 'use-sound';
 
-import { chatLoadingAtom, chatsAtom, configAtom } from '@/store';
+import { chatLoadingAtom, chatAtom, configAtom } from '@/store';
 import { speechLog, speechGrammer, IS_SPEECH_RECOGNITION_SUPPORTED } from '@/utils';
 import { getGeneratedText, getGeneratedImage } from '@/utils/api-calls';
 
 const useSpeech = () => {
-  const addChat = useSetAtom(chatsAtom);
+  const addChat = useSetAtom(chatAtom);
   const setIsChatResponseLoading = useSetAtom(chatLoadingAtom);
   const { model, variation, imageSize, language, speakResults, quality, style } =
     useAtomValue(configAtom);

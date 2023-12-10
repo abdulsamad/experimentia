@@ -5,7 +5,7 @@ import { withPageAuthRequired } from '@auth0/nextjs-auth0/client';
 
 import Home from '@/components/Home';
 import Sidebar from '@/components/Sidebar';
-import Chats from '@/components/Chats';
+import Thread from '@/components/Thread';
 import Nav from '@/components/Nav';
 
 const Page = () => {
@@ -15,7 +15,7 @@ const Page = () => {
         <Nav />
         <Sidebar />
         <div className="lg:container">
-          <Chats />
+          <Thread />
           <div className="flex flex-col justify-end">
             <Home />
           </div>
