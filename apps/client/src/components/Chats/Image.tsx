@@ -24,13 +24,15 @@ interface IImage {
 const Image = ({ src, alt }: IImage) => {
   const { imageSize } = useAtomValue(configAtom);
 
-  const width = parseInt(imageSize.split('x')[0]);
-  const height = parseInt(imageSize.split('x')[1]);
+  // const width = parseInt(imageSize.split('x')[0]);
+  // const height = parseInt(imageSize.split('x')[1]);
 
   return (
     <div className="group max-w-[400px]">
       <figure>
-        <div style={{ width, height }} className="relative inline-block">
+        <div
+          // style={{ width, height }}
+          className="relative inline-block">
           <ImageGallery
             items={[
               { original: src as string, originalAlt: alt, originalClass: 'image-gallery-image' },
