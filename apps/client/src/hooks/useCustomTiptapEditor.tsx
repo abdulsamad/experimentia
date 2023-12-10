@@ -81,9 +81,10 @@ const useCustomTiptapEditor = () => {
         id: crypto.randomUUID(),
         type: 'user',
         message: editor?.getText(),
-        variation,
+        variation: null,
         timestamp: dayjs().valueOf(),
         format: 'text',
+        model,
       });
 
       setIsChatResponseLoading(true);
@@ -105,11 +106,12 @@ const useCustomTiptapEditor = () => {
             image: {
               url: `data:image/png;base64,${b64_json}`,
               alt: image.data[0]?.revised_prompt,
-              size: imageSize,
             },
             variation,
             timestamp: dayjs().valueOf(),
             format: 'image',
+            size: imageSize,
+            model,
           });
 
           setIsChatResponseLoading(false);
@@ -151,6 +153,7 @@ const useCustomTiptapEditor = () => {
             variation,
             timestamp: dayjs().valueOf(),
             format: 'text',
+            model,
           });
 
           setIsChatResponseLoading(false);
@@ -171,16 +174,18 @@ const useCustomTiptapEditor = () => {
       setIsChatResponseLoading(false);
     }
   }, [
-    addChat,
     editor,
-    imageSize,
-    language,
+    addChat,
     model,
     setIsChatResponseLoading,
     setEditorState,
+    imageSize,
     user,
+    quality,
+    style,
     variation,
     play,
+    language,
   ]);
 
   return { editor, handleSubmit };

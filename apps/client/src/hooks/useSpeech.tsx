@@ -81,6 +81,7 @@ const useSpeech = () => {
           variation: null,
           timestamp: dayjs().valueOf(),
           format: 'text',
+          model,
         });
 
         setIsChatResponseLoading(true);
@@ -102,11 +103,12 @@ const useSpeech = () => {
               image: {
                 url: `data:image/png;base64,${b64_json}`,
                 alt: image.data[0]?.revised_prompt,
-                size: imageSize,
               },
               variation,
               timestamp: dayjs().valueOf(),
               format: 'image',
+              size: imageSize,
+              model,
             });
 
             setIsChatResponseLoading(false);
@@ -148,6 +150,7 @@ const useSpeech = () => {
               variation,
               timestamp: dayjs().valueOf(),
               format: 'text',
+              model,
             });
 
             setIsChatResponseLoading(false);
@@ -172,11 +175,13 @@ const useSpeech = () => {
     },
     [
       addChat,
+      model,
       setIsChatResponseLoading,
       stopRecognition,
-      model,
       imageSize,
       user,
+      quality,
+      style,
       variation,
       play,
       speakResults,
