@@ -7,7 +7,7 @@ import { configcatClient, openai } from '@utils/index';
 
 export const Image = async (req: Request, res: Response) => {
   try {
-    const { model, prompt, size = '1024x1024', n = 1 } = req.body;
+    const { model, prompt, n = 1, quality, style, size = '1024x1024' } = req.body;
 
     let isDallE3Enabled;
 
@@ -25,10 +25,11 @@ export const Image = async (req: Request, res: Response) => {
     const image = await openai.images.generate({
       response_format: 'b64_json',
       model: isDallE3Enabled ? model : 'dall-e-2',
-      style: 'vivid',
       prompt,
       n,
       size,
+      quality: isDallE3Enabled && model === 'dall-e-3' ? quality : undefined,
+      style,
     });
 
     const b64_json = image.data[0].b64_json;

@@ -36,7 +36,7 @@ const useCustomTiptapEditor = () => {
   const [editorState, setEditorState] = useAtom(editorAtom);
   const addChat = useSetAtom(chatsAtom);
   const setIsChatResponseLoading = useSetAtom(chatLoadingAtom);
-  const { variation, model, imageSize, language } = useAtomValue(configAtom);
+  const { variation, model, imageSize, language, quality, style } = useAtomValue(configAtom);
   const [isPending, startTransition] = useTransition();
 
   const editor = useEditor({
@@ -94,6 +94,8 @@ const useCustomTiptapEditor = () => {
           prompt: editor.getText(),
           size: imageSize,
           user,
+          quality,
+          style,
         });
 
         startTransition(() => {
