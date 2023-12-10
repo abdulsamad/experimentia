@@ -23,15 +23,17 @@ export const Image = async (req: Request, res: Response) => {
     }
 
     const image = await openai.images.generate({
-      response_format: 'url',
+      response_format: 'b64_json',
       model: isDallE3Enabled ? model : 'dall-e-2',
+      style: 'vivid',
       prompt,
       n,
       size,
-    } as any);
-    const url = image.data;
+    });
 
-    return res.status(200).json({ success: true, url, image });
+    const b64_json = image.data[0].b64_json;
+
+    return res.status(200).json({ success: true, b64_json, image });
   } catch (err) {
     console.error(err);
     if (err instanceof BadRequestError) {
