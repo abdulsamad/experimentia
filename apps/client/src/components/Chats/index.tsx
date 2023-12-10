@@ -20,10 +20,12 @@ const Chats = () => {
 
     if (!chats.length) return;
 
-    chats[chats.length - 1].scrollIntoView({
-      behavior: 'smooth',
-      block: 'start',
-    });
+    setTimeout(() => {
+      chats[chats.length - 1].scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
+    }, 200);
   }, [chats]);
 
   const userInfo = useCallback(
