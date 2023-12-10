@@ -35,6 +35,7 @@
     "dayjs": "^1.11.10",
     "follow-redirects": "^1.15.3",
     "framer-motion": "^10.16.12",
+    "html-react-parser": "^5.0.7",
     "jotai": "^2.4.3",
     "jotai-effect": "^0.2.3",
     "localforage": "^1.10.0",
