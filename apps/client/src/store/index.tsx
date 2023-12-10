@@ -19,7 +19,7 @@ export const threadLoadingAtom = atom(false);
 
 export const currentThreadIdAtom = atom(crypto.randomUUID());
 
-export interface IChatCommon {
+export interface IMessageCommons {
   id: string;
   type: 'assistant' | 'user';
   variation: null | variations;
@@ -41,9 +41,9 @@ export interface IImageMessage {
   format: 'image';
 }
 
-export type IChat = IChatCommon & (ITextMessage | IImageMessage);
+export type IMessage = IMessageCommons & (ITextMessage | IImageMessage);
 
-export const chatAtom: WritableAtom<IChat[], IChat[], void> = atom(
+export const chatAtom: WritableAtom<IMessage[], IMessage[], void> = atom(
   [],
   (get, set, update, reset) => {
     // Reset current chat
@@ -73,7 +73,7 @@ export const chatAtom: WritableAtom<IChat[], IChat[], void> = atom(
 
 export interface IThread {
   id: string;
-  thread: IChat[];
+  thread: IMessage[];
   timestamp: number;
   name: string;
 }
