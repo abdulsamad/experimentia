@@ -1,5 +1,4 @@
 import React from 'react';
-import { useAtomValue } from 'jotai';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { toast } from 'sonner';
 import { Download, Copy } from 'lucide-react';
@@ -7,7 +6,7 @@ import ImageGallery from 'react-image-gallery';
 
 import 'react-image-gallery/styles/css/image-gallery.css';
 
-import { configAtom } from '@/store';
+import { IImageChat } from '@/store/index';
 import { Button } from '@/components/ui/button';
 import {
   Accordion,
@@ -16,14 +15,7 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 
-interface IImage {
-  src?: string;
-  alt?: string;
-}
-
-const Image = ({ src, alt }: IImage) => {
-  const { imageSize } = useAtomValue(configAtom);
-
+const Image = ({ url, alt }: Partial<IImageChat['image']>) => {
   // const width = parseInt(imageSize.split('x')[0]);
   // const height = parseInt(imageSize.split('x')[1]);
 
@@ -35,12 +27,12 @@ const Image = ({ src, alt }: IImage) => {
           className="relative inline-block">
           <ImageGallery
             items={[
-              { original: src as string, originalAlt: alt, originalClass: 'image-gallery-image' },
+              { original: url as string, originalAlt: alt, originalClass: 'image-gallery-image' },
             ]}
             renderCustomControls={() => (
               <Button variant="outline" size="icon" asChild>
                 <a
-                  href={src}
+                  href={url}
                   title="Download"
                   className="group-hover:flex hidden m-3 items-center justify-center absolute bottom-0 left-0 z-10"
                   download>
