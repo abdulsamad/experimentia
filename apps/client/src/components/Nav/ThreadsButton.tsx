@@ -45,6 +45,8 @@ const ThreadsButton = () => {
     [setChats, setCurrentChatId]
   );
 
+  if (!threads || !Array.isArray(threads)) return null;
+
   return (
     <div className="absolute right-0 top-0 mr-5 mt-5">
       <DropdownMenu onOpenChange={onOpenChange}>

@@ -62,7 +62,6 @@ export const chatsAtom: WritableAtom<IChat[], IChat[], void> = atom(
     }
 
     set(chatsAtom, chats);
-    console.log({ update, reset });
   }
 );
 
