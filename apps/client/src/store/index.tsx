@@ -33,6 +33,7 @@ interface IImageChat {
   image: {
     url: string;
     alt: string;
+    size: string;
   };
   format: 'image';
 }
