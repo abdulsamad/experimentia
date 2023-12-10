@@ -22,7 +22,7 @@ const Chats = () => {
 
     chats[chats.length - 1].scrollIntoView({
       behavior: 'smooth',
-      block: 'end',
+      block: 'start',
     });
   }, [chats]);
 
