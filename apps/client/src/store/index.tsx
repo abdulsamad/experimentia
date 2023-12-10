@@ -82,9 +82,9 @@ export type IThreads = IThread[];
 export const chatSaveEffect = atomEffect((get, set) => {
   (async () => {
     const thread = get(chatAtom);
-    const chatId = get(currentThreadIdAtom);
+    const threadId = get(currentThreadIdAtom);
     const chatsItem: IThread = {
-      id: chatId,
+      id: threadId,
       thread,
       timestamp: dayjs(Date.now()).valueOf(),
       name: `Chat (${dayjs(Date.now()).format('hh:mm - DD/MM/YY')})`,
@@ -93,9 +93,9 @@ export const chatSaveEffect = atomEffect((get, set) => {
     let updatedThreads;
 
     // Return if chats doesn't exist
-    if (!thread.length || !chatId) return null;
+    if (!thread.length || !threadId) return null;
 
-    const threads: IThreads | null = await lforage.getItem('chats');
+    const threads: IThreads | null = await lforage.getItem(threadsKey);
 
     if (!threads) {
       updatedThreads = [chatsItem];
@@ -105,10 +105,10 @@ export const chatSaveEffect = atomEffect((get, set) => {
 
     if (!Array.isArray(threads)) return null;
 
-    const threadExists = threads.some(({ id }) => id === chatId);
+    const threadExists = threads.some(({ id }) => id === threadId);
 
     if (threadExists) {
-      updatedThreads = threads.map((thread) => (thread.id === chatId ? chatsItem : thread));
+      updatedThreads = threads.map((thread) => (thread.id === threadId ? chatsItem : thread));
     } else {
       updatedThreads = [chatsItem, ...threads];
     }
