@@ -1,6 +1,6 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, MouseEvent } from 'react';
 import { useAtom, useSetAtom } from 'jotai';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, Trash } from 'lucide-react';
 import dayjs from 'dayjs';
 
 import { IThreads, chatsAtom, currentChatIdAtom } from '@/store';
@@ -45,6 +45,19 @@ const ThreadsButton = () => {
     [setChats, setCurrentChatId]
   );
 
+  const deleteChats = useCallback(
+    (ev: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>, id: string) => {
+      ev.stopPropagation();
+
+      window?.alert('Delete is not implemented yet! \nYou can clear site data to delete the chats');
+      if (currentChatId === id) {
+        //
+        return;
+      }
+    },
+    [currentChatId]
+  );
+
   if (!threads || !Array.isArray(threads)) return null;
 
   return (
@@ -62,9 +75,18 @@ const ThreadsButton = () => {
               key={id}
               className={`max-w-screen ${id === currentChatId ? 'bg-accent' : ''}`}
               onClick={() => updateCurrentChatId(id, chats)}>
-              <p className="truncate max-w-[250px] lg:max-w-[500px]">
-                {name || dayjs(timestamp).format('hh:mm A - DD/MM/YY')}
-              </p>
+              <div className="flex items-center gap-2">
+                <p className="truncate max-w-[250px] lg:max-w-[500px]">
+                  {name || dayjs(timestamp).format('hh:mm A - DD/MM/YY')}
+                </p>
+                <Button
+                  className="h-7 w-7"
+                  variant="destructive"
+                  size="icon"
+                  onClick={(ev) => deleteChats(ev, id)}>
+                  <Trash className="h-4 w-4" />
+                </Button>
+              </div>
             </DropdownMenuItem>
           ))}
         </DropdownMenuContent>
