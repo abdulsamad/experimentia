@@ -4,6 +4,8 @@ import { atomWithStorage } from 'jotai/utils';
 import * as configcat from 'configcat-js-ssr';
 import dayjs from 'dayjs';
 
+import { variations, supportedLanguages } from 'utils/types';
+
 import { lforage } from '@/utils';
 import { settingsKey } from '@/utils/config';
 
@@ -20,7 +22,7 @@ export const currentChatIdAtom = atom(crypto.randomUUID());
 export interface IChatCommon {
   id: string;
   type: 'assistant' | 'user';
-  variation: string | null;
+  variation: null | variations;
   timestamp: number;
 }
 
@@ -33,8 +35,8 @@ export interface IImageChat {
   image: {
     url: string;
     alt: string;
-    size: string;
   };
+  size: string;
   format: 'image';
 }
 
@@ -146,9 +148,9 @@ export const flagsAtom = atom(async (get) => {
 // Config
 
 export interface IConfig {
-  model: string;
-  variation: string;
-  language: string;
+  model: 'gpt-3.5-turbo' | 'gpt-4' | 'dall-e-2' | 'dall-e-3';
+  variation: variations;
+  language: supportedLanguages;
   imageSize: string;
   textInput: boolean;
   speakResults: boolean;
