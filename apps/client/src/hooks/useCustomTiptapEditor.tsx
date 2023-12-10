@@ -103,6 +103,7 @@ const useCustomTiptapEditor = () => {
             image: {
               url: `data:image/png;base64,${b64_json}`,
               alt: image.data[0]?.revised_prompt,
+              size: imageSize,
             },
             variation,
             timestamp: dayjs().valueOf(),
