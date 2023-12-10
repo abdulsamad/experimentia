@@ -24,7 +24,7 @@ const Chat = ({
   name,
   messageClassNames,
   userImageSrc,
-  time,
+  timestamp,
   format,
   message,
   image,
@@ -47,7 +47,9 @@ const Chat = ({
         {/* Name and Time */}
         <div className={`flex items-center gap-x-1 ${isImage ? 'mb-1' : nameTimeMargin}`}>
           <div className="text-sm">{!isImage && <span className="capitalize">{name}</span>}</div>
-          <time className="text-xs italic opacity-60 ml-1">{dayjs(time).format('hh:mm A')}</time>
+          <time className="text-xs italic opacity-60 ml-1">
+            {dayjs(timestamp).format('hh:mm A')}
+          </time>
         </div>
         <div
           className={`flex justify-start items-center gap-x-3 ${isUser ? 'flex-row-reverse' : ''}`}>

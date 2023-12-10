@@ -1,0 +1,74 @@
+import { useState, useEffect, useCallback } from 'react';
+import { useAtom, useSetAtom } from 'jotai';
+import { ChevronDown } from 'lucide-react';
+import dayjs from 'dayjs';
+
+import { IThreads, chatsAtom, currentChatIdAtom } from '@/store';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { Button } from '@/components/ui/button';
+import { lforage } from '@/utils';
+
+const ThreadsButton = () => {
+  const [currentChatId, setCurrentChatId] = useAtom(currentChatIdAtom);
+  const setChats = useSetAtom(chatsAtom);
+  const [threads, setThreads] = useState<IThreads>([]);
+
+  const fetchThreads = useCallback(async () => {
+    // Retrieve saved threads
+    const threads = (await lforage.getItem('chats')) as IThreads;
+    setThreads(threads);
+  }, []);
+
+  useEffect(() => {
+    fetchThreads();
+  }, [fetchThreads]);
+
+  const onOpenChange = useCallback(
+    (open: boolean) => {
+      if (open) {
+        fetchThreads();
+      }
+    },
+    [fetchThreads]
+  );
+
+  const updateCurrentChatId = useCallback(
+    (id: string, chats: any) => {
+      setChats(chats, true as any);
+      setCurrentChatId(id);
+    },
+    [setChats, setCurrentChatId]
+  );
+
+  return (
+    <div className="absolute right-0 top-0 mr-5 mt-5">
+      <DropdownMenu onOpenChange={onOpenChange}>
+        <DropdownMenuTrigger asChild>
+          <Button variant="outline" size="icon">
+            <ChevronDown />
+            <span className="sr-only">Toggle thread dropdown</span>
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          {threads.map(({ id, chats, timestamp, name }) => (
+            <DropdownMenuItem
+              key={id}
+              className={`max-w-screen ${id === currentChatId ? 'bg-accent' : ''}`}
+              onClick={() => updateCurrentChatId(id, chats)}>
+              <p className="truncate max-w-[250px] lg:max-w-[500px]">
+                {name || dayjs(timestamp).format('hh:mm A - DD/MM/YY')}
+              </p>
+            </DropdownMenuItem>
+          ))}
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
+  );
+};
+
+export default ThreadsButton;

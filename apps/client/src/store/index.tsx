@@ -2,8 +2,9 @@ import { atom, WritableAtom } from 'jotai';
 import { atomEffect } from 'jotai-effect';
 import { atomWithStorage } from 'jotai/utils';
 import * as configcat from 'configcat-js-ssr';
-import { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 
+import { lforage } from '@/utils';
 import { settingsKey } from '@/utils/config';
 
 // Editor
@@ -20,7 +21,7 @@ interface IChatCommon {
   id: string;
   type: 'assistant' | 'user';
   variation: string | null;
-  time: Dayjs;
+  timestamp: number;
 }
 
 interface ITextChat {
@@ -38,18 +39,80 @@ interface IImageChat {
 
 export type IChat = IChatCommon & (ITextChat | IImageChat);
 
-export const chatsAtom: WritableAtom<IChat[], IChat[], void> = atom([], (get, set, update) => {
-  const state = get(chatsAtom);
-  const chatIndex = state.findIndex((chat) => chat.id === update.id);
+export const chatsAtom: WritableAtom<IChat[], IChat[], void> = atom(
+  [],
+  (get, set, update, reset) => {
+    // Reset current chat
+    if (reset) {
+      set(chatsAtom, update);
+      return;
+    }
 
-  if (chatIndex !== -1) {
-    const prevChat = state[chatIndex] as any;
+    // Add chat normally
+    const state = get(chatsAtom);
+    const chatIndex = state.findIndex((chat) => chat.id === update.id);
+    let chats;
 
-    state[chatIndex] = { ...prevChat, message: prevChat?.message + (update as any).message };
-    set(chatsAtom, state as any);
-  } else {
-    set(chatsAtom, [...state, update] as any);
+    if (chatIndex !== -1) {
+      const prevChat = state[chatIndex] as any;
+      state[chatIndex] = { ...prevChat, message: prevChat?.message + (update as any).message };
+      chats = state;
+    } else {
+      chats = [...state, update] as any;
+    }
+
+    set(chatsAtom, chats);
+    console.log({ update, reset });
   }
+);
+
+// Offline storage (Chats & Threads)
+
+export interface IThread {
+  id: string;
+  chats: IChat[];
+  timestamp: number;
+  name: string;
+}
+
+export type IThreads = IThread[];
+
+export const chatSaveEffect = atomEffect((get, set) => {
+  (async () => {
+    const chats = get(chatsAtom);
+    const chatId = get(currentChatIdAtom);
+    const chatsItem: IThread = {
+      id: chatId,
+      chats,
+      timestamp: dayjs(Date.now()).valueOf(),
+      name: `Chat (${dayjs(Date.now()).format('hh:mm - DD/MM/YY')})`,
+    };
+
+    let updatedThreads;
+
+    // Return if chats doesn't exist
+    if (!chats.length || !chatId) return null;
+
+    const threads: IThreads | null = await lforage.getItem('chats');
+
+    if (!threads) {
+      lforage.setItem('chats', [chatsItem]);
+      return;
+    }
+
+    if (!Array.isArray(threads)) return null;
+
+    const threadExists = threads.some(({ id }) => id === chatId);
+
+    if (threadExists) {
+      updatedThreads = threads.map((thread) => (thread.id === chatId ? chatsItem : thread));
+    } else {
+      updatedThreads = [...threads, chatsItem];
+    }
+
+    // Save threads
+    await lforage.setItem('chats', updatedThreads);
+  })();
 });
 
 // Flags
