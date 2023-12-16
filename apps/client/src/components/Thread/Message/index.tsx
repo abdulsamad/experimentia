@@ -2,21 +2,21 @@ import NextImage from 'next/image';
 import dayjs from 'dayjs';
 import { motion } from 'framer-motion';
 
-import { IMessage, IImageMessage } from '@/store';
+import { IMessageCommons, ITextMessage, IImageMessage } from '@/store';
 
 import Image from './Image';
 import Text from './Text';
 
-interface ExtraProps {
+interface ExtraProps extends IMessageCommons {
   messageClassNames: string;
   userImageSrc: string;
   name: string | null | undefined;
-  message?: string;
-  image?: IImageMessage['image'];
-  size: string;
+  message: never;
+  image: never;
+  size: never;
 }
 
-type MessageProps = IMessage & ExtraProps;
+type MessageProps = ExtraProps & (ITextMessage | IImageMessage);
 
 const Message = ({
   name,
@@ -24,15 +24,13 @@ const Message = ({
   userImageSrc,
   timestamp,
   format,
+  type,
   message,
   image,
-  type,
   size,
 }: MessageProps) => {
   const isImage = format === 'image';
   const isUser = type === 'user';
-
-  console.log({ size });
 
   // Contional classes
   const nameTimeMargin = isUser ? 'mr-[45px]' : 'ml-[55px]';
@@ -61,9 +59,9 @@ const Message = ({
             </div>
           )}
           {/* Image or Message */}
-          {isImage ? (
+          {isImage && image ? (
             // eslint-disable-next-line jsx-a11y/alt-text
-            <Image image={image as any} size={size} />
+            <Image image={image} size={size} />
           ) : (
             <Text isUser={isUser} messageClassNames={messageClassNames} message={message} />
           )}
