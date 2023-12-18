@@ -52,10 +52,8 @@ const Chats = () => {
         {chats.length ? (
           <>
             {chats.map((chat, index) => {
-              const { variation, type, model } = chat;
-
-              // TODO: Improve typings to remove use of any
-              return <Message key={index} {...userInfo(variation)[type]} {...(chat as any)} />;
+              const { variation, type } = chat;
+              return <Message key={index} {...userInfo(variation)[type]} {...chat} />;
             })}
             {isChatResponseLoading && <Typing />}
           </>
