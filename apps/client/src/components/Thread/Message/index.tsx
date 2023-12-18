@@ -11,9 +11,9 @@ interface ExtraProps extends IMessageCommons {
   messageClassNames: string;
   userImageSrc: string;
   name: string | null | undefined;
-  message: never;
-  image: never;
-  size: never;
+  message?: ITextMessage['message'];
+  image?: IImageMessage['image'];
+  size?: IImageMessage['size'];
 }
 
 type MessageProps = ExtraProps & (ITextMessage | IImageMessage);
@@ -59,7 +59,7 @@ const Message = ({
             </div>
           )}
           {/* Image or Message */}
-          {isImage && image ? (
+          {isImage && image && size ? (
             // eslint-disable-next-line jsx-a11y/alt-text
             <Image image={image} size={size} />
           ) : (
