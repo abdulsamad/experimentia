@@ -1,6 +1,7 @@
 import express from 'express';
 import { auth } from 'express-oauth2-jwt-bearer';
 import cors from 'cors';
+import morgan from 'morgan';
 
 import routes from '@routes/index';
 import user from '@middleware/user';
@@ -24,6 +25,7 @@ const corsOption = {
 
 app.use(express.json());
 app.use(cors(corsOption));
+app.use(morgan('tiny'));
 app.use(jwtCheck);
 app.use(user);
 app.use('/api', routes);
