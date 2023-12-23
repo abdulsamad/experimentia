@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useCallback, useMemo, useRef } from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { toast } from 'sonner';
-import { Download, Copy } from 'lucide-react';
+import { Download, Copy, RotateCw } from 'lucide-react';
 import ImageGallery from 'react-image-gallery';
 
 import 'react-image-gallery/styles/css/image-gallery.css';
@@ -16,28 +16,59 @@ import {
 } from '@/components/ui/accordion';
 
 const Image = ({ image: { url, alt }, size }: Omit<IImageMessage, 'format'>) => {
-  const width = parseInt(size.split('x')[0]);
-  const height = parseInt(size.split('x')[1]);
+  const elemRef = useRef<HTMLDivElement>(null);
+
+  const width = useMemo(() => parseInt(size.split('x')[0]), [size]);
+  const height = useMemo(() => parseInt(size.split('x')[1]), [size]);
+
+  const rotateImage = useCallback(() => {
+    const extractRotationValue = (transformString: string) => {
+      const match = transformString.match(/rotate\((\d+)deg\)/);
+      return match ? (parseInt(match[1]) > 360 ? 90 : parseInt(match[1])) : 0;
+    };
+
+    const image = elemRef.current?.querySelector('.image-gallery-image') as HTMLImageElement;
+
+    if (image) {
+      const rotation = extractRotationValue(image.style.transform);
+      image.style.transform = `rotate(${rotation + 90}deg)`;
+    }
+  }, []);
 
   return (
-    <div className="group max-w-[400px]">
+    <div ref={elemRef} className="group max-w-[400px]">
       <figure>
         <div style={{ width, height }} className="relative inline-block">
           <ImageGallery
             items={[
-              { original: url as string, originalAlt: alt, originalClass: 'image-gallery-image' },
+              {
+                original: url as string,
+                originalAlt: alt,
+                originalClass: 'generated-image',
+              },
             ]}
             renderCustomControls={() => (
-              <Button variant="outline" size="icon" asChild>
-                <a
-                  href={url}
-                  title="Download"
-                  className="group-hover:flex hidden m-3 items-center justify-center absolute bottom-0 left-0 z-10"
-                  download>
-                  <Download />
-                  <span className="sr-only">Download image</span>
-                </a>
-              </Button>
+              <>
+                <Button variant="outline" size="icon" asChild>
+                  <a
+                    href={url}
+                    title="Download"
+                    className="group-hover:flex hidden m-3 items-center justify-center absolute bottom-0 left-0 z-10"
+                    download>
+                    <Download />
+                    <span className="sr-only">Download image</span>
+                  </a>
+                </Button>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  title="Rotate"
+                  onClick={rotateImage}
+                  className="group-hover:flex hidden m-3 items-center justify-center absolute bottom-0 right-12 z-10">
+                  <RotateCw />
+                  <span className="sr-only">Rotate image</span>
+                </Button>
+              </>
             )}
             showThumbnails={false}
             showPlayButton={false}
