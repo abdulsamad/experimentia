@@ -80,8 +80,8 @@ const ThreadsButton = () => {
               key={id}
               className={`max-w-screen ${id === currentChatId ? 'bg-accent' : ''}`}
               onClick={() => updateCurrentChatId(id, thread)}>
-              <div className="flex items-center gap-2">
-                <p className="truncate max-w-[250px] lg:max-w-[500px]">
+              <div className="flex items-center gap-2 w-[200px]">
+                <p className="truncate w-[22ch]">
                   {name || dayjs(timestamp).format('hh:mm A - DD/MM/YY')}
                 </p>
                 <Button
