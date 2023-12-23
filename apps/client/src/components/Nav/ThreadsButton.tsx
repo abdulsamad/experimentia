@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, MouseEvent } from 'react';
 import { useAtom, useSetAtom } from 'jotai';
-import { ChevronDown, Trash } from 'lucide-react';
+import { ChevronDown, Trash, Plus } from 'lucide-react';
 import dayjs from 'dayjs';
 
 import { IThreads, chatAtom, currentThreadIdAtom } from '@/store';
@@ -14,7 +14,7 @@ import {
 import { Button } from '@/components/ui/button';
 
 const ThreadsButton = () => {
-  const [currentChatId, setCurrentChatId] = useAtom(currentThreadIdAtom);
+  const [currentThreadId, setCurrentThreadId] = useAtom(currentThreadIdAtom);
   const setChat = useSetAtom(chatAtom);
   const [threads, setThreads] = useState<IThreads>([]);
 
@@ -40,16 +40,16 @@ const ThreadsButton = () => {
   const updateCurrentChatId = useCallback(
     (id: string, chats: any) => {
       setChat(chats, true as any);
-      setCurrentChatId(id);
+      setCurrentThreadId(id);
     },
-    [setChat, setCurrentChatId]
+    [setChat, setCurrentThreadId]
   );
 
   const deleteChats = useCallback(
     async (ev: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>, threadId: string) => {
       ev.stopPropagation();
 
-      if (currentChatId === threadId) {
+      if (currentThreadId === threadId) {
         setChat([] as any, true as any);
       }
 
@@ -60,13 +60,21 @@ const ThreadsButton = () => {
       // Reset
       fetchThreads();
     },
-    [currentChatId, fetchThreads, setChat]
+    [currentThreadId, fetchThreads, setChat]
   );
+
+  const addNewChat = useCallback(() => {
+    setChat([] as any, true as any);
+    setCurrentThreadId(crypto.randomUUID());
+  }, [setChat, setCurrentThreadId]);
 
   if (!threads || !Array.isArray(threads)) return null;
 
   return (
     <div className="absolute right-0 top-0 mr-5 mt-5">
+      <Button variant="outline" size="icon" onClick={addNewChat}>
+        <Plus />
+      </Button>
       <DropdownMenu onOpenChange={onOpenChange}>
         <DropdownMenuTrigger asChild>
           <Button variant="outline" size="icon">
@@ -78,7 +86,7 @@ const ThreadsButton = () => {
           {threads.map(({ id, thread, timestamp, name }) => (
             <DropdownMenuItem
               key={id}
-              className={`max-w-screen ${id === currentChatId ? 'bg-accent' : ''}`}
+              className={`max-w-screen ${id === currentThreadId ? 'bg-accent' : ''}`}
               onClick={() => updateCurrentChatId(id, thread)}>
               <div className="flex items-center gap-2 w-[200px]">
                 <p className="truncate w-[22ch]">
