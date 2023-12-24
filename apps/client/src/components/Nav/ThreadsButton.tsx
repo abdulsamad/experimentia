@@ -12,6 +12,17 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 
 const ThreadsButton = () => {
   const [currentThreadId, setCurrentThreadId] = useAtom(currentThreadIdAtom);
@@ -92,13 +103,37 @@ const ThreadsButton = () => {
                 <p className="truncate w-[22ch]">
                   {name || dayjs(timestamp).format('hh:mm A - DD/MM/YY')}
                 </p>
-                <Button
-                  className="h-7 w-7"
-                  variant="destructive"
-                  size="icon"
-                  onClick={(ev) => deleteChats(ev, id)}>
-                  <Trash className="h-4 w-4" />
-                </Button>
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button
+                      className="h-7 w-7"
+                      variant="destructive"
+                      size="icon"
+                      onClick={(ev) => ev.stopPropagation()}>
+                      <Trash className="h-4 w-4" />
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        This action cannot be undone. This will permanently delete your thread.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel onClick={(ev) => ev.stopPropagation()}>
+                        Cancel
+                      </AlertDialogCancel>
+                      <AlertDialogAction asChild>
+                        <Button
+                          className="bg-red-600 text-white"
+                          onClick={(ev) => deleteChats(ev, id)}>
+                          Delete
+                        </Button>
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
               </div>
             </DropdownMenuItem>
           ))}
