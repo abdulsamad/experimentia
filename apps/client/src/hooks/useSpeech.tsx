@@ -134,7 +134,7 @@ const useSpeech = () => {
 
             if (done) {
               // Stream is completed
-              console.log('DONE');
+              console.log('%cDONE', 'font-size:12px;font-weight:bold;color:aqua');
               break;
             }
 
