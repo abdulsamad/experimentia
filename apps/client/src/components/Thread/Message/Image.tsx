@@ -38,13 +38,17 @@ const Image = ({ image: { url, alt }, size }: Omit<IImageMessage, 'format'>) => 
   return (
     <div ref={elemRef} className="group max-w-[400px]">
       <figure>
-        <div style={{ width, height }} className="relative inline-block">
+        <div className="relative inline-block max-w-[75vw] min-w-[400px]" style={{ width }}>
           <ImageGallery
+            thumbnailPosition="left"
             items={[
               {
                 original: url as string,
+                originalHeight: 100,
+                originalWidth: 100,
                 originalAlt: alt,
                 originalClass: 'generated-image',
+                thumbnailLoading: 'eager',
               },
             ]}
             renderCustomControls={() => (
