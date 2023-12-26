@@ -45,7 +45,7 @@ const useCustomTiptapEditor = () => {
       attributes: { class: 'w-full h-[50px] p-3 box-border' },
       handleDOMEvents: {
         keydown: (view, ev) => {
-          if (ev.metaKey && ev.key.toLowerCase() === 'enter') {
+          if (ev.key.toLowerCase() === 'enter') {
             ev.preventDefault();
 
             // TODO: Fix directly accessing DOM
