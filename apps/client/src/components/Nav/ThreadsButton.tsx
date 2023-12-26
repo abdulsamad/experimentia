@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, MouseEvent } from 'react';
+import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { useAtom, useSetAtom } from 'jotai';
 import { ChevronDown, Trash, Plus } from 'lucide-react';
 import dayjs from 'dayjs';
@@ -29,6 +30,22 @@ const ThreadsButton = () => {
   const setChat = useSetAtom(chatAtom);
   const [threads, setThreads] = useState<IThreads>([]);
 
+  const pathname = usePathname();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const threadId = searchParams.get('threadId');
+
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams);
+      params.set(name, value);
+
+      return params.toString();
+    },
+    [searchParams]
+  );
+
   const fetchThreads = useCallback(async () => {
     // Retrieve saved threads
     const threads = (await lforage.getItem(threadsKey)) as IThreads;
@@ -36,8 +53,21 @@ const ThreadsButton = () => {
   }, []);
 
   useEffect(() => {
+    // Fetch latest threads
     fetchThreads();
   }, [fetchThreads]);
+
+  useEffect(() => {
+    // Check and update threads from query params
+    if (!threadId) return;
+
+    const thread = threads?.find(({ id }) => id === threadId);
+
+    if (thread) {
+      setCurrentThreadId(thread.id);
+      setChat(thread.thread as any, true as any);
+    }
+  }, [setChat, setCurrentThreadId, threadId, threads]);
 
   const onOpenChange = useCallback(
     (open: boolean) => {
@@ -49,11 +79,14 @@ const ThreadsButton = () => {
   );
 
   const updateCurrentChatId = useCallback(
-    (id: string, chats: any) => {
-      setChat(chats, true as any);
+    (id: string, thread: any) => {
+      setChat(thread, true as any);
       setCurrentThreadId(id);
+
+      // Set params
+      router.push(`${pathname}?${createQueryString('threadId', id)}`);
     },
-    [setChat, setCurrentThreadId]
+    [createQueryString, pathname, router, setChat, setCurrentThreadId]
   );
 
   const deleteChats = useCallback(
@@ -77,9 +110,12 @@ const ThreadsButton = () => {
   const addNewChat = useCallback(() => {
     setChat([] as any, true as any);
     setCurrentThreadId(crypto.randomUUID());
-  }, [setChat, setCurrentThreadId]);
 
-  if (!threads || !Array.isArray(threads)) return null;
+    // Set params
+    router.push(pathname);
+  }, [pathname, router, setChat, setCurrentThreadId]);
+
+  if (!threads?.length || !Array.isArray(threads)) return null;
 
   return (
     <div className="absolute right-0 top-0 mr-5 mt-5">
