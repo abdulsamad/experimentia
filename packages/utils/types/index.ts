@@ -9,6 +9,7 @@ export type supportedLanguages =
 
 export type variations =
   | 'normal'
+  | 'snarky'
   | 'grammar-corrector'
   | 'doctor'
   | 'web-design-consultant'
