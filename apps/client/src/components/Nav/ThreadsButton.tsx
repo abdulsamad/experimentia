@@ -57,17 +57,17 @@ const ThreadsButton = () => {
     fetchThreads();
   }, [fetchThreads]);
 
-  useEffect(() => {
-    // Check and update threads from query params
-    if (!threadId) return;
+  // useEffect(() => {
+  //   // Check and update threads from query params
+  //   if (!threadId) return;
 
-    const thread = threads?.find(({ id }) => id === threadId);
+  //   const thread = threads?.find(({ id }) => id === threadId);
 
-    if (thread) {
-      setCurrentThreadId(thread.id);
-      setChat(thread.thread as any, true as any);
-    }
-  }, [setChat, setCurrentThreadId, threadId, threads]);
+  //   if (thread) {
+  //     setCurrentThreadId(thread.id);
+  //     setChat(thread.thread as any, true as any);
+  //   }
+  // }, [setChat, setCurrentThreadId, threadId, threads]);
 
   const onOpenChange = useCallback(
     (open: boolean) => {
@@ -84,7 +84,7 @@ const ThreadsButton = () => {
       setCurrentThreadId(id);
 
       // Set params
-      router.push(`${pathname}?${createQueryString('threadId', id)}`);
+      router.replace(`${pathname}?${createQueryString('threadId', id)}`, { scroll: false });
     },
     [createQueryString, pathname, router, setChat, setCurrentThreadId]
   );
@@ -112,7 +112,7 @@ const ThreadsButton = () => {
     setCurrentThreadId(crypto.randomUUID());
 
     // Set params
-    router.push(pathname);
+    router.replace(pathname, { scroll: false });
   }, [pathname, router, setChat, setCurrentThreadId]);
 
   if (!threads?.length || !Array.isArray(threads)) return null;
