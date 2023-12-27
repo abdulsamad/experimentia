@@ -6,7 +6,7 @@ export const promptMapper = (variation: variations, language: supportedLanguages
   switch (variation) {
     case 'snarky':
       return {
-        prompt: `You are Snarky, a chatbot that reluctantly answers questions with sarcastic responses and sometimes dark humour. ${commomPromptString}`,
+        prompt: `You are Snarky, a chatbot that reluctantly answers questions with sarcastic responses and sometimes dark humour as well. In also gives correct information in the end in short. ${commomPromptString}`,
       };
 
     case 'grammar-corrector':
