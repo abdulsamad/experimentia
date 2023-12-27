@@ -1,4 +1,3 @@
-'use client';
 import { useState, useEffect, useCallback, MouseEvent } from 'react';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { useAtom, useSetAtom } from 'jotai';
