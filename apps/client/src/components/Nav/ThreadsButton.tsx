@@ -1,3 +1,4 @@
+'use client';
 import { useState, useEffect, useCallback, MouseEvent } from 'react';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { useAtom, useSetAtom } from 'jotai';
@@ -84,9 +85,9 @@ const ThreadsButton = () => {
       setCurrentThreadId(id);
 
       // Set params
-      router.replace(`${pathname}?${createQueryString('threadId', id)}`, { scroll: false });
+      // router.replace(`${pathname}?${createQueryString('threadId', id)}`, { scroll: false });
     },
-    [createQueryString, pathname, router, setChat, setCurrentThreadId]
+    [setChat, setCurrentThreadId]
   );
 
   const deleteChats = useCallback(
@@ -112,8 +113,8 @@ const ThreadsButton = () => {
     setCurrentThreadId(crypto.randomUUID());
 
     // Set params
-    router.replace(pathname, { scroll: false });
-  }, [pathname, router, setChat, setCurrentThreadId]);
+    // router.replace(pathname, { scroll: false });
+  }, [setChat, setCurrentThreadId]);
 
   if (!threads?.length || !Array.isArray(threads)) return null;
 
