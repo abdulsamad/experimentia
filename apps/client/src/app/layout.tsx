@@ -17,18 +17,16 @@ export const metadata: Metadata = {
   description: 'The AI Chat App',
 };
 
-function RootLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <html lang="en" suppressHydrationWarning>
-      <head />
-      <body className={cn('font-sans antialiased', fontSans.variable)}>
-        <ThemeProvider attribute="class" defaultTheme="dark">
-          <UserProvider>{children}</UserProvider>
-          <Toaster richColors />
-        </ThemeProvider>
-      </body>
-    </html>
-  );
-}
+const RootLayout = ({ children }: { children: React.ReactNode }) => (
+  <html lang="en" suppressHydrationWarning>
+    <head />
+    <body className={cn('font-sans antialiased', fontSans.variable)}>
+      <ThemeProvider attribute="class" defaultTheme="dark">
+        <UserProvider>{children}</UserProvider>
+        <Toaster richColors />
+      </ThemeProvider>
+    </body>
+  </html>
+);
 
 export default RootLayout;
