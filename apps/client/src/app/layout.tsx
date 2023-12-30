@@ -22,9 +22,11 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => (
     <head />
     <body className={cn('font-sans antialiased', fontSans.variable)}>
       <ThemeProvider attribute="class" defaultTheme="dark">
-        <UserProvider>{children}</UserProvider>
-        <Toaster richColors />
+        <UserProvider>
+          <main>{children}</main>
+        </UserProvider>
       </ThemeProvider>
+      <Toaster richColors />
     </body>
   </html>
 );
