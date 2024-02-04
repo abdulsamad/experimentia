@@ -50,3 +50,7 @@ next-env.d.ts
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+# Serverless
+jspm_packages
+.serverless
