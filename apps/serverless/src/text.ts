@@ -1,6 +1,6 @@
 import OpenAI from 'openai';
 import { BadRequestError } from 'openai/error';
-import { ImageGenerateParams } from 'openai/resources';
+import { ChatCompletionCreateParams } from 'openai/resources';
 import * as configcat from 'configcat-node';
 
 import { promptMapper } from 'utils';
@@ -10,7 +10,7 @@ const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 const configcatClient = configcat.getClient(process.env.CONFIGCAT_API_KEY);
 
 interface RequestBody {
-  model: ImageGenerateParams['model'];
+  model: ChatCompletionCreateParams['model'];
   prompt: string;
   language: supportedLanguages;
   type: variations;
