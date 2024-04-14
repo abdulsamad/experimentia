@@ -2,6 +2,14 @@
 
 Welcome to Experimentia, where I explore the OpenAI's API! Below, you'll find information on technologies used, supported browsers, installation instructions, and how to set up the environment. Don't bother why I chose this name—I'm just rolling with it! 🤷‍♂️
 
+## Features
+
+- Utilize both GPT-3 and GPT-4 and use in variations
+- Utilize DALL·E and DALL·E-3 for generating images
+- Voice input capability
+- Save chats (including images converted to base64) locally in IndexDB
+- Download generated images
+
 ## Technologies
 
 - Turborepo
@@ -17,18 +25,20 @@ Welcome to Experimentia, where I explore the OpenAI's API! Below, you'll find in
 
 ## Support
 
-Voice input currently supports only Chrome and webkit-based browsers. Make sure you are using one of these browsers for the best experience.
+Voice input is currently compatible only with Chrome and WebKit-based browsers. Please ensure you are using one of these browsers for the optimal experience.
 
 ## Installation
 
 To get started with Experimentia, follow these simple steps:
 
 1. **Clone the Repository:**
+
    ```bash
    git clone https://github.com/abdulsamad/experimentia.git
    ```
 
 2. **Install Dependencies:**
+
    ```bash
    cd experimentia
    pnpm install
@@ -44,3 +54,7 @@ To start the local server and begin development:
 ```bash
 pnpm dev
 ```
+
+## Demo
+
+<video src="readme/demo.mp4" />
