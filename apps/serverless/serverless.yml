@@ -1,17 +1,50 @@
-service: serverless
-frameworkVersion: '3'
+service: experimentia
+frameworkVersion: "3"
+
+useDotenv: true
 
 provider:
   name: aws
   runtime: nodejs18.x
+  timeout: 20
+  stage: dev
+  stackName: ${env:AWS_DEPLOYMENT_STACK_NAME}
+  versionFunctions: false
+  region: us-east-1
+  deploymentMethod: direct
+  deploymentBucket:
+    name: ${env:AWS_DEPLOYMENT_BUCKET}
+  environment:
+    OPENAI_API_KEY: ${env:OPENAI_API_KEY}
+    CONFIGCAT_API_KEY: ${env:CONFIGCAT_API_KEY}
+
+package:
+  individually: true
+  excludeDevDependencies: true
+
+custom:
+  functionsBasePath: src
+  esbuild:
+    bundle: true
+    minify: false
 
 functions:
-  hello:
-    handler: handler.hello
+  text:
+    handler: text.handler
+    url: true
     events:
       - httpApi:
-          path: /
-          method: get
+          path: /text
+          method: post
+  image:
+    handler: image.handler
+    url: true
+    events:
+      - httpApi:
+          path: /image
+          method: post
 
 plugins:
-  - serverless-plugin-typescript
+  - serverless-functions-base-path
+  - serverless-esbuild
+  - serverless-offline
