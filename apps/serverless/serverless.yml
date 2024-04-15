@@ -6,7 +6,7 @@ useDotenv: true
 provider:
   name: aws
   runtime: nodejs18.x
-  timeout: 20
+  timeout: 10
   stage: dev
   stackName: ${env:AWS_DEPLOYMENT_STACK_NAME}
   versionFunctions: false
@@ -31,18 +31,26 @@ custom:
 functions:
   text:
     handler: text.handler
-    url: true
+    url:
+      cors:
+        allowedMethods:
+          - POST
+        allowedOrigins: ${env:ALLOWED_ORIGIN}
     events:
       - httpApi:
           path: /text
-          method: post
+          method: POST
   image:
     handler: image.handler
-    url: true
+    url:
+      cors:
+        allowedMethods:
+          - POST
+        allowedOrigins: ${env:ALLOWED_ORIGIN}
     events:
       - httpApi:
           path: /image
-          method: post
+          method: POST
 
 plugins:
   - serverless-functions-base-path
