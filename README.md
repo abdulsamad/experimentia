@@ -57,4 +57,4 @@ pnpm dev
 
 ## Demo
 
-<video src="readme/demo.mp4" />
+![Experimentia Demo](readme/demo.gif)
