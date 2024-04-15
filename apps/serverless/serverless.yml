@@ -35,7 +35,7 @@ functions:
       cors:
         allowedMethods:
           - POST
-        allowedOrigins: ${env:ALLOWED_ORIGIN}
+        allowedOrigins: ${env:AWS_ALLOWED_ORIGIN}
     events:
       - httpApi:
           path: /text
@@ -46,7 +46,7 @@ functions:
       cors:
         allowedMethods:
           - POST
-        allowedOrigins: ${env:ALLOWED_ORIGIN}
+        allowedOrigins: ${env:AWS_ALLOWED_ORIGIN}
     events:
       - httpApi:
           path: /image
