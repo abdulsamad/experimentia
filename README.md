@@ -57,4 +57,8 @@ pnpm dev
 
 ## Demo
 
-![Experimentia Demo](readme/demo.gif)
+<p align="center">
+<br/>
+<img width="402" height="872" src="readme/demo.gif" alt="experimentia demo">
+<br/>
+</p>
