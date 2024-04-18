@@ -34,7 +34,7 @@
     "clsx": "^2.0.0",
     "configcat-js-ssr": "^7.1.1",
     "dayjs": "^1.11.10",
-    "follow-redirects": "^1.15.3",
+    "follow-redirects": "^1.15.6",
     "framer-motion": "^10.16.12",
     "html-react-parser": "^5.0.7",
     "jotai": "^2.4.3",
