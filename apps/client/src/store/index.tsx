@@ -23,7 +23,7 @@ export interface IMessageCommons {
   type: 'assistant' | 'user';
   variation: null | variations;
   timestamp: number;
-  model: 'gpt-3.5-turbo' | 'gpt-4' | 'dall-e-2' | 'dall-e-3';
+  model: 'gpt-3.5-turbo' | 'gpt-4' | 'gpt-4o' | 'dall-e-2' | 'dall-e-3';
 }
 
 export interface ITextMessage {
@@ -149,7 +149,7 @@ export const flagsAtom = atom(async (get) => {
 // Config
 
 export interface IConfig {
-  model: 'gpt-3.5-turbo' | 'gpt-4' | 'dall-e-2' | 'dall-e-3';
+  model: 'gpt-3.5-turbo' | 'gpt-4' | 'gpt-4o' | 'dall-e-2' | 'dall-e-3';
   variation: variations;
   language: supportedLanguages;
   imageSize: string;

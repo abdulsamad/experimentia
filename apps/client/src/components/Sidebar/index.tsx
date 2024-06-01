@@ -144,6 +144,14 @@ const Sidebar = () => {
                               Special
                             </Badge>
                           </SelectItem>
+                          <SelectItem value="gpt-4o" disabled={!flags?.gpt4Enabled}>
+                            <span className="mr-2">GPT 4o</span>
+                            <Badge
+                              variant="outline"
+                              className="dark:bg-slate-50 dark:text-slate-900">
+                              Special
+                            </Badge>
+                          </SelectItem>
                         </SelectGroup>
                         <SelectGroup>
                           <SelectLabel>Image</SelectLabel>
