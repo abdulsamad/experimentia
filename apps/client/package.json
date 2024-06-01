@@ -36,6 +36,7 @@
     "dayjs": "^1.11.10",
     "follow-redirects": "^1.15.6",
     "framer-motion": "^10.16.12",
+    "he": "^1.2.0",
     "html-react-parser": "^5.0.7",
     "jotai": "^2.4.3",
     "jotai-effect": "^0.2.3",
@@ -58,6 +59,7 @@
   "devDependencies": {
     "@netlify/functions": "^2.4.0",
     "@netlify/plugin-nextjs": "^4.41.1",
+    "@types/he": "^1.2.3",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
