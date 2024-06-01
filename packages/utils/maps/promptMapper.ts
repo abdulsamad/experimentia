@@ -1,7 +1,7 @@
 import { supportedLanguages, variations } from '../types';
 
 export const promptMapper = (variation: variations, language: supportedLanguages) => {
-  const commomPromptString = `You always formatted your reply in html (no styles, doctype, head). Only basic markup.`;
+  const commomPromptString = `You always formatted your reply in html (no styles, doctype, head, body, html). Only basic markup.`;
 
   switch (variation) {
     case 'snarky':

@@ -17,7 +17,7 @@ export const chat = async (req: Request, res: Response) => {
       return res.status(400).json({ success: false, err: 'Prompt not found' });
     }
 
-    if (model === 'gpt-4') {
+    if (model.includes('gpt-4')) {
       const user = new configcat.User(req.user.email);
       isGPT4Enabled = await configcatClient.getValueAsync('enable-GPT-4', false, user);
     }
