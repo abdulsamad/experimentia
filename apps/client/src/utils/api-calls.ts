@@ -24,7 +24,11 @@ interface IGetGeneratedText {
  * @param {prompt, language, user}
  * @returns {Stream}
  */
-export const getGeneratedText = async ({ prompt, language, user }: IGetGeneratedText) => {
+export const getGeneratedText = async ({
+  prompt,
+  language,
+  user,
+}: IGetGeneratedText): Promise<ReadableStream<string> | { success: boolean; err: string }> => {
   const token = await getApiAccessToken();
 
   const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/api/text`, {
@@ -42,7 +46,11 @@ export const getGeneratedText = async ({ prompt, language, user }: IGetGenerated
     }),
   });
 
-  return res.body?.pipeThrough(new TextDecoderStream());
+  if (!res.ok || !res.body) {
+    const err = await res.json();
+    return err;
+  }
+  return res.body.pipeThrough(new TextDecoderStream());
 };
 
 interface IGetGeneratedImage {
