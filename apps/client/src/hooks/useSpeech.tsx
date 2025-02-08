@@ -125,7 +125,12 @@ const useSpeech = () => {
 
           if (!stream) throw new Error();
 
-          const reader = stream.getReader();
+          // Handle error response
+          if ('success' in stream && !stream.success) {
+            throw new Error(stream.err);
+          }
+
+          const reader = (stream as ReadableStream<string>).getReader();
           const uid = crypto.randomUUID();
           let content = '';
 
