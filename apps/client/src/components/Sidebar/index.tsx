@@ -135,7 +135,8 @@ const Sidebar = () => {
                       <SelectContent>
                         <SelectGroup>
                           <SelectLabel>Text</SelectLabel>
-                          <SelectItem value="gpt-3.5-turbo">GPT 3.5 (Chat GPT)</SelectItem>
+                          <SelectItem value="gemini-1.5-pro">Gemini 1.5 Pro</SelectItem>
+                          {/* <SelectItem value="gpt-3.5-turbo">GPT 3.5 (Chat GPT)</SelectItem>
                           <SelectItem value="gpt-4">
                             <span className="mr-2">GPT 4</span>
                             <Badge
@@ -151,18 +152,13 @@ const Sidebar = () => {
                               className="dark:bg-slate-50 dark:text-slate-900">
                               Special
                             </Badge>
-                          </SelectItem>
+                          </SelectItem> */}
                         </SelectGroup>
                         <SelectGroup>
                           <SelectLabel>Image</SelectLabel>
-                          <SelectItem value="dall-e-2">DALL.E</SelectItem>
+                          {/* <SelectItem value="dall-e-2">DALL.E</SelectItem> */}
                           <SelectItem value="dall-e-3">
                             <span className="mr-2">DALL.E 3</span>
-                            <Badge
-                              variant="outline"
-                              className="dark:bg-slate-50 dark:text-slate-900">
-                              Special
-                            </Badge>
                           </SelectItem>
                         </SelectGroup>
                       </SelectContent>

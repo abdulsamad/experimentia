@@ -148,7 +148,7 @@ export const chatSaveEffect = atomEffect((get, set) => {
 // Config
 
 export interface IConfig {
-  model: 'gpt-3.5-turbo' | 'gpt-4' | 'gpt-4o' | 'dall-e-2' | 'dall-e-3';
+  model: 'gemini-1.5-pro' | 'gpt-3.5-turbo' | 'gpt-4' | 'gpt-4o' | 'dall-e-2' | 'dall-e-3';
   variation: variations;
   language: supportedLanguages;
   imageSize: string;
@@ -159,7 +159,7 @@ export interface IConfig {
 }
 
 export const configAtom = atomWithStorage<IConfig>(settingsKey, {
-  model: 'gpt-3.5-turbo',
+  model: 'gemini-1.5-pro',
   variation: 'normal',
   language: 'en-IN',
   imageSize: '1024x1024',
