@@ -83,9 +83,6 @@ importers:
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
-      configcat-js-ssr:
-        specifier: ^7.1.1
-        version: 7.1.2
       dayjs:
         specifier: ^1.11.13
         version: 1.11.13
@@ -1545,12 +1542,6 @@ packages:
 
   concat-map@0.0.1:
     resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
-
-  configcat-common@8.2.0:
-    resolution: {integrity: sha512-NWCXiiYEPU83wwJkG/vzBGNyvVNRXn0+raIOmE1iG95wKjRkEwB63HdZFD4nCCx449smM9dSNu/Hl+FinNw30A==}
-
-  configcat-js-ssr@7.1.2:
-    resolution: {integrity: sha512-lmuYr4SWyxjSlfEe++c8KFt0f6o7Ca72uWdIYcUOPvVEkUTieY2NNuyKfFJXnP2ZzyNz7VatHNRaBjCeACEAoA==}
 
   cookie@0.7.2:
     resolution: {integrity: sha512-yki5XnKuf750l50uGTllt6kKILY4nQ1eNIQatoXEByZ5dWgnKqbnqmTrBE5B4N7lrMJKQ2ytWMiTO2o0v6Ew/w==}
@@ -4454,18 +4445,6 @@ snapshots:
   commander@4.1.1: {}
 
   concat-map@0.0.1: {}
-
-  configcat-common@8.2.0:
-    dependencies:
-      tslib: 2.6.2
-
-  configcat-js-ssr@7.1.2:
-    dependencies:
-      axios: 1.7.9
-      configcat-common: 8.2.0
-      tslib: 2.6.2
-    transitivePeerDependencies:
-      - debug
 
   cookie@0.7.2: {}
 

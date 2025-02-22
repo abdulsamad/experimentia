@@ -1,14 +1,14 @@
 import { useCallback, useLayoutEffect } from 'react';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import Image from 'next/image';
-import { useSetAtom, useAtomValue, useAtom } from 'jotai';
+import { useAtom } from 'jotai';
 import { AnimatePresence, motion, Variants } from 'framer-motion';
 import { useTheme } from 'next-themes';
 import { LogOut, X, Moon, Sun } from 'lucide-react';
 
 import { languages, variations } from 'utils';
 
-import { configAtom, flagsAtom, identifierAtom, sidebarAtom } from '@/store';
+import { configAtom, sidebarAtom } from '@/store';
 import { cn, IS_SPEECH_RECOGNITION_SUPPORTED, IS_SPEECH_SYNTHESIS_SUPPORTED } from '@/utils';
 import imageSizes from '@/utils/image-sizes';
 import { Button, buttonVariants } from '@/components/ui/button';
@@ -51,8 +51,8 @@ export const sidebarVariants: Variants = {
 const Sidebar = () => {
   const [config, setConfig] = useAtom(configAtom);
   const [sidebarOpen, setSidebarOpen] = useAtom(sidebarAtom);
-  const flags = useAtomValue(flagsAtom);
-  const setIdentifier = useSetAtom(identifierAtom);
+  // const flags = useAtomValue(flagsAtom);
+  // const setIdentifier = useSetAtom(identifierAtom);
   const { user } = useUser();
   const { setTheme } = useTheme();
 
@@ -60,11 +60,11 @@ const Sidebar = () => {
   const isImageModelSelected = ['dall-e-2', 'dall-e-3'].includes(model);
   const isDallE3Selected = model === 'dall-e-3';
 
-  useLayoutEffect(() => {
-    if (!user?.email) return;
+  // useLayoutEffect(() => {
+  //   if (!user?.email) return;
 
-    setIdentifier(user?.email);
-  }, [user?.email, setIdentifier]);
+  //   setIdentifier(user?.email);
+  // }, [user?.email, setIdentifier]);
 
   const updateSetting = useCallback(
     (name: string, value: string) => {
@@ -136,7 +136,7 @@ const Sidebar = () => {
                         <SelectGroup>
                           <SelectLabel>Text</SelectLabel>
                           <SelectItem value="gpt-3.5-turbo">GPT 3.5 (Chat GPT)</SelectItem>
-                          <SelectItem value="gpt-4" disabled={!flags?.gpt4Enabled}>
+                          <SelectItem value="gpt-4">
                             <span className="mr-2">GPT 4</span>
                             <Badge
                               variant="outline"
@@ -144,7 +144,7 @@ const Sidebar = () => {
                               Special
                             </Badge>
                           </SelectItem>
-                          <SelectItem value="gpt-4o" disabled={!flags?.gpt4Enabled}>
+                          <SelectItem value="gpt-4o">
                             <span className="mr-2">GPT 4o</span>
                             <Badge
                               variant="outline"
@@ -156,7 +156,7 @@ const Sidebar = () => {
                         <SelectGroup>
                           <SelectLabel>Image</SelectLabel>
                           <SelectItem value="dall-e-2">DALL.E</SelectItem>
-                          <SelectItem value="dall-e-3" disabled={!flags?.dallE3Enabled}>
+                          <SelectItem value="dall-e-3">
                             <span className="mr-2">DALL.E 3</span>
                             <Badge
                               variant="outline"

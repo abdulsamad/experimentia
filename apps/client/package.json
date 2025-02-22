@@ -30,7 +30,6 @@
     "axios": "^1.7.9",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "configcat-js-ssr": "^7.1.1",
     "dayjs": "^1.11.13",
     "follow-redirects": "^1.15.9",
     "framer-motion": "^10.18.0",
