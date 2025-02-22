@@ -1,13 +1,17 @@
 import { variationsType, supportedLanguagesType } from './types';
 
 export const supportedModels = [
-  { name: 'gemini-1.5-flash', text: 'Gemini 1.5 Flash' },
-  { name: 'gemini-1.5-pro', text: 'Gemini 1.5 Pro' },
-  { name: 'gemini-2.0-flash', text: 'Gemini 2.0 Flash' },
-  { name: 'gpt-3.5-turbo', text: 'GPT 3.5 Turbo' },
-  { name: 'gpt-4o', text: 'GPT 4' },
-  { name: 'dall-e-3', text: 'DALL-E 3' },
+  { name: 'gemini-1.5-flash', text: 'Gemini 1.5 Flash', type: 'text' },
+  { name: 'gemini-1.5-pro', text: 'Gemini 1.5 Pro', type: 'text' },
+  { name: 'gemini-2.0-flash', text: 'Gemini 2.0 Flash', type: 'text' },
+  { name: 'gpt-3.5-turbo', text: 'GPT 3.5 Turbo', type: 'text' },
+  { name: 'gpt-4o', text: 'GPT 4', type: 'text' },
+  { name: 'dall-e-3', text: 'DALL-E 3', type: 'image' },
 ] as const;
+
+export const supportedTextModels = supportedModels.filter(({ type }) => type === 'text');
+
+export const supportedImageModels = supportedModels.filter(({ type }) => type === 'image');
 
 export const promptMapper = (
   variation: variationsType,

@@ -6,7 +6,7 @@ import { AnimatePresence, motion, Variants } from 'framer-motion';
 import { useTheme } from 'next-themes';
 import { LogOut, X, Moon, Sun } from 'lucide-react';
 
-import { languages, variations } from 'utils';
+import { languages, variations, supportedImageModels, supportedTextModels } from 'utils';
 
 import { configAtom, sidebarAtom } from '@/store';
 import { cn, IS_SPEECH_RECOGNITION_SUPPORTED, IS_SPEECH_SYNTHESIS_SUPPORTED } from '@/utils';
@@ -135,24 +135,29 @@ const Sidebar = () => {
                       <SelectContent>
                         <SelectGroup>
                           <SelectLabel>Text</SelectLabel>
-                          <SelectItem value="gemini-1.5-flash">Gemini 1.5 Flash</SelectItem>
-                          <SelectItem value="gemini-1.5-pro">Gemini 1.5 Pro</SelectItem>
-                          {/* 
-                          <SelectItem value="gpt-3.5-turbo">GPT 3.5 (Chat GPT)</SelectItem>
-                          <SelectItem value="gpt-4o">
-                            <span className="mr-2">GPT 4o</span>
-                            <Badge
-                              variant="outline"
-                              className="dark:bg-slate-50 dark:text-slate-900">
-                              Special
-                            </Badge>
-                          </SelectItem> */}
+                          {supportedTextModels.map(({ name, text }) => (
+                            <SelectItem key={name} value={name} className="gap-x-2">
+                              {text}
+                              {/* <Badge
+                                    variant="outline"
+                                    className="dark:bg-slate-50 dark:text-slate-900">
+                                    Special
+                                  </Badge> */}
+                            </SelectItem>
+                          ))}
                         </SelectGroup>
                         <SelectGroup>
                           <SelectLabel>Image</SelectLabel>
-                          <SelectItem value="dall-e-3">
-                            <span className="mr-2">DALL.E 3</span>
-                          </SelectItem>
+                          {supportedImageModels.map(({ name, text }) => (
+                            <SelectItem key={name} value={name} className="gap-x-2">
+                              {text}
+                              {/* <Badge
+                                    variant="outline"
+                                    className="dark:bg-slate-50 dark:text-slate-900">
+                                    Special
+                                  </Badge> */}
+                            </SelectItem>
+                          ))}
                         </SelectGroup>
                       </SelectContent>
                     </Select>
