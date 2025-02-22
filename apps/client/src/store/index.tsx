@@ -3,7 +3,7 @@ import { atomEffect } from 'jotai-effect';
 import { atomWithStorage } from 'jotai/utils';
 import dayjs from 'dayjs';
 
-import { variations, supportedLanguages } from 'utils/types';
+import { variationsType, supportedLanguagesType, supportedModelsType } from 'utils';
 
 import { settingsKey, threadsKey, lforage } from '@/utils/config';
 
@@ -20,9 +20,9 @@ export const currentThreadIdAtom = atom(crypto.randomUUID());
 export interface IMessageCommons {
   id: string;
   type: 'assistant' | 'user';
-  variation: null | variations;
+  variation: null | variationsType;
   timestamp: number;
-  model: 'gpt-3.5-turbo' | 'gpt-4' | 'gpt-4o' | 'dall-e-2' | 'dall-e-3';
+  model: supportedModelsType;
 }
 
 export interface ITextMessage {
@@ -148,9 +148,9 @@ export const chatSaveEffect = atomEffect((get, set) => {
 // Config
 
 export interface IConfig {
-  model: 'gemini-1.5-pro' | 'gpt-3.5-turbo' | 'gpt-4' | 'gpt-4o' | 'dall-e-2' | 'dall-e-3';
-  variation: variations;
-  language: supportedLanguages;
+  model: supportedModelsType;
+  variation: variationsType;
+  language: supportedLanguagesType;
   imageSize: string;
   textInput: boolean;
   speakResults: boolean;
@@ -159,7 +159,7 @@ export interface IConfig {
 }
 
 export const configAtom = atomWithStorage<IConfig>(settingsKey, {
-  model: 'gemini-1.5-pro',
+  model: 'gemini-1.5-flash',
   variation: 'normal',
   language: 'en-IN',
   imageSize: '1024x1024',

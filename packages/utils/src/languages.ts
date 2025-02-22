@@ -1,12 +1,4 @@
-import { supportedLanguages } from '../types';
-
-interface ILanguages {
-  code: supportedLanguages;
-  text: string;
-  selected: boolean;
-}
-
-export const languages: ILanguages[] = [
+export const languages = [
   {
     code: 'en-IN',
     text: 'English (Indian)',
@@ -42,6 +34,4 @@ export const languages: ILanguages[] = [
     text: 'Turkish',
     selected: false,
   },
-];
-
-export default languages;
+] as const;
