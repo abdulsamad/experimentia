@@ -11,9 +11,10 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "kill-ports": "kill-port 3000 3001",
     "client:dev": "turbo run dev --filter=client",
-    "server:dev": "turbo run dev --filter=server",
+    "serverless:dev": "turbo run dev --filter=serverless",
     "client:build": "turbo run build --filter=client",
-    "server:build": "turbo run build --filter=server"
+    "serverless:build": "turbo run build --filter=serverless",
+    "serverless:deploy": "pnpm --filter=serverless run deploy"
   },
   "devDependencies": {
     "kill-port": "^2.0.1",

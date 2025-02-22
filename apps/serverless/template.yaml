@@ -1,0 +1,74 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: Serverless Experimentia
+
+Resources:
+  ApiFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: dist/index.handler
+      Runtime: nodejs22.x
+      Architectures:
+        - x86_64
+      Environment:
+        Variables:
+          GOOGLE_API_KEY: !Ref GoogleApiKey
+      Role: !GetAtt LambdaExecutionRole.Arn
+    Metadata:
+      BuildMethod: esbuild
+
+  ApiFunctionUrl:
+    Type: AWS::Lambda::Url
+    Properties:
+      AuthType: NONE # OR change to AWS_IAM for security
+      Cors:
+        AllowOrigins:
+          - "*"
+        AllowMethods:
+          - POST
+          - GET
+        AllowHeaders:
+          - "*"
+      InvokeMode: RESPONSE_STREAM # RESPONSE_STREAM requires IAM authentication
+      TargetFunctionArn: !GetAtt ApiFunction.Arn
+
+  ApiFunctionPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref ApiFunction
+      Action: lambda:InvokeFunctionUrl
+      Principal: "*"
+      FunctionUrlAuthType: NONE
+
+  LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: LambdaBasicExecution
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: "*"
+
+Parameters:
+  GoogleApiKey:
+    Type: String
+    NoEcho: true
+    Description: Google API Key
+
+Outputs:
+  FunctionUrl:
+    Description: URL of the Lambda function
+    Value: !GetAtt ApiFunctionUrl.FunctionUrl
