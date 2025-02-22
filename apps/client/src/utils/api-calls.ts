@@ -31,7 +31,7 @@ export const getGeneratedText = async ({
 }: IGetGeneratedText): Promise<ReadableStream<string> | { success: boolean; err: string }> => {
   const token = await getApiAccessToken();
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/api/text`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/chat`, {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${token}`,
@@ -40,7 +40,7 @@ export const getGeneratedText = async ({
     body: JSON.stringify({
       prompt,
       language,
-      type: getConfig('variation'),
+      variation: getConfig('variation'),
       model: getConfig('model'),
       user,
     }),
