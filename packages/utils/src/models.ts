@@ -1,12 +1,12 @@
 import { variationsType, supportedLanguagesType } from './types';
 
 export const supportedModels = [
-  { name: 'gemini-1.5-flash', text: 'Gemini 1.5 Flash', type: 'text' },
-  { name: 'gemini-1.5-pro', text: 'Gemini 1.5 Pro', type: 'text' },
-  { name: 'gemini-2.0-flash', text: 'Gemini 2.0 Flash', type: 'text' },
-  { name: 'gpt-3.5-turbo', text: 'GPT 3.5 Turbo', type: 'text' },
-  { name: 'gpt-4o', text: 'GPT 4', type: 'text' },
-  { name: 'dall-e-3', text: 'DALL-E 3', type: 'image' },
+  { name: 'gemini-1.5-flash', text: 'Gemini 1.5 Flash', type: 'text', isSpecial: false },
+  { name: 'gemini-1.5-pro', text: 'Gemini 1.5 Pro', type: 'text', isSpecial: false },
+  { name: 'gemini-2.0-flash', text: 'Gemini 2.0 Flash', type: 'text', isSpecial: false },
+  { name: 'gpt-3.5-turbo', text: 'GPT 3.5 Turbo', type: 'text', isSpecial: false },
+  { name: 'gpt-4o', text: 'GPT 4', type: 'text', isSpecial: false },
+  { name: 'dall-e-3', text: 'DALL-E 3', type: 'image', isSpecial: false },
 ] as const;
 
 export const supportedTextModels = supportedModels.filter(({ type }) => type === 'text');

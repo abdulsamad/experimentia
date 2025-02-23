@@ -51,20 +51,12 @@ export const sidebarVariants: Variants = {
 const Sidebar = () => {
   const [config, setConfig] = useAtom(configAtom);
   const [sidebarOpen, setSidebarOpen] = useAtom(sidebarAtom);
-  // const flags = useAtomValue(flagsAtom);
-  // const setIdentifier = useSetAtom(identifierAtom);
   const { user } = useUser();
   const { setTheme } = useTheme();
 
   const { language, model, variation, imageSize, textInput, speakResults, style, quality } = config;
   const isImageModelSelected = supportedImageModels.includes(model as any);
   const isDallE3Selected = model === 'dall-e-3';
-
-  // useLayoutEffect(() => {
-  //   if (!user?.email) return;
-
-  //   setIdentifier(user?.email);
-  // }, [user?.email, setIdentifier]);
 
   const updateSetting = useCallback(
     (name: string, value: string) => {
@@ -135,27 +127,31 @@ const Sidebar = () => {
                       <SelectContent>
                         <SelectGroup>
                           <SelectLabel>Text</SelectLabel>
-                          {supportedTextModels.map(({ name, text }) => (
+                          {supportedTextModels.map(({ name, text, isSpecial }) => (
                             <SelectItem key={name} value={name} className="gap-x-2">
                               {text}
-                              {/* <Badge
-                                    variant="outline"
-                                    className="dark:bg-slate-50 dark:text-slate-900">
-                                    Special
-                                  </Badge> */}
+                              {isSpecial && (
+                                <Badge
+                                  variant="outline"
+                                  className="dark:bg-slate-50 dark:text-slate-900">
+                                  Special
+                                </Badge>
+                              )}
                             </SelectItem>
                           ))}
                         </SelectGroup>
                         <SelectGroup>
                           <SelectLabel>Image</SelectLabel>
-                          {supportedImageModels.map(({ name, text }) => (
+                          {supportedImageModels.map(({ name, text, isSpecial }) => (
                             <SelectItem key={name} value={name} className="gap-x-2">
                               {text}
-                              {/* <Badge
-                                    variant="outline"
-                                    className="dark:bg-slate-50 dark:text-slate-900">
-                                    Special
-                                  </Badge> */}
+                              {isSpecial && (
+                                <Badge
+                                  variant="outline"
+                                  className="dark:bg-slate-50 dark:text-slate-900">
+                                  Special
+                                </Badge>
+                              )}
                             </SelectItem>
                           ))}
                         </SelectGroup>
