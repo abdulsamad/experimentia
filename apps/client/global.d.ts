@@ -10,6 +10,16 @@ declare namespace NodeJS {
   }
 }
 
+// react-image-gallery
+declare module 'react-image-gallery' {
+  import { Component } from 'react';
+  export default class ReactImageGallery extends Component<any> {
+    props: any;
+    constructor(props: any);
+    render(): JSX.Element;
+  }
+}
+
 // use-sound
 declare module 'use-sound' {
   export const useSound = (filepath: string) => [(play = () => null)];

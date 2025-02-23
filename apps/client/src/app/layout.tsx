@@ -7,7 +7,7 @@ import ThemeProvider from '@/components/ThemeProvider';
 import { cn } from '@/utils';
 import './globals.css';
 
-export const fontSans = Inter({
+const inter = Inter({
   subsets: ['latin'],
   variable: '--font-sans',
 });
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 const RootLayout = ({ children }: { children: React.ReactNode }) => (
   <html lang="en" suppressHydrationWarning>
     <head />
-    <body className={cn('font-sans antialiased', fontSans.variable)}>
+    <body className={cn('font-sans antialiased', inter.variable)}>
       <ThemeProvider attribute="class" defaultTheme="dark">
         <UserProvider>
           <main>{children}</main>

@@ -2,9 +2,9 @@ import { HTMLAttributes, useCallback, useState } from 'react';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import Image from 'next/image';
 import { useAtom } from 'jotai';
+import Link from 'next/link';
 import { AnimatePresence, motion, Variants } from 'framer-motion';
 import { LogOutIcon, PlusIcon, TrashIcon } from 'lucide-react';
-
 import { useEffect, MouseEvent } from 'react';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { useSetAtom } from 'jotai';
@@ -200,8 +200,7 @@ const Sidebar = () => {
                       isSelected ? 'bg-[rgba(255,255,255,0.15)]' : '';
 
                     return (
-                      <Button
-                        variant="ghost"
+                      <div
                         key={id}
                         className={`w-full rounded-none cursor-default hover:bg-transparent ${rootClasses}`}
                         onClick={() => {
@@ -246,7 +245,7 @@ const Sidebar = () => {
                             </AlertDialogContent>
                           </AlertDialog>
                         </div>
-                      </Button>
+                      </div>
                     );
                   })}
                 </ScrollArea>
@@ -260,10 +259,10 @@ const Sidebar = () => {
                     size="sm"
                     className="w-full border border-slate-800 text-slate-50"
                     asChild>
-                    <a href="/api/auth/logout">
+                    <Link href="/api/auth/logout">
                       <LogOutIcon className="size-4 mr-2" />
                       Logout
-                    </a>
+                    </Link>
                   </Button>
                 </li>
               </ul>
