@@ -149,6 +149,17 @@ const useSpeech = () => {
               // Stream is completed
               navigator.vibrate(100);
               play();
+              startTransition(() => {
+                addChat({
+                  id: uid,
+                  type: 'assistant',
+                  message: content,
+                  variation,
+                  timestamp,
+                  format: 'text',
+                  model,
+                });
+              });
               console.log('%cDONE', 'font-size:12px;font-weight:bold;color:aqua');
               break;
             }
