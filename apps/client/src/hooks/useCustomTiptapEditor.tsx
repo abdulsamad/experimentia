@@ -9,6 +9,8 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 import axios from 'axios';
 import { useSound } from 'use-sound';
 
+import { supportedImageModels } from 'utils';
+
 import { threadLoadingAtom, chatAtom, configAtom, editorAtom } from '@/store/index';
 import { getGeneratedText, getGeneratedImage } from '@/utils/api-calls';
 
@@ -90,7 +92,7 @@ const useCustomTiptapEditor = () => {
       setIsChatResponseLoading(true);
       setEditorState('');
 
-      if (['dall-e-2', 'dall-e-3'].includes(model)) {
+      if (supportedImageModels.includes(model as any)) {
         const { b64_json, image } = await getGeneratedImage({
           prompt: editor.getText(),
           size: imageSize,

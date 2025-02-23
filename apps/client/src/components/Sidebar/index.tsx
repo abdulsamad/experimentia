@@ -57,7 +57,7 @@ const Sidebar = () => {
   const { setTheme } = useTheme();
 
   const { language, model, variation, imageSize, textInput, speakResults, style, quality } = config;
-  const isImageModelSelected = ['dall-e-2', 'dall-e-3'].includes(model);
+  const isImageModelSelected = supportedImageModels.includes(model as any);
   const isDallE3Selected = model === 'dall-e-3';
 
   // useLayoutEffect(() => {

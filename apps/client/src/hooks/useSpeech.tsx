@@ -6,6 +6,8 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 import axios from 'axios';
 import { useSound } from 'use-sound';
 
+import { supportedImageModels } from 'utils';
+
 import { threadLoadingAtom, chatAtom, configAtom } from '@/store';
 import { speechLog, speechGrammer, IS_SPEECH_RECOGNITION_SUPPORTED } from '@/utils';
 import { getGeneratedText, getGeneratedImage } from '@/utils/api-calls';
@@ -87,7 +89,7 @@ const useSpeech = () => {
         setIsChatResponseLoading(true);
         stopRecognition();
 
-        if (['dall-e-2', 'dall-e-3'].includes(model)) {
+        if (supportedImageModels.includes(model as any)) {
           const { b64_json, image } = await getGeneratedImage({
             prompt: transcript,
             size: imageSize,
