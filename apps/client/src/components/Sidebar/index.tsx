@@ -26,6 +26,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 export const sidebarVariants: Variants = {
   hidden: {
@@ -189,64 +190,66 @@ const Sidebar = () => {
                 </li>
               </ul>
               <div className="space-y-2 overflow-hidden">
-                {threads.map(({ id, thread, timestamp, name }) => {
-                  const isSelected = id === currentThreadId;
-                  const rootClasses: HTMLAttributes<HTMLButtonElement>['className'] = isSelected
-                    ? `relative before:content-[''] before:absolute before:-left-0 before:top-1/2 before:-translate-y-1/2 before:w-24 before:h-24 before:rounded-[10px] before:bg-blue-500 before:rotate-45 before:-translate-x-[103px]`
-                    : '';
-                  const backgroundClasses: HTMLAttributes<HTMLButtonElement>['className'] =
-                    isSelected ? 'bg-[rgba(255,255,255,0.15)]' : '';
+                <ScrollArea className="h-[calc(100vh-245px)]">
+                  {threads.map(({ id, thread, timestamp, name }) => {
+                    const isSelected = id === currentThreadId;
+                    const rootClasses: HTMLAttributes<HTMLButtonElement>['className'] = isSelected
+                      ? `relative before:content-[''] before:absolute before:-left-0 before:top-1/2 before:-translate-y-1/2 before:w-24 before:h-24 before:rounded-[10px] before:bg-blue-500 before:rotate-45 before:-translate-x-[103px]`
+                      : '';
+                    const backgroundClasses: HTMLAttributes<HTMLButtonElement>['className'] =
+                      isSelected ? 'bg-[rgba(255,255,255,0.15)]' : '';
 
-                  return (
-                    <Button
-                      variant="ghost"
-                      key={id}
-                      className={`w-full rounded-none cursor-default hover:bg-transparent ${rootClasses}`}
-                      onClick={() => {
-                        setSidebarOpen(false);
-                        updateCurrentChatId(id, thread);
-                      }}>
-                      <div
-                        className={`flex items-center justify-around gap-2 w-full py-2 rounded-[8px] ${backgroundClasses}`}>
-                        <p className={`truncate w-[22ch] text-left`}>
-                          {name || dayjs(timestamp).format('hh:mm A - DD/MM/YY')}
-                        </p>
-                        <AlertDialog>
-                          <AlertDialogTrigger asChild>
-                            <Button
-                              className="h-7 w-6"
-                              variant="destructive"
-                              size="icon"
-                              onClick={(ev) => ev.stopPropagation()}>
-                              <TrashIcon className="h-3.5 w-3.5" />
-                            </Button>
-                          </AlertDialogTrigger>
-                          <AlertDialogContent>
-                            <AlertDialogHeader>
-                              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                              <AlertDialogDescription>
-                                This action cannot be undone. This will permanently delete your
-                                thread.
-                              </AlertDialogDescription>
-                            </AlertDialogHeader>
-                            <AlertDialogFooter>
-                              <AlertDialogCancel onClick={(ev) => ev.stopPropagation()}>
-                                Cancel
-                              </AlertDialogCancel>
-                              <AlertDialogAction asChild>
-                                <Button
-                                  className="bg-red-600 text-white"
-                                  onClick={(ev) => deleteChats(ev, id)}>
-                                  Delete
-                                </Button>
-                              </AlertDialogAction>
-                            </AlertDialogFooter>
-                          </AlertDialogContent>
-                        </AlertDialog>
-                      </div>
-                    </Button>
-                  );
-                })}
+                    return (
+                      <Button
+                        variant="ghost"
+                        key={id}
+                        className={`w-full rounded-none cursor-default hover:bg-transparent ${rootClasses}`}
+                        onClick={() => {
+                          setSidebarOpen(false);
+                          updateCurrentChatId(id, thread);
+                        }}>
+                        <div
+                          className={`flex items-center justify-around gap-2 w-full py-2 rounded-[8px] ${backgroundClasses}`}>
+                          <p className={`truncate w-[22ch] text-left`}>
+                            {name || dayjs(timestamp).format('hh:mm A - DD/MM/YY')}
+                          </p>
+                          <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                              <Button
+                                className="h-7 w-6"
+                                variant="destructive"
+                                size="icon"
+                                onClick={(ev) => ev.stopPropagation()}>
+                                <TrashIcon className="h-3.5 w-3.5" />
+                              </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  This action cannot be undone. This will permanently delete your
+                                  thread.
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel onClick={(ev) => ev.stopPropagation()}>
+                                  Cancel
+                                </AlertDialogCancel>
+                                <AlertDialogAction asChild>
+                                  <Button
+                                    className="bg-red-600 text-white"
+                                    onClick={(ev) => deleteChats(ev, id)}>
+                                    Delete
+                                  </Button>
+                                </AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
+                        </div>
+                      </Button>
+                    );
+                  })}
+                </ScrollArea>
               </div>
             </div>
             <div className="px-4">
