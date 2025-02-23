@@ -41,7 +41,8 @@ const Message = ({
       initial={isUser ? { translateY: '10px', scaleX: 0.5 } : { translateY: '-10px', scaleX: 0.5 }}
       animate={{ translateY: 0, scaleX: 1 }}
       className={`chat relative group/chat flex my-4 scroll-mb-10 ${chatOrigin}`}
-      data-type={type}>
+      data-type={type}
+      layout>
       <div className={`${isUser ? 'ml-auto' : ''}`}>
         {/* Name and Time */}
         <div className={`flex items-center gap-x-1 ${isImage ? 'mb-1' : nameTimeMargin}`}>

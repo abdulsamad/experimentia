@@ -132,6 +132,7 @@ const useSpeech = () => {
 
           const reader = (stream as ReadableStream<string>).getReader();
           const uid = crypto.randomUUID();
+          const timestamp = dayjs().valueOf();
           let content = '';
 
           // Close Loader
@@ -159,7 +160,7 @@ const useSpeech = () => {
                 type: 'assistant',
                 message: content,
                 variation,
-                timestamp: dayjs().valueOf(),
+                timestamp,
                 format: 'text',
                 model,
               });
