@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 import { sidebarAtom } from '@/store';
 import { Button } from '@/components/ui/button';
 
-import ThreadsButton from './ThreadsButton';
+import SettingsDropdown from './SettingsDropdown';
 
 const Nav = () => {
   const setSidebarOpen = useSetAtom(sidebarAtom);
@@ -24,7 +24,7 @@ const Nav = () => {
         className="text-2xl lg:text-3xl italic text-center font-bold from-purple-600 via-pink-600 to-blue-600 bg-gradient-to-r bg-clip-text text-transparent">
         Experimentia
       </motion.h1>
-      <ThreadsButton />
+      <SettingsDropdown />
     </nav>
   );
 };

@@ -1,35 +1,31 @@
-import { useCallback, useLayoutEffect } from 'react';
+import { HTMLAttributes, useCallback, useState } from 'react';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import Image from 'next/image';
 import { useAtom } from 'jotai';
 import { AnimatePresence, motion, Variants } from 'framer-motion';
-import { useTheme } from 'next-themes';
-import { LogOut, X, Moon, Sun } from 'lucide-react';
+import { LogOutIcon, PlusIcon, TrashIcon } from 'lucide-react';
 
-import { languages, variations, supportedImageModels, supportedTextModels } from 'utils';
+import { useEffect, MouseEvent } from 'react';
+import { useSearchParams, useRouter, usePathname } from 'next/navigation';
+import { useSetAtom } from 'jotai';
+import dayjs from 'dayjs';
 
-import { configAtom, sidebarAtom } from '@/store';
-import { cn, IS_SPEECH_RECOGNITION_SUPPORTED, IS_SPEECH_SYNTHESIS_SUPPORTED } from '@/utils';
-import imageSizes from '@/utils/image-sizes';
-import { Button, buttonVariants } from '@/components/ui/button';
+import { chatAtom, currentThreadIdAtom } from '@/store';
+import { lforage, threadsKey } from '@/utils/config';
+
+import { IThreads, sidebarAtom } from '@/store';
+import { Button } from '@/components/ui/button';
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-  SelectGroup,
-  SelectLabel,
-} from '@/components/ui/select';
-import { Switch } from '@/components/ui/switch';
-import { Badge } from '@/components/ui/badge';
-import { Checkbox } from '@/components/ui/checkbox';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 
 export const sidebarVariants: Variants = {
   hidden: {
@@ -49,38 +45,98 @@ export const sidebarVariants: Variants = {
 };
 
 const Sidebar = () => {
-  const [config, setConfig] = useAtom(configAtom);
   const [sidebarOpen, setSidebarOpen] = useAtom(sidebarAtom);
   const { user } = useUser();
-  const { setTheme } = useTheme();
 
-  const { language, model, variation, imageSize, textInput, speakResults, style, quality } = config;
-  const isImageModelSelected = supportedImageModels.includes(model as any);
-  const isDallE3Selected = model === 'dall-e-3';
+  const [currentThreadId, setCurrentThreadId] = useAtom(currentThreadIdAtom);
+  const setChat = useSetAtom(chatAtom);
+  const [threads, setThreads] = useState<IThreads>([]);
 
-  const updateSetting = useCallback(
-    (name: string, value: string) => {
-      setConfig({ ...config, [name]: value });
-    },
-    [config, setConfig]
-  );
+  const pathname = usePathname();
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
-  const updateCheckSetting = useCallback(
-    (name: string, checked: boolean) => {
-      setConfig({ ...config, [name]: checked });
-    },
-    [config, setConfig]
-  );
+  const threadId = searchParams.get('threadId');
 
-  const setImageSizeValue = useCallback(() => {
-    if (!imageSizes(model).options.includes(imageSize)) {
-      const defaultSize = imageSizes(model).default;
-      updateSetting('imageSize', defaultSize);
-      return defaultSize;
+  const fetchThreads = useCallback(async () => {
+    // Retrieve saved threads
+    const threads = (await lforage.getItem(threadsKey)) as IThreads;
+    setThreads(threads);
+  }, []);
+
+  useEffect(() => {
+    // Fetch latest threads
+    fetchThreads();
+  }, [fetchThreads]);
+
+  // useEffect(() => {
+  //   // Check and update threads from query params
+  //   if (!threadId) return;
+
+  //   const thread = threads?.find(({ id }) => id === threadId);
+
+  //   if (thread) {
+  //     setCurrentThreadId(thread.id);
+  //     setChat(thread.thread as any, true as any);
+  //   }
+  // }, [setChat, setCurrentThreadId, threadId, threads]);
+
+  useEffect(() => {
+    if (sidebarOpen) {
+      fetchThreads();
     }
+  }, [fetchThreads, sidebarOpen]);
 
-    return imageSize;
-  }, [imageSize, model, updateSetting]);
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams as any);
+      params.set(name, value);
+
+      return params.toString();
+    },
+    [searchParams]
+  );
+
+  const updateCurrentChatId = useCallback(
+    (id: string, thread: any) => {
+      setChat(thread, true as any);
+      setCurrentThreadId(id);
+
+      // Set params
+      router.replace(`${pathname}?${createQueryString('threadId', id)}`, { scroll: false });
+    },
+    [createQueryString, pathname, router, setChat, setCurrentThreadId]
+  );
+
+  const deleteChats = useCallback(
+    async (ev: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>, threadId: string) => {
+      ev.stopPropagation();
+
+      if (currentThreadId === threadId) {
+        setChat([] as any, true as any);
+      }
+
+      const threads: IThreads | null = await lforage.getItem(threadsKey);
+      const filterThreads = threads?.filter(({ id }) => id !== threadId);
+      await lforage.setItem(threadsKey, filterThreads);
+
+      // Reset
+      fetchThreads();
+    },
+    [currentThreadId, fetchThreads, setChat]
+  );
+
+  const addNewChat = useCallback(() => {
+    setSidebarOpen(false);
+
+    setChat([] as any, true as any);
+    setCurrentThreadId(crypto.randomUUID());
+
+    // Set params
+    router.replace(pathname, { scroll: false });
+  }, [pathname, router, setChat, setCurrentThreadId, setSidebarOpen]);
+
+  if (!threads?.length || !Array.isArray(threads)) return null;
 
   return (
     <AnimatePresence>
@@ -91,237 +147,121 @@ const Sidebar = () => {
             if (ev.currentTarget === ev.target) setSidebarOpen(false);
           }}>
           <motion.aside
-            className="h-full w-[300px] pb-10 pt-5 px-4 flex flex-col justify-between overflow-x-hidden overflow-y-auto shadow-2xl bg-white dark:bg-black"
+            className="h-full w-[300px] pb-10 pt-5 flex flex-col justify-between overflow-x-hidden overflow-y-auto shadow-2xl bg-white dark:bg-black"
             initial="hidden"
             animate="show"
             exit="hidden"
             variants={sidebarVariants}>
             <div>
-              <div className="flex justify-between mb-5">
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="outline" size="icon">
-                      <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-                      <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-                      <span className="sr-only">Toggle theme</span>
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuItem onClick={() => setTheme('light')}>Light</DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => setTheme('dark')}>Dark</DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => setTheme('system')}>System</DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-                <Button className="px-2" variant="ghost" onClick={() => setSidebarOpen(false)}>
-                  <X />
-                </Button>
-              </div>
-              <ul className="space-y-10 mb-5">
+              <ul className="space-y-3 mb-5">
                 <li>
-                  <div className="flex flex-col space-y-2">
-                    <label className="ml-1">Model</label>
-                    <Select value={model} onValueChange={(value) => updateSetting('model', value)}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Model" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectGroup>
-                          <SelectLabel>Text</SelectLabel>
-                          {supportedTextModels.map(({ name, text, isSpecial }) => (
-                            <SelectItem key={name} value={name} className="gap-x-2">
-                              {text}
-                              {isSpecial && (
-                                <Badge
-                                  variant="outline"
-                                  className="dark:bg-slate-50 dark:text-slate-900">
-                                  Special
-                                </Badge>
-                              )}
-                            </SelectItem>
-                          ))}
-                        </SelectGroup>
-                        <SelectGroup>
-                          <SelectLabel>Image</SelectLabel>
-                          {supportedImageModels.map(({ name, text, isSpecial }) => (
-                            <SelectItem key={name} value={name} className="gap-x-2">
-                              {text}
-                              {isSpecial && (
-                                <Badge
-                                  variant="outline"
-                                  className="dark:bg-slate-50 dark:text-slate-900">
-                                  Special
-                                </Badge>
-                              )}
-                            </SelectItem>
-                          ))}
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </li>
-                {!isImageModelSelected && (
-                  <li>
-                    <div className="flex flex-col space-y-2">
-                      <label className="ml-1">Variation</label>
-                      <Select
-                        value={variation}
-                        onValueChange={(value) => updateSetting('variation', value)}>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Variation" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {variations.map(({ code, text }) => (
-                            <SelectItem key={code} value={code}>
-                              {text}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </li>
-                )}
-                {isImageModelSelected && (
-                  <li>
-                    <div className="flex flex-col space-y-2">
-                      <label className="ml-1">Image Size</label>
-                      <Select
-                        value={setImageSizeValue()}
-                        onValueChange={(value) => updateSetting('imageSize', value)}>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Image Size" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {imageSizes(model).options.map((size) => (
-                            <SelectItem key={size} value={size}>
-                              {size}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </li>
-                )}
-                {isDallE3Selected && (
-                  <>
-                    <li>
-                      <div className="flex flex-col space-y-2">
-                        <label className="ml-1">Quality</label>
-                        <Select
-                          value={quality}
-                          onValueChange={(value) => updateSetting('quality', value)}>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Quality" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="standard">Standard</SelectItem>
-                            <SelectItem value="hd">HD</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="flex flex-col space-y-2">
-                        <label className="ml-1">Style</label>
-                        <Select
-                          value={style}
-                          onValueChange={(value) => updateSetting('style', value)}>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Style" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="vivid">Vivid</SelectItem>
-                            <SelectItem value="natural">Natural</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                    </li>
-                  </>
-                )}
-                <li>
-                  <div className="flex flex-col space-y-2">
-                    <label className="ml-1">Language</label>
-                    <Select
-                      value={language}
-                      onValueChange={(value) => updateSetting('language', value)}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Language" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {languages.map(({ code, text }) => (
-                          <SelectItem key={code} value={code}>
-                            {text}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </li>
-                {IS_SPEECH_RECOGNITION_SUPPORTED() && (
-                  <li>
-                    <div className="flex flex-col items-center justify-center space-y-3.5">
-                      <h3 className="text-md">Input Type</h3>
-                      <div className="flex items-center space-x-3 text-sm">
-                        <span>Voice</span>
-                        <Switch
-                          checked={textInput}
-                          onCheckedChange={(value) => updateCheckSetting('textInput', value)}
-                        />
-                        <span>Text</span>
-                      </div>
-                      <p className="text-slate-700 dark:text-slate-300 text-xs italic">
-                        How you want to give input to GPT?
-                      </p>
-                    </div>
-                  </li>
-                )}
-                {IS_SPEECH_SYNTHESIS_SUPPORTED() && !textInput && (
-                  <li>
-                    <div className="flex justify-center space-x-2">
-                      <Checkbox
-                        id="terms1"
-                        checked={speakResults}
-                        onCheckedChange={(value) =>
-                          updateCheckSetting('speakResults', value as boolean)
-                        }
-                      />
-                      <div className="grid gap-1.5 leading-none">
-                        <label
-                          htmlFor="terms1"
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                          Speak Results
-                        </label>
-                      </div>
-                    </div>
-                  </li>
-                )}
-              </ul>
-            </div>
-            <div>
-              <ul className="space-y-5">
-                <li className="mb-6">
-                  <div className="space-y-1">
+                  <div className="flex items-center space-x-3">
                     <Image
-                      className="rounded-full mx-auto mb-5"
+                      className="rounded-full size-[50px] object-cover"
                       src={user?.picture as string}
                       alt={user?.name as string}
-                      height={96}
-                      width={96}
+                      height={50}
+                      width={50}
                     />
-                    <div className="truncate space-x-1">
-                      <span className="font-semibold">Name:</span>
-                      <span className="capitalize truncate">{user?.nickname}</span>
-                    </div>
-                    <div className="truncate space-x-1">
-                      <span className="font-semibold">Email:</span>
-                      <span className="italic truncate">{user?.email}</span>
+                    <div>
+                      <p className="text-sm text-white opacity-75">Hello 👋</p>
+                      <p className="text-lg font-semibold text-white opacity-75">
+                        {user?.name?.includes('@') ? (
+                          <span>{user.name}</span>
+                        ) : (
+                          <span>{user?.nickname || user?.email}</span>
+                        )}
+                      </p>
                     </div>
                   </div>
                 </li>
+                <li className="py-2 px-4">
+                  <hr className="border-gray-700" />
+                </li>
+                <li className="px-4 mb-4 w-full">
+                  <Button
+                    variant="default"
+                    className="w-full bg-purple-500 text-white"
+                    onClick={addNewChat}>
+                    <PlusIcon className="mr-2" />
+                    New Chat
+                  </Button>
+                </li>
+              </ul>
+              <div className="space-y-2 overflow-hidden">
+                {threads.map(({ id, thread, timestamp, name }) => {
+                  const isSelected = id === currentThreadId;
+                  const rootClasses: HTMLAttributes<HTMLButtonElement>['className'] = isSelected
+                    ? `relative before:content-[''] before:absolute before:-left-0 before:top-1/2 before:-translate-y-1/2 before:w-24 before:h-24 before:rounded-[10px] before:bg-blue-500 before:rotate-45 before:-translate-x-[103px]`
+                    : '';
+                  const backgroundClasses: HTMLAttributes<HTMLButtonElement>['className'] =
+                    isSelected ? 'bg-[rgba(255,255,255,0.15)]' : '';
+
+                  return (
+                    <Button
+                      variant="ghost"
+                      key={id}
+                      className={`w-full rounded-none cursor-default hover:bg-transparent ${rootClasses}`}
+                      onClick={() => {
+                        setSidebarOpen(false);
+                        updateCurrentChatId(id, thread);
+                      }}>
+                      <div
+                        className={`flex items-center justify-around gap-2 w-full py-2 rounded-[8px] ${backgroundClasses}`}>
+                        <p className={`truncate w-[22ch] text-left`}>
+                          {name || dayjs(timestamp).format('hh:mm A - DD/MM/YY')}
+                        </p>
+                        <AlertDialog>
+                          <AlertDialogTrigger asChild>
+                            <Button
+                              className="h-7 w-6"
+                              variant="destructive"
+                              size="icon"
+                              onClick={(ev) => ev.stopPropagation()}>
+                              <TrashIcon className="h-3.5 w-3.5" />
+                            </Button>
+                          </AlertDialogTrigger>
+                          <AlertDialogContent>
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                              <AlertDialogDescription>
+                                This action cannot be undone. This will permanently delete your
+                                thread.
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel onClick={(ev) => ev.stopPropagation()}>
+                                Cancel
+                              </AlertDialogCancel>
+                              <AlertDialogAction asChild>
+                                <Button
+                                  className="bg-red-600 text-white"
+                                  onClick={(ev) => deleteChats(ev, id)}>
+                                  Delete
+                                </Button>
+                              </AlertDialogAction>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
+                      </div>
+                    </Button>
+                  );
+                })}
+              </div>
+            </div>
+            <div className="px-4">
+              <ul className="space-y-5">
                 <li>
-                  <a href="/api/auth/logout" className={cn(buttonVariants(), 'w-full')}>
-                    <LogOut />
-                    Logout
-                  </a>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="w-full border border-slate-800 text-slate-50"
+                    asChild>
+                    <a href="/api/auth/logout">
+                      <LogOutIcon className="size-4 mr-2" />
+                      Logout
+                    </a>
+                  </Button>
                 </li>
               </ul>
             </div>
