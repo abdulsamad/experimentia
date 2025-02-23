@@ -157,11 +157,11 @@ const Sidebar = () => {
                 <li>
                   <div className="flex items-center space-x-3">
                     <Image
-                      className="rounded-full size-[50px] object-cover"
+                      className="rounded-full size-[40px] object-cover"
                       src={user?.picture as string}
                       alt={user?.name as string}
-                      height={50}
-                      width={50}
+                      height={40}
+                      width={40}
                     />
                     <div>
                       <p className="text-sm text-white opacity-75">Hello 👋</p>
