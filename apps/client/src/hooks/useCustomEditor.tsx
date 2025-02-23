@@ -34,7 +34,7 @@ const extensions = [
   }),
 ];
 
-const useCustomTiptapEditor = () => {
+const useCustomEditor = () => {
   const [editorState, setEditorState] = useAtom(editorAtom);
   const addChat = useSetAtom(chatAtom);
   const setIsChatResponseLoading = useSetAtom(threadLoadingAtom);
@@ -202,4 +202,4 @@ const useCustomTiptapEditor = () => {
   return { editor, handleSubmit };
 };
 
-export default useCustomTiptapEditor;
+export default useCustomEditor;

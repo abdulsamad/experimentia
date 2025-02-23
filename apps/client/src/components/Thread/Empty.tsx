@@ -1,13 +1,12 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useAtomValue } from 'jotai';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { Copy } from 'lucide-react';
 import { toast } from 'sonner';
 
 import { variations } from 'utils';
 
+import useCustomEditor from '@/hooks/useCustomEditor';
 import { configAtom } from '@/store';
-import { Button } from '../ui/button';
+import { Button } from '@/components/ui/button';
 
 interface IEmpty {
   nickname: string | null | undefined;
@@ -17,6 +16,8 @@ interface IEmpty {
 const Empty = ({ nickname, textInput }: IEmpty) => {
   const { variation } = useAtomValue(configAtom);
 
+  const { editor, handleSubmit } = useCustomEditor();
+
   const hints = useMemo(
     () => variations.find(({ code }) => code === variation)?.hints,
     [variation]
@@ -24,6 +25,28 @@ const Empty = ({ nickname, textInput }: IEmpty) => {
   const description = useMemo(
     () => variations.find(({ code }) => code === variation)?.description,
     [variation]
+  );
+
+  const handleOnClick = useCallback(
+    async (prompt: string) => {
+      if (!editor) return;
+
+      const cursorPos = editor.state.selection.$head.pos;
+
+      editor?.commands?.clearContent();
+      editor?.commands.insertContent(prompt);
+
+      // Reset cursor position after inserting content
+      editor.chain().focus().setTextSelection(cursorPos).run();
+
+      await handleSubmit();
+
+      // First success message
+      setTimeout(() => {
+        toast.success(`Cool! You've just got started`);
+      }, 1000);
+    },
+    [editor, handleSubmit]
   );
 
   return (
@@ -46,11 +69,13 @@ const Empty = ({ nickname, textInput }: IEmpty) => {
             <h3 className="my-3 font-semibold">Query Hints:&nbsp;</h3>
             <div className="grid gap-2 md:grid-cols-2">
               {hints.map((hint) => (
-                <CopyToClipboard key={hint} text={hint} onCopy={() => toast.success('Copied!')}>
-                  <div className="bg-[rgba(_255,_255,_255,_0.25)] [box-shadow:0_8px_32px_0_rgba(_31,_38,_135,_0.37)] backdrop-filter backdrop-blur-sm rounded-[10px] border border-solid border-[rgba(255,255,255,0.18)] cursor-default">
-                    <p className="my-3 px-2 whitespace-nowrap max-w-full">{hint}</p>
-                  </div>
-                </CopyToClipboard>
+                <Button
+                  key={hint}
+                  variant="ghost"
+                  onClick={() => handleOnClick(hint)}
+                  className="bg-[rgba(_255,_255,_255,_0.25)] [box-shadow:0_8px_32px_0_rgba(_31,_38,_135,_0.37)] backdrop-filter backdrop-blur-sm rounded-[10px] border border-solid border-[rgba(255,255,255,0.18)] cursor-default">
+                  <p className="my-3 px-2 whitespace-nowrap max-w-full">{hint}</p>
+                </Button>
               ))}
             </div>
           </>

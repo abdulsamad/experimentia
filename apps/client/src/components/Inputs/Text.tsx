@@ -3,7 +3,7 @@ import { useAtomValue } from 'jotai';
 import { SendHorizonal } from 'lucide-react';
 
 import { threadLoadingAtom } from '@/store';
-import useCustomTiptapEditor from '@/hooks/useCustomTiptapEditor';
+import useCustomTiptapEditor from '@/hooks/useCustomEditor';
 import { Button } from '@/components/ui/button';
 
 const Text = () => {
