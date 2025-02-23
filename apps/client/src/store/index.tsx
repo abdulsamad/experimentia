@@ -53,17 +53,17 @@ export const chatAtom: WritableAtom<IMessage[], IMessage[], void> = atom(
     // Add chat normally
     const state = get(chatAtom);
     const chatIndex = state.findIndex((chat) => chat.id === update.id);
-    let chat;
 
     if (chatIndex !== -1) {
-      const prevChat = state[chatIndex] as any;
-      state[chatIndex] = { ...prevChat, message: prevChat?.message + (update as any).message };
-      chat = state;
+      // Create a new array to trigger re-render
+      const newState = [...state];
+      newState[chatIndex] = {
+        ...update, // Use the entire update object instead of just concatenating messages
+      };
+      set(chatAtom, newState as any);
     } else {
-      chat = [...state, update] as any;
+      set(chatAtom, [...state, update] as any);
     }
-
-    set(chatAtom, chat);
   }
 );
 

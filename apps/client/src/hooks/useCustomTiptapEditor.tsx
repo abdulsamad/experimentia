@@ -138,35 +138,37 @@ const useCustomTiptapEditor = () => {
         const uid = crypto.randomUUID();
         let content = '';
 
+        // Close Loader
+        startTransition(() => {
+          setIsChatResponseLoading(false);
+        });
+
         while (true) {
           const { value, done } = await reader.read();
 
           if (done) {
             // Stream is completed
+            navigator.vibrate(100);
+            play();
             console.log('%cDONE', 'font-size:12px;font-weight:bold;color:aqua');
             break;
           }
 
           content += value;
-          console.log(value);
-        }
 
-        startTransition(() => {
-          addChat({
-            id: uid,
-            type: 'assistant',
-            message: content,
-            variation,
-            timestamp: dayjs().valueOf(),
-            format: 'text',
-            model,
+          // Update chat with accumulated content on each chunk
+          startTransition(() => {
+            addChat({
+              id: uid,
+              type: 'assistant',
+              message: content,
+              variation,
+              timestamp: dayjs().valueOf(),
+              format: 'text',
+              model,
+            });
           });
-
-          setIsChatResponseLoading(false);
-          // Haptic feedback and sound
-          navigator.vibrate(100);
-          play();
-        });
+        }
       }
     } catch (err) {
       console.error(err);
