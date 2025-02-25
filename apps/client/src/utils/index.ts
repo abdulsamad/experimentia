@@ -7,10 +7,30 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const speechLog = (text: string, styles?: React.CSSProperties) => {
+  const defaultStyles = {
+    fontSize: '12px',
+    color: '#e3e3e3',
+  };
+
+  const labelStyles = {
+    fontSize: '12px',
+    fontWeight: 'bold',
+    color: '#2196F3',
+  };
+
+  const mergedStyles = {
+    ...defaultStyles,
+    ...styles,
+  };
+
   console.log(
     `%cSPEECH RECOGNITION: %c${text}`,
-    'font-size: 12px;font-weight: bold; color: #2196F3;',
-    'font-size: 12px;color: #e3e3e3;'
+    Object.entries(labelStyles)
+      .map(([key, value]) => `${key.replace(/[A-Z]/g, (m) => `-${m.toLowerCase()}`)}: ${value}`)
+      .join(';'),
+    Object.entries(mergedStyles)
+      .map(([key, value]) => `${key.replace(/[A-Z]/g, (m) => `-${m.toLowerCase()}`)}: ${value}`)
+      .join(';')
   );
 };
 

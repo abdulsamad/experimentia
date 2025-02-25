@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { useAtom } from 'jotai';
-import { SettingsIcon, SunIcon, MoonIcon } from 'lucide-react';
+import { SettingsIcon } from 'lucide-react';
 import { useTheme } from 'next-themes';
 
 import { languages, variations, supportedImageModels, supportedTextModels } from 'utils';
