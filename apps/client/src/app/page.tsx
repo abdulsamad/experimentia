@@ -1,8 +1,8 @@
 'use client';
 
-import { withPageAuthRequired } from '@auth0/nextjs-auth0/client';
+import { withPageAuthRequired } from '@auth0/nextjs-auth0';
 
-import Root from './root';
+import Root from '@/components/Root';
 
 const Page = () => {
   return <Root />;
