@@ -102,7 +102,7 @@ const SettingsDropdown = () => {
                     <SelectGroup>
                       <SelectLabel>Text</SelectLabel>
                       {supportedTextModels.map(({ name, text, isSpecial }) => (
-                        <SelectItem key={name} value={name} className="gap-x-2">
+                        <SelectItem key={name} value={name} className="space-x-2">
                           {text}
                           {isSpecial && (
                             <Badge
@@ -117,7 +117,7 @@ const SettingsDropdown = () => {
                     <SelectGroup>
                       <SelectLabel>Image</SelectLabel>
                       {supportedImageModels.map(({ name, text, isSpecial }) => (
-                        <SelectItem key={name} value={name} className="gap-x-2">
+                        <SelectItem key={name} value={name} className="space-x-2">
                           {text}
                           {isSpecial && (
                             <Badge
@@ -241,7 +241,8 @@ const SettingsDropdown = () => {
                     <span>Text</span>
                   </div>
                   <p className="text-slate-700 dark:text-slate-300 text-xs italic">
-                    How you want to give input to GPT?
+                    Choose how you want to interact with GPT - use your voice for hands-free
+                    conversation, or type messages for more precise input
                   </p>
                 </div>
               </li>

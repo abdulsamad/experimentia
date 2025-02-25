@@ -163,8 +163,8 @@ const Sidebar = () => {
                       width={40}
                     />
                     <div>
-                      <p className="text-sm text-white opacity-75">Hello 👋</p>
-                      <p className="text-lg font-semibold text-white opacity-75">
+                      <p className="text-sm opacity-75">Hello 👋</p>
+                      <p className="text-lg font-semibold opacity-75">
                         {user?.name?.includes('@') ? (
                           <span>{user.name}</span>
                         ) : (
@@ -257,7 +257,7 @@ const Sidebar = () => {
                   <Button
                     variant="outline"
                     size="sm"
-                    className="w-full border border-slate-800 text-slate-50"
+                    className="w-full border border-slate-800"
                     asChild>
                     <Link href="/api/auth/logout">
                       <LogOutIcon className="size-4 mr-2" />
