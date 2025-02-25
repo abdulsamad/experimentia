@@ -1,3 +1,5 @@
+'use client';
+
 import { useCallback } from 'react';
 import { useAtom } from 'jotai';
 import { SettingsIcon } from 'lucide-react';
@@ -27,7 +29,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-const ThreadsButton = () => {
+const SettingsDropdown = () => {
   const [config, setConfig] = useAtom(configAtom);
   const { theme, setTheme } = useTheme();
 
@@ -271,4 +273,4 @@ const ThreadsButton = () => {
   );
 };
 
-export default ThreadsButton;
+export default SettingsDropdown;
