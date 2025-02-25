@@ -163,7 +163,7 @@ export const configAtom = atomWithStorage<IConfig>(settingsKey, {
   variation: 'normal',
   language: 'en-IN',
   imageSize: '1024x1024',
-  textInput: false,
+  textInput: true,
   speakResults: false,
   quality: 'standard',
   style: 'vivid',
