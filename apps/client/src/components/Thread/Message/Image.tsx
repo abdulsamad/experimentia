@@ -86,7 +86,11 @@ const Image = ({ image: { url, alt }, size }: Omit<IImageMessage, 'format'>) => 
               {alt ? (
                 <>
                   <figcaption>{alt}</figcaption>
-                  <CopyToClipboard text={alt as string} onCopy={() => toast.success('Copied!')}>
+                  <CopyToClipboard
+                    text={alt as string}
+                    onCopy={() => {
+                      toast.success('Copied!');
+                    }}>
                     <Button
                       title="Copy"
                       size="icon"
