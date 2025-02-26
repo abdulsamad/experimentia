@@ -141,19 +141,19 @@ const Sidebar = () => {
     <AnimatePresence>
       {sidebarOpen && (
         <div
-          className="absolute inset-0 w-screen min-h-[100svh] backdrop-blur-md z-40 overflow-hidden"
+          className="absolute inset-0 w-screen min-h-[100svh] backdrop-blur-md z-40 overflow-hidden **:[li]:px-4"
           onClick={(ev) => {
             if (ev.currentTarget === ev.target) setSidebarOpen(false);
           }}>
           <motion.aside
-            className="h-full w-[300px] pb-10 pt-5 flex flex-col justify-between overflow-x-hidden overflow-y-auto shadow-2xl bg-white dark:bg-black"
+            className="h-full w-[300px] pb-10 pt-5 flex flex-col justify-between overflow-x-hidden overflow-y-auto shadow-2xl bg-accent"
             initial="hidden"
             animate="show"
             exit="hidden"
             variants={sidebarVariants}>
             <div>
               <ul className="space-y-3 mb-5">
-                <li>
+                <li className="">
                   <div className="flex items-center space-x-3">
                     <Image
                       className="rounded-full size-[40px] object-cover"
@@ -174,13 +174,13 @@ const Sidebar = () => {
                     </div>
                   </div>
                 </li>
-                <li className="py-2 px-4">
+                <li className="py-2">
                   <hr className="border-gray-700" />
                 </li>
-                <li className="px-4 mb-4 w-full">
+                <li className="mb-4 w-full">
                   <Button
                     variant="default"
-                    className="w-full bg-purple-500 text-white"
+                    className="w-full text-white bg-gradient-to-r from-purple-700 via-purple-600 to-purple-500 hover:from-purple-600 hover:via-purple-500 hover:to-purple-400 transition-all duration-300 shadow-lg hover:shadow-purple-500/25"
                     onClick={addNewChat}>
                     <PlusIcon className="mr-2" />
                     New Chat
@@ -193,21 +193,21 @@ const Sidebar = () => {
                     {threads.map(({ id, thread, timestamp, name }) => {
                       const isSelected = id === currentThreadId;
                       const rootClasses: HTMLAttributes<HTMLButtonElement>['className'] = isSelected
-                        ? `relative before:content-[''] before:absolute before:-left-0 before:top-1/2 before:-translate-y-1/2 before:w-24 before:h-24 before:rounded-[10px] before:bg-blue-500 before:rotate-45 before:-translate-x-[103px]`
+                        ? `relative before:content-[''] before:absolute before:-left-0 before:top-1/2 before:-translate-y-1/2 before:w-24 before:h-24 before:rounded-[10px] before:bg-purple-500 before:rotate-45 before:-translate-x-[105px]`
                         : '';
                       const backgroundClasses: HTMLAttributes<HTMLButtonElement>['className'] =
-                        isSelected ? 'bg-[rgba(255,255,255,0.15)]' : '';
+                        isSelected ? 'bg-[rgba(255, 255, 255, 0.15)]' : '';
 
                       return (
                         <div
                           key={id}
-                          className={`w-full rounded-none cursor-default hover:bg-transparent ${rootClasses}`}
+                          className={`w-full px-4 rounded-none cursor-default hover:bg-transparent ${rootClasses}`}
                           onClick={() => {
                             setSidebarOpen(false);
                             updateCurrentChatId(id, thread);
                           }}>
                           <div
-                            className={`flex items-center justify-around gap-2 w-full py-2 rounded-[8px] ${backgroundClasses}`}>
+                            className={`flex items-center justify-between gap-2 w-full p-2 rounded-[8px] ${backgroundClasses}`}>
                             <p className={`truncate w-[22ch] text-left`}>
                               {name || dayjs(timestamp).format('hh:mm A - DD/MM/YY')}
                             </p>
@@ -251,22 +251,18 @@ const Sidebar = () => {
                 </div>
               )}
             </div>
-            <div className="px-4">
-              <ul className="space-y-5">
-                <li>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="w-full border border-slate-800"
-                    asChild>
-                    <Link href="/api/auth/logout">
-                      <LogOutIcon className="size-4 mr-2" />
+            <ul className="space-y-5">
+              <li>
+                <Button variant="outline" size="sm" className="w-full" asChild>
+                  <Link href="/api/auth/logout">
+                    <span className="dark:text-slate-50 text-slate-700 flex items-center gap-2">
+                      <LogOutIcon className="size-4" />
                       Logout
-                    </Link>
-                  </Button>
-                </li>
-              </ul>
-            </div>
+                    </span>
+                  </Link>
+                </Button>
+              </li>
+            </ul>
           </motion.aside>
         </div>
       )}

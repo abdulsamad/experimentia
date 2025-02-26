@@ -73,7 +73,7 @@ const SettingsDropdown = () => {
             <span className="sr-only">Toggle thread dropdown</span>
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="rounded-xl" align="end">
+        <DropdownMenuContent className="rounded-xl max-w-72" align="end">
           <ul className="space-y-10 p-4">
             <li>
               <div className="flex flex-col space-y-2">
@@ -232,6 +232,13 @@ const SettingsDropdown = () => {
               <li>
                 <div className="flex flex-col items-center justify-center space-y-3.5">
                   <h3 className="text-md">Input Type</h3>
+                  <p className="text-slate-700 text-center dark:text-slate-300 text-xs italic">
+                    How you want to interact with GPT - <br />
+                    {textInput
+                      ? `type messages for more precise input`
+                      : `use your voice for hands-free
+                  conversation`}
+                  </p>
                   <div className="flex items-center space-x-3 text-sm">
                     <span>Voice</span>
                     <Switch
@@ -240,10 +247,6 @@ const SettingsDropdown = () => {
                     />
                     <span>Text</span>
                   </div>
-                  <p className="text-slate-700 dark:text-slate-300 text-xs italic">
-                    Choose how you want to interact with GPT - use your voice for hands-free
-                    conversation, or type messages for more precise input
-                  </p>
                 </div>
               </li>
             )}

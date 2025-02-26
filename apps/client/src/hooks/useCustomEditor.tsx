@@ -43,6 +43,7 @@ const useCustomEditor = () => {
 
   const editor = useEditor({
     extensions,
+    immediatelyRender: false,
     editorProps: {
       attributes: { class: 'w-full h-[50px] p-3 box-border' },
       handleDOMEvents: {

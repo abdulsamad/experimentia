@@ -1,7 +1,9 @@
+import { withPageAuthRequired } from '@auth0/nextjs-auth0';
+
 import Root from '@/components/Root';
 
-const Page = () => {
+const Page = async () => {
   return <Root />;
 };
 
-export default Page;
+export default withPageAuthRequired(Page);

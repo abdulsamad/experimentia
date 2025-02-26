@@ -37,7 +37,9 @@ export const speechLog = (text: string, styles?: React.CSSProperties) => {
 export const speechGrammer =
   '#JSGF V1.0; grammar colors; public <color> = aqua | azure | black | orange ;';
 
-export const IS_SPEECH_RECOGNITION_SUPPORTED = () =>
-  'webkitSpeechRecognition' in window || 'SpeechRecognition' in window;
+export const isClient = global.window !== undefined;
 
-export const IS_SPEECH_SYNTHESIS_SUPPORTED = () => 'speechSynthesis' in window;
+export const IS_SPEECH_RECOGNITION_SUPPORTED = () =>
+  isClient && ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window);
+
+export const IS_SPEECH_SYNTHESIS_SUPPORTED = () => isClient && 'speechSynthesis' in window;
