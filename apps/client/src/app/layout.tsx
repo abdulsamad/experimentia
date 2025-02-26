@@ -5,6 +5,7 @@ import { Toaster } from 'sonner';
 
 import ThemeProvider from '@/components/ThemeProvider';
 import { cn } from '@/utils';
+
 import './globals.css';
 
 const inter = Inter({
