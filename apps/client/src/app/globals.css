@@ -50,6 +50,18 @@
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  a {
+    @apply text-current;
+  }
+
   .dark {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
@@ -89,15 +101,6 @@
   }
 }
 
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-}
-
 /* Prose Mirror */
 
 .ProseMirror {
@@ -119,36 +122,11 @@
 }
 
 /* Message */
+
 .chat:not([data-type='user']) :is(.message > *) {
   margin: 10px 0;
 }
 
-.chat:not([data-type='user']) :is(.message table) {
-  border-collapse: separate;
-  border-spacing: 0 1em;
-  text-wrap: pretty;
-}
-
-.chat:not([data-type='user']) .message code {
-  display: block;
-  margin: 0.75em 0;
-  padding: 0.5em 1.5em;
-  color: #f5f5f5;
-  background-color: #21252b;
-  border-radius: 1rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-
-  a {
-    @apply text-current;
-  }
+.chat:not([data-type='user']) .message pre > div div:has(> code) {
+  border-radius: 16px;
 }

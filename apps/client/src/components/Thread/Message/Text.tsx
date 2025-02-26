@@ -1,58 +1,128 @@
-import React from 'react';
+import React, { HTMLAttributes } from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { toast } from 'sonner';
-import { Copy } from 'lucide-react';
+import { CopyIcon, TerminalIcon } from 'lucide-react';
 import Markdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { ErrorBoundary, FallbackProps } from 'react-error-boundary';
-import { TerminalIcon } from 'lucide-react';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { clsx } from 'clsx';
+import { Fira_Code } from 'next/font/google';
 
+import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import {
+  Table,
+  TableBody,
+  TableHeader,
+  TableHead,
+  TableFooter,
+  TableRow,
+  TableCell,
+} from '@/components/ui/table';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+
+const firacode = Fira_Code({
+  weight: ['300', '400', '500', '600', '700'],
+  subsets: ['latin'],
+});
 
 interface IText {
   isUser: boolean;
-  messageClassNames: string;
+  messageClassNames: HTMLAttributes<HTMLSpanElement>['className'];
   message?: string;
 }
 
 const Text = ({ isUser, messageClassNames, message }: IText) => {
-  const fallbackRender = ({ error }: FallbackProps) => (
-    <Alert>
-      <TerminalIcon className="h-4 w-4" />
-      <AlertTitle>Error Rendering Message</AlertTitle>
-      <AlertDescription>
-        <p>Unable to display this message due to an error:</p>
-        <pre style={{ color: 'red' }}>{error.message}</pre>
-        <p className="text-sm text-muted-foreground mt-2">
-          This could be due to invalid markdown formatting or unsupported content in the response.
-          You can still copy the raw message using the copy button.
-        </p>
-      </AlertDescription>
-    </Alert>
-  );
-
   return (
-    <ErrorBoundary fallbackRender={fallbackRender}>
-      <div className="relative">
-        <span
-          className={`message relative inline-block max-w-[400px] py-1.5 px-3 rounded-xl before:content-[''] before:block before:h-0 before:w-0 before:border-y-8 before:border-y-transparent before:border-l-[14px] before:border-l-primary before:absolute before:top-1/2 before:-translate-y-1/2 ${messageClassNames}`}>
-          <Markdown components={{ div: ({ children }) => <span>{children}</span> }}>
+    <Card
+      className={`message group/message relative inline-block py-1.5 px-3 rounded-xl before:content-[''] before:block before:h-0 before:w-0 before:border-y-8 before:border-y-transparent before:border-l-[14px] before:border-l-primary before:absolute before:top-1/2 before:-translate-y-1/2] w-[min(70%,_600px)] ${messageClassNames}`}>
+      {isUser ? (
+        message
+      ) : (
+        <ErrorBoundary fallbackRender={fallbackRender}>
+          <Markdown
+            remarkPlugins={[[remarkGfm]]}
+            components={{
+              code(props) {
+                const { children, className, node, ...rest } = props;
+                const match = /language-(\w+)/.exec(className || '');
+
+                return (
+                  <>
+                    {match ? (
+                      <div className={`${firacode.className} leading-relaxed ligatures`}>
+                        <div className="flex justify-end items-center">
+                          <CopyToClipboard
+                            text={children!?.toString()}
+                            onCopy={() => toast.success('Copied!')}>
+                            <Button
+                              title="Copy"
+                              size="default"
+                              className="h-6 w-20 font-sans ml-auto rounded-b-none transition-all duration-300 opacity-0 translate-y-1 group-hover/message:opacity-100 group-hover/message:translate-y-0">
+                              <span>Copy</span> <CopyIcon className="h-4 w-4" />
+                            </Button>
+                          </CopyToClipboard>
+                        </div>
+                        <div className="font-bold">
+                          {/* @ts-ignore */}
+                          <SyntaxHighlighter
+                            {...rest}
+                            PreTag="div"
+                            children={String(children).replace(/\n$/, '')}
+                            customStyle={{ margin: 0 }}
+                            language={match[1]}
+                            style={vscDarkPlus}
+                          />
+                        </div>
+                      </div>
+                    ) : (
+                      <code
+                        {...rest}
+                        className={clsx(
+                          className,
+                          firacode.className,
+                          `bg-[#1E1E1E] py-1 px-2 rounded-xl font-medium select-text`
+                        )}>
+                        {children?.toString().trim()}
+                      </code>
+                    )}
+                  </>
+                );
+              },
+              p: ({ children }) => <p>{children}</p>,
+              span: ({ children }) => <span>{children}</span>,
+              div: ({ children }) => <div>{children}</div>,
+              table: ({ children }) => <Table>{children}</Table>,
+              thead: ({ children }) => <TableHeader>{children}</TableHeader>,
+              tbody: ({ children }) => <TableBody>{children}</TableBody>,
+              tfoot: ({ children }) => <TableFooter>{children}</TableFooter>,
+              tr: ({ children }) => <TableRow>{children}</TableRow>,
+              th: ({ children }) => <TableHead>{children}</TableHead>,
+              td: ({ children }) => <TableCell>{children}</TableCell>,
+            }}>
             {message || ''}
           </Markdown>
-        </span>
-        <CopyToClipboard text={message as string} onCopy={() => toast.success('Copied!')}>
-          <Button
-            title="Copy"
-            size="icon"
-            className={`h-6 w-6 -translate-y-1/2 group-hover/chat:visible invisible absolute bottom-0 ${
-              isUser ? '-left-8' : '-right-8'
-            }`}>
-            <Copy className="h-4 w-4" />
-          </Button>
-        </CopyToClipboard>
-      </div>
-    </ErrorBoundary>
+        </ErrorBoundary>
+      )}
+    </Card>
   );
 };
+
+const fallbackRender = ({ error }: FallbackProps) => (
+  <Alert>
+    <TerminalIcon className="h-4 w-4" />
+    <AlertTitle>Error Rendering Message</AlertTitle>
+    <AlertDescription>
+      <p>Unable to display this message due to an error:</p>
+      {/* <pre style={{ color: 'red' }}>{error.message}</pre> */}
+      <p className="text-sm text-muted-foreground mt-2">
+        This could be due to invalid markdown formatting or unsupported content in the response. You
+        can still copy the raw message using the copy button.
+      </p>
+    </AlertDescription>
+  </Alert>
+);
 
 export default Text;

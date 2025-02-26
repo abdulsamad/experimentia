@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { HTMLAttributes, useCallback, useEffect } from 'react';
 import { useAtomValue } from 'jotai';
 import { useUser } from '@auth0/nextjs-auth0/client';
 
@@ -8,6 +8,15 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import Message from './Message';
 import Empty from './Empty';
 import Typing from './Typing';
+
+export type UserInfo = Record<
+  'user' | 'assistant',
+  {
+    name: string | undefined | null;
+    avatarImageSrc: string;
+    messageClassNames: HTMLAttributes<HTMLSpanElement>['className'];
+  }
+>;
 
 const Chats = () => {
   const chats = useAtomValue(chatAtom);
@@ -22,23 +31,23 @@ const Chats = () => {
 
     setTimeout(() => {
       chats[chats.length - 1].scrollIntoView({
-        behavior: 'smooth',
+        behavior: 'instant',
         block: 'start',
       });
     }, 200);
   }, [chats]);
 
   const userInfo = useCallback(
-    (variation: string | null) => ({
+    (variation: string | null): UserInfo => ({
       user: {
-        name: user?.nickname,
-        userImageSrc: user?.picture as string,
+        name: user?.nickname || user?.name || user?.email,
+        avatarImageSrc: user?.picture as string,
         messageClassNames:
           'bg-primary text-secondary before:right-0 before:translate-x-[70%] before:border-l-primary',
       },
       assistant: {
         name: variation?.split('-').join(' '),
-        userImageSrc: `/icons/${variation}.png`,
+        avatarImageSrc: `/icons/${variation}.png`,
         messageClassNames:
           'bg-secondary before:left-0 before:-translate-x-[70%] before:rotate-180 before:border-l-secondary',
       },

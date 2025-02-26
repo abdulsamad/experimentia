@@ -102,30 +102,34 @@ const SettingsDropdown = () => {
                     <SelectGroup>
                       <SelectLabel>Text</SelectLabel>
                       {supportedTextModels.map(({ name, text, isSpecial }) => (
-                        <SelectItem key={name} value={name} className="space-x-2">
-                          {text}
-                          {isSpecial && (
-                            <Badge
-                              variant="outline"
-                              className="dark:bg-slate-50 dark:text-slate-900">
-                              Special
-                            </Badge>
-                          )}
+                        <SelectItem key={name} value={name}>
+                          <div className="flex items-center gap-2">
+                            {text}
+                            {isSpecial && (
+                              <Badge
+                                variant="outline"
+                                className="dark:bg-slate-50 dark:text-slate-900">
+                                Special
+                              </Badge>
+                            )}
+                          </div>
                         </SelectItem>
                       ))}
                     </SelectGroup>
                     <SelectGroup>
                       <SelectLabel>Image</SelectLabel>
                       {supportedImageModels.map(({ name, text, isSpecial }) => (
-                        <SelectItem key={name} value={name} className="space-x-2">
-                          {text}
-                          {isSpecial && (
-                            <Badge
-                              variant="outline"
-                              className="dark:bg-slate-50 dark:text-slate-900">
-                              Special
-                            </Badge>
-                          )}
+                        <SelectItem key={name} value={name} className="gap-2">
+                          <div className="flex items-center gap-2">
+                            {text}
+                            {isSpecial && (
+                              <Badge
+                                variant="outline"
+                                className="dark:bg-slate-50 dark:text-slate-900">
+                                Special
+                              </Badge>
+                            )}
+                          </div>
                         </SelectItem>
                       ))}
                     </SelectGroup>
