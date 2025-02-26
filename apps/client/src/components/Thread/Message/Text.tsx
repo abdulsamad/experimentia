@@ -37,7 +37,7 @@ interface IText {
 const Text = ({ isUser, messageClassNames, message }: IText) => {
   return (
     <Card
-      className={`message group/message relative inline-block py-1.5 px-3 rounded-xl before:content-[''] before:block before:h-0 before:w-0 before:border-y-8 before:border-y-transparent before:border-l-[14px] before:border-l-primary before:absolute before:top-1/2 before:-translate-y-1/2] w-[min(70%,_600px)] ${messageClassNames}`}>
+      className={`message group/message relative inline-block py-1.5 px-3 rounded-xl before:content-[''] before:block before:h-0 before:w-0 before:border-y-8 before:border-y-transparent before:border-l-[14px] before:border-l-primary before:absolute before:top-1/2 before:-translate-y-1/2] w-[min(70%,_600px)] ${messageClassNames} [&_p:has(code)]:leading-8 [&_div:has(code)]:leading-8 [&_span:has(code)]:leading-8`}>
       {isUser ? (
         message
       ) : (
@@ -60,7 +60,7 @@ const Text = ({ isUser, messageClassNames, message }: IText) => {
                             <Button
                               title="Copy"
                               size="default"
-                              className="h-6 w-20 font-sans ml-auto rounded-b-none transition-all duration-300 opacity-0 translate-y-1 group-hover/message:opacity-100 group-hover/message:translate-y-0">
+                              className="h-6 w-20 font-sans ml-auto mr-[11px] rounded-t-lg rounded-b-none transition-all duration-300 opacity-0 translate-y-1 group-hover/message:opacity-100 group-hover/message:translate-y-0">
                               <span>Copy</span> <CopyIcon className="h-4 w-4" />
                             </Button>
                           </CopyToClipboard>
@@ -70,11 +70,11 @@ const Text = ({ isUser, messageClassNames, message }: IText) => {
                           <SyntaxHighlighter
                             {...rest}
                             PreTag="div"
-                            children={String(children).replace(/\n$/, '')}
                             customStyle={{ margin: 0 }}
                             language={match[1]}
-                            style={vscDarkPlus}
-                          />
+                            style={vscDarkPlus}>
+                            {String(children).replace(/\n$/, '')}
+                          </SyntaxHighlighter>
                         </div>
                       </div>
                     ) : (
@@ -83,7 +83,7 @@ const Text = ({ isUser, messageClassNames, message }: IText) => {
                         className={clsx(
                           className,
                           firacode.className,
-                          `bg-[#1E1E1E] py-1 px-2 rounded-xl font-medium select-text`
+                          `bg-[#1E1E1E] text-slate-50 py-1 px-2 rounded-xl font-medium select-all`
                         )}>
                         {children?.toString().trim()}
                       </code>

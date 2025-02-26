@@ -157,8 +157,8 @@ const Sidebar = () => {
                   <div className="flex items-center space-x-3">
                     <Image
                       className="rounded-full size-[40px] object-cover"
-                      src={user?.picture as string}
-                      alt={user?.name as string}
+                      src={user?.picture!}
+                      alt={user?.name!}
                       height={40}
                       width={40}
                     />

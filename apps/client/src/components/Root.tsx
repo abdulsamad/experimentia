@@ -1,5 +1,6 @@
 'use client';
 
+import { withPageAuthRequired } from '@auth0/nextjs-auth0/client';
 import { Provider } from 'jotai';
 
 import Home from '@/components/Home';
@@ -24,4 +25,4 @@ const Root = () => {
   );
 };
 
-export default Root;
+export default withPageAuthRequired(Root);

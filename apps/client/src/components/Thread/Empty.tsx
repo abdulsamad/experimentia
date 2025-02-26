@@ -73,7 +73,7 @@ const Empty = ({ nickname, textInput }: IEmpty) => {
                   key={hint}
                   variant="ghost"
                   onClick={() => handleOnClick(hint)}
-                  className="bg-[rgba(_255,_255,_255,_0.25)] dark:[box-shadow:0_8px_32px_0_rgba(_31,_38,_135,_0.37)] backdrop-filter backdrop-blur-sm rounded-[10px] border border-solid border-[rgba(255,255,255,0.18)] cursor-default">
+                  className="bg-[rgba(_255,_255,_255,_0.25)] [box-shadow:0_8px_32px_0_rgba(_0,_0,_0,_0.1)] dark:[box-shadow:0_8px_32px_0_rgba(_31,_38,_135,_0.37)] backdrop-filter backdrop-blur-sm rounded-[10px] border border-solid border-[rgba(255,255,255,0.18)] cursor-default">
                   <p className="my-3 px-2 whitespace-nowrap max-w-full">{hint}</p>
                 </Button>
               ))}
