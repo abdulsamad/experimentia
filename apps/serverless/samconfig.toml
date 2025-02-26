@@ -1,11 +1,12 @@
-version = 0.1
+version = 1.0
+
 [default]
 [default.deploy]
 [default.deploy.parameters]
 stack_name = "experimentia"
 region = "us-east-1"
 confirm_changeset = false
+fail_on_empty_changeset = false
 capabilities = "CAPABILITY_IAM"
 image_repositories = []
 s3_bucket = "experimentia"
-# parameter_overrides = "GoogleApiKey=\"Your Google API Key\""

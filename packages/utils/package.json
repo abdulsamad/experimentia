@@ -5,6 +5,6 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
-    "openai": "^4.20.1"
+    "ai": "^4.1.45"
   }
 }

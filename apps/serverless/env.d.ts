@@ -9,5 +9,7 @@ declare namespace NodeJS {
     AUTH0_ISSUER_BASE_URL: string;
     GOOGLE_API_KEY: string;
     OPENAI_API_KEY: string;
+    ANTHROPIC_API_KEY: string;
+    MISTRAL_API_KEY: string;
   }
 }

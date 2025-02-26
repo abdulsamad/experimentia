@@ -1,9 +1,9 @@
 import { Context } from 'hono';
 import { streamText, APICallError } from 'ai';
 
-import { gemini } from '@models/index';
+import { getAssistantConfig } from 'utils';
 
-import { promptMapper } from 'utils';
+import { modelFactory } from '@models/factory';
 
 const chat = async (c: Context) => {
   try {
@@ -13,13 +13,25 @@ const chat = async (c: Context) => {
       return c.json({ success: false, err: 'Prompt not found' }, 400);
     }
 
+    const modelInstance = modelFactory.createModel(model);
+
+    const config = getAssistantConfig(variation, language);
     const result = streamText({
-      model: gemini,
+      model: modelInstance,
       messages: [
-        { role: 'system', content: promptMapper(variation, language).prompt },
+        { role: 'system', content: config.prompt },
         { role: 'user', content: prompt },
       ],
-      temperature: 0.5,
+      temperature: config.temperature,
+      seed: config.seed,
+      tools: config.tools,
+      toolChoice: config.toolChoice,
+      toolCallStreaming: config.toolCallStreaming,
+      maxTokens: config.maxTokens,
+      topP: config.topP,
+      frequencyPenalty: config.frequencyPenalty,
+      presencePenalty: config.presencePenalty,
+      stopSequences: config.stopSequences,
     });
 
     // Create a ReadableStream for the response

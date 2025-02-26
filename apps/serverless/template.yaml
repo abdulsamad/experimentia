@@ -10,9 +10,10 @@ Resources:
       Runtime: nodejs22.x
       Architectures:
         - x86_64
-      Environment:
-        Variables:
-          GOOGLE_API_KEY: !Ref GoogleApiKey
+      Timeout: 30
+      MemorySize: 128
+      EphemeralStorage:
+        Size: 512
       Role: !GetAtt LambdaExecutionRole.Arn
     Metadata:
       BuildMethod: esbuild
@@ -20,7 +21,7 @@ Resources:
   ApiFunctionUrl:
     Type: AWS::Lambda::Url
     Properties:
-      AuthType: NONE # OR change to AWS_IAM for security
+      AuthType: NONE
       Cors:
         AllowOrigins:
           - "*"
@@ -29,7 +30,7 @@ Resources:
           - GET
         AllowHeaders:
           - "*"
-      InvokeMode: RESPONSE_STREAM # RESPONSE_STREAM requires IAM authentication
+      InvokeMode: RESPONSE_STREAM
       TargetFunctionArn: !GetAtt ApiFunction.Arn
 
   ApiFunctionPermission:
@@ -61,12 +62,6 @@ Resources:
                   - logs:CreateLogStream
                   - logs:PutLogEvents
                 Resource: "*"
-
-Parameters:
-  GoogleApiKey:
-    Type: String
-    NoEcho: true
-    Description: Google API Key
 
 Outputs:
   FunctionUrl:
