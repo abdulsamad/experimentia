@@ -5,7 +5,7 @@ import { createMistral, MistralProvider } from '@ai-sdk/mistral';
 
 // Initialize Gemini client
 export const googleClient = createGoogleGenerativeAI({
-  apiKey: process.env.GOOGLE_API_KEY,
+  apiKey: process.env.GEMINI_API_KEY,
 });
 
 // Initialize OpenAI client
