@@ -54,3 +54,7 @@ next-env.d.ts
 # Serverless
 jspm_packages
 .serverless
+
+# React Router
+/.react-router/
+/build/
