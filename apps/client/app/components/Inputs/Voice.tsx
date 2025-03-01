@@ -20,7 +20,7 @@ const Voice = () => {
         variant="link"
         title={isListening ? 'Stop Voice Recognition' : 'Start Voice Recognition'}
         size="icon"
-        className={`bg-primary rounded-3xl flex items-center justify-center bg-purple-500 text-slate-50 shadow-md hover:text-gray-300 group hover:shadow-slate-700 ${toggleListeningClasses}`}
+        className={`bg-primary rounded-3xl flex items-center justify-center text-accent shadow-md hover:text-gray-300 group hover:shadow-slate-700 ${toggleListeningClasses}`}
         onClick={isListening ? stopRecognition : startRecognition}>
         {isChatResponseLoading ? (
           <Loader2 className="animate-spin" />

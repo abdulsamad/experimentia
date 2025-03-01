@@ -280,11 +280,11 @@ export const imageSizes = (model: (typeof supportedImageModels)[0]['name']) => {
     return {
       default: '1024x1024',
       options: ['1024x1024', '1024x1792', '1792x1024'],
-    };
+    } as const;
   }
 
   return {
     default: '256x256',
     options: ['256x256', '512x512', '1024x1024'],
-  };
+  } as const;
 };
