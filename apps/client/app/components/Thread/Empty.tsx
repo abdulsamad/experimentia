@@ -39,7 +39,9 @@ const Empty = ({ name, textInput }: IEmpty) => {
       // Reset cursor position after inserting content
       editor.chain().focus().setTextSelection(cursorPos).run();
 
-      await handleSubmit();
+      const isSubmitSuccess = await handleSubmit();
+
+      if (!isSubmitSuccess) return;
 
       // First success message
       setTimeout(() => {

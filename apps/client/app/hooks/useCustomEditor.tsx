@@ -189,6 +189,8 @@ const useCustomEditor = () => {
           });
         }
       }
+
+      return true;
     } catch (err) {
       console.error(err);
 
