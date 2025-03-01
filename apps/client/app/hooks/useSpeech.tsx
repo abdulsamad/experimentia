@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback, useTransition } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
-import dayjs from 'dayjs';
+import { getTime } from 'date-fns';
 import { toast } from 'sonner';
 import { useAuth, useUser } from '@clerk/react-router';
 import axios from 'axios';
@@ -83,7 +83,7 @@ const useSpeech = () => {
           type: 'user',
           message: transcript,
           variation: null,
-          timestamp: dayjs().valueOf(),
+          timestamp: getTime(new Date()),
           format: 'text',
           model,
         });
@@ -110,7 +110,7 @@ const useSpeech = () => {
                 alt: image.data[0]?.revised_prompt,
               },
               variation,
-              timestamp: dayjs().valueOf(),
+              timestamp: getTime(new Date()),
               format: 'image',
               size: imageSize,
               model,
@@ -138,7 +138,7 @@ const useSpeech = () => {
 
           const reader = (stream as ReadableStream<string>).getReader();
           const uid = crypto.randomUUID();
-          const timestamp = dayjs().valueOf();
+          const timestamp = getTime(new Date());
           let content = '';
 
           // Close Loader

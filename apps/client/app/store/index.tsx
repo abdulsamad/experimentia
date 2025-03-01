@@ -1,7 +1,7 @@
 import { atom, type WritableAtom } from 'jotai';
 import { atomEffect } from 'jotai-effect';
 import { atomWithStorage } from 'jotai/utils';
-import dayjs from 'dayjs';
+import { getTime, format } from 'date-fns';
 
 import type { variationsType, supportedLanguagesType, supportedModelsType } from 'utils';
 
@@ -85,8 +85,8 @@ export const chatSaveEffect = atomEffect((get, set) => {
     const chatsItem: IThread = {
       id: threadId,
       thread,
-      timestamp: dayjs(Date.now()).valueOf(),
-      name: `Chat (${dayjs(Date.now()).format('hh:mm - DD/MM/YY')})`,
+      timestamp: getTime(new Date()),
+      name: `Chat (${format(new Date(), 'hh:mm - dd/MM/yy')})`,
     };
 
     let updatedThreads;

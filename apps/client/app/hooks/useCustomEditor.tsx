@@ -3,7 +3,7 @@ import { useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Placeholder from '@tiptap/extension-placeholder';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
-import dayjs from 'dayjs';
+import { getTime } from 'date-fns';
 import { toast } from 'sonner';
 import { useAuth, useUser } from '@clerk/react-router';
 import axios from 'axios';
@@ -87,7 +87,7 @@ const useCustomEditor = () => {
         type: 'user',
         message: editor?.getText(),
         variation: null,
-        timestamp: dayjs().valueOf(),
+        timestamp: getTime(new Date()),
         format: 'text',
         model,
       });
@@ -114,7 +114,7 @@ const useCustomEditor = () => {
               alt: image.data[0]?.revised_prompt,
             },
             variation,
-            timestamp: dayjs().valueOf(),
+            timestamp: getTime(new Date()),
             format: 'image',
             size: imageSize,
             model,
@@ -143,7 +143,7 @@ const useCustomEditor = () => {
         const reader = (stream as ReadableStream<string>).getReader();
 
         const uid = crypto.randomUUID();
-        const timestamp = dayjs().valueOf();
+        const timestamp = getTime(new Date());
         let content = '';
 
         // Close Loader

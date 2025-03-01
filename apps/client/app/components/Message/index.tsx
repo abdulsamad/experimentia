@@ -1,4 +1,4 @@
-import dayjs from 'dayjs';
+import { format as dFnsFormat } from 'date-fns';
 import { motion } from 'motion/react';
 
 import { IMessageCommons, ITextMessage, IImageMessage } from '@/store';
@@ -66,7 +66,9 @@ const Message = ({
         {/* Time */}
         <div
           className={`flex items-center gap-x-1 pt-2 pl-2 ${isUser ? 'justify-end' : 'justify-start'} ${isImage ? 'mb-1' : nameTimeMargin}`}>
-          <time className="text-xs italic opacity-60">{dayjs(timestamp).format('hh:mm A')}</time>
+          <time className="text-xs italic opacity-60">
+            {dFnsFormat(new Date(timestamp), 'hh:mm a')}
+          </time>
         </div>
       </div>
     </motion.div>

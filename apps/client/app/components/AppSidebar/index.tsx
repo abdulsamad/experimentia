@@ -11,7 +11,7 @@ import { useAtom } from 'jotai';
 import { LogOutIcon, PlusIcon, TrashIcon } from 'lucide-react';
 import { useSetAtom } from 'jotai';
 import { useAuth, useUser } from '@clerk/react-router';
-import dayjs from 'dayjs';
+import { format } from 'date-fns';
 import clsx from 'clsx';
 
 import { threadAtom, currentThreadIdAtom, IMessage, type IThreads } from '@/store';
@@ -187,7 +187,7 @@ const AppSidebar = () => {
                                       backgroundClasses
                                     )}>
                                     <p className="truncate w-fit text-foreground text-left">
-                                      {name || dayjs(timestamp).format('hh:mm A - DD/MM/YY')}
+                                      {name || format(new Date(timestamp), 'hh:mm A - DD/MM/YY')}
                                     </p>
                                   </a>
                                 </SidebarMenuButton>
