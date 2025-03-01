@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@clerk/react-router": "^1.1.1",
+    "@fontsource/fira-code": "^5.1.1",
     "@hookform/resolvers": "^4.1.2",
     "@radix-ui/react-accordion": "^1.2.3",
     "@radix-ui/react-alert-dialog": "^1.1.6",

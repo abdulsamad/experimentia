@@ -8,7 +8,7 @@ import { ErrorBoundary, type FallbackProps } from 'react-error-boundary';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 // import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { clsx } from 'clsx';
-// import { Fira_Code } from 'next/font/google';
+import '@fontsource/fira-code';
 
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -23,11 +23,6 @@ import {
 } from '@/components/ui/table';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
-// const firacode = Fira_Code({
-//   weight: ['300', '400', '500', '600', '700'],
-//   subsets: ['latin'],
-// });
-
 interface IText {
   isUser: boolean;
   messageClassNames: HTMLAttributes<HTMLSpanElement>['className'];
@@ -41,7 +36,6 @@ const Text = ({ isUser, messageClassNames, message }: IText) => {
       {isUser ? (
         message
       ) : (
-        // @ts-ignore
         <ErrorBoundary fallbackRender={fallbackRender}>
           <Markdown
             remarkPlugins={[[remarkGfm]]}
@@ -53,7 +47,7 @@ const Text = ({ isUser, messageClassNames, message }: IText) => {
                 return (
                   <>
                     {match ? (
-                      <div className={`leading-relaxed ligatures`}>
+                      <div className="leading-relaxed ligatures [font-family:_Fira_Code]">
                         <div className="flex justify-end items-center">
                           {/* @ts-ignore */}
                           <CopyToClipboard
@@ -63,7 +57,6 @@ const Text = ({ isUser, messageClassNames, message }: IText) => {
                               title="Copy"
                               size="default"
                               className="h-6 w-20 font-sans ml-auto mr-[11px] rounded-t-lg rounded-b-none transition-all duration-300 opacity-0 translate-y-1 group-hover/message:opacity-100 group-hover/message:translate-y-0">
-                              {/* @ts-ignore */}
                               <span>Copy</span> <CopyIcon className="h-4 w-4" />
                             </Button>
                           </CopyToClipboard>
@@ -86,8 +79,7 @@ const Text = ({ isUser, messageClassNames, message }: IText) => {
                         {...rest}
                         className={clsx(
                           className,
-                          // firacode.className,
-                          `bg-[#1E1E1E] text-slate-50 py-1 px-2 rounded-xl font-medium select-all`
+                          `bg-[#1E1E1E] text-slate-50 py-1 px-2 rounded-xl font-medium select-all [font-family:_Fira_Code]`
                         )}>
                         {children?.toString().trim()}
                       </code>
@@ -116,7 +108,6 @@ const Text = ({ isUser, messageClassNames, message }: IText) => {
 
 const fallbackRender = ({ error }: FallbackProps) => (
   <Alert>
-    {/* @ts-ignore */}
     <TerminalIcon className="h-4 w-4" />
     <AlertTitle>Error Rendering Message</AlertTitle>
     <AlertDescription>
@@ -131,6 +122,3 @@ const fallbackRender = ({ error }: FallbackProps) => (
 );
 
 export default Text;
-{
-  /* @ts-ignore */
-}
