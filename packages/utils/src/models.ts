@@ -275,7 +275,7 @@ export const variations = [
   },
 ] as const;
 
-export const imageSizes = (model: string) => {
+export const imageSizes = (model: (typeof supportedImageModels)[0]['name']) => {
   if (model === 'dall-e-3') {
     return {
       default: '1024x1024',

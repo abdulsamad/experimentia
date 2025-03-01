@@ -91,7 +91,7 @@ const useSpeech = () => {
         setIsChatResponseLoading(true);
         stopRecognition();
 
-        if (supportedImageModels.includes(model as any)) {
+        if (supportedImageModels.map(({ name }) => name).includes(model)) {
           const { b64_json, image } = await getGeneratedImage({
             prompt: transcript,
             size: imageSize,
