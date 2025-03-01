@@ -1,5 +1,5 @@
 {
-  "name": "experimentia",
+  "name": "polychat",
   "version": "1.0.0",
   "private": true,
   "license": "UNLICENSE",
@@ -10,11 +10,11 @@
     "test": "turbo run test",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "kill-ports": "kill-port 3000 3001",
-    "client:dev": "pnpm run dev --filter=client",
+    "client:dev": "pnpm --filter=client run dev",
     "client:build": "turbo run build --filter=client",
-    "serverless:dev": "pnpm run dev --filter=serverless",
+    "serverless:dev": "pnpm --filter=serverless run dev",
     "serverless:build": "turbo run build --filter=serverless",
-    "serverless:deploy": "pnpm run deploy --filter=serverless"
+    "serverless:deploy": "pnpm --filter=serverless run deploy"
   },
   "devDependencies": {
     "kill-port": "^2.0.1",
