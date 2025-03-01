@@ -1,13 +1,12 @@
 import { Context, Next } from 'hono';
 import { jwtVerify, createRemoteJWKSet } from 'jose';
 
-// Auth0 configuration
-const issuer = process.env.AUTH0_ISSUER_BASE_URL;
-const audience = process.env.AUTH0_AUDIENCE;
-const jwksUri = `${issuer}.well-known/jwks.json`;
+// Clerk configuration
+const ISSUER_URL = process.env.CLERK_ISSUER_BASE_URL;
+const JWKS_URI = `${ISSUER_URL}/.well-known/jwks.json`;
 
-// Create a JWKS client
-const JWKS = createRemoteJWKSet(new URL(jwksUri));
+// Create a Remote JWKS client
+const JWKS = createRemoteJWKSet(new URL(JWKS_URI));
 
 // JWT Authentication Middleware
 export const authMiddleware = async (c: Context, next: Next) => {
@@ -22,8 +21,7 @@ export const authMiddleware = async (c: Context, next: Next) => {
 
   try {
     const { payload } = await jwtVerify(token, JWKS, {
-      issuer,
-      audience,
+      issuer: ISSUER_URL,
       algorithms: ['RS256'],
     });
 
