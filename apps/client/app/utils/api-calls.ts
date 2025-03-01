@@ -3,7 +3,7 @@ import { useAuth } from '@clerk/react-router';
 
 import { IConfig } from '@/store/index';
 
-import { getConfig } from './config';
+import { getConfig } from './lforage';
 
 const baseURL = import.meta.env.VITE_API_ENDPOINT;
 const axiosInstance = axios.create({ baseURL });

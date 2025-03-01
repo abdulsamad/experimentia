@@ -1,8 +1,9 @@
-import { Suspense } from 'react';
-import { useAtom, useAtomValue } from 'jotai';
-import { useAuth } from '@clerk/react-router';
-import { RedirectToSignIn } from '@clerk/react-router';
+import { Suspense, useState, useEffect } from 'react';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
+import { useAuth, RedirectToSignIn } from '@clerk/react-router';
 
+import { chatAtom, currentThreadIdAtom, type IThreads } from '@/store';
+import { getThreads } from '@/utils/lforage';
 import { chatSaveEffect, configAtom } from '@/store';
 import Text from '@/components/Inputs/Text';
 import Voice from '@/components/Inputs/Voice';
@@ -18,13 +19,36 @@ export const meta = ({}: Route.MetaArgs) => {
   ];
 };
 
-const Home = ({}: Route.ComponentProps) => {
+const Home = ({ params }: Route.ComponentProps) => {
   const { textInput } = useAtomValue(configAtom);
+  const setCurrentThreadId = useSetAtom(currentThreadIdAtom);
+  const setChat = useSetAtom(chatAtom);
+  const [threads, setThreads] = useState<IThreads>([]);
 
   const { isSignedIn } = useAuth();
 
+  const threadId = params.threadId;
+
   // Subscribe to chat side effects
   useAtom(chatSaveEffect);
+
+  useEffect(() => {
+    if (!threadId) return;
+
+    const thread = threads?.find(({ id }) => id === threadId);
+
+    if (thread) {
+      setCurrentThreadId(thread.id);
+      setChat(thread.thread as any, true as any);
+    }
+  }, [setChat, setCurrentThreadId, threadId, threads]);
+
+  useEffect(() => {
+    (async () => {
+      const threads = await getThreads();
+      setThreads(threads);
+    })();
+  }, []);
 
   if (!isSignedIn) {
     return <RedirectToSignIn />;

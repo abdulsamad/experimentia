@@ -1,5 +1,7 @@
 import localforage from 'localforage';
 
+import { IThreads } from '@/store';
+
 export const settingsKey = 'config';
 
 export const getConfig = (setting: string) => {
@@ -23,3 +25,8 @@ export const lforage = localforage.createInstance({
   description: 'A chat application',
   version: 1.0,
 });
+
+export const getThreads = async (): Promise<IThreads> => {
+  const threads = (await lforage.getItem(threadsKey)) as IThreads;
+  return threads;
+};

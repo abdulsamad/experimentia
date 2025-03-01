@@ -1,5 +1,5 @@
 import { useEffect, useCallback, useState, type HTMLAttributes, type MouseEvent } from 'react';
-import { useSearchParams, useNavigate, useLocation } from 'react-router';
+import { useNavigate } from 'react-router';
 import { useAtom } from 'jotai';
 import { AnimatePresence, motion, type Variants } from 'motion/react';
 import { LogOutIcon, PlusIcon, TrashIcon } from 'lucide-react';
@@ -15,7 +15,7 @@ import {
   sidebarAtom,
   type IThreads,
 } from '@/store';
-import { lforage, threadsKey } from '@/utils/config';
+import { getThreads, lforage, threadsKey } from '@/utils/lforage';
 import { Button } from '@/components/ui/button';
 import {
   AlertDialog,
@@ -56,15 +56,11 @@ const Sidebar = () => {
 
   const { user } = useUser();
   const { signOut } = useAuth();
-  const location = useLocation();
   const navigate = useNavigate();
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  const threadId = searchParams.get('threadId');
 
   const fetchThreads = useCallback(async () => {
     // Retrieve saved threads
-    const threads = (await lforage.getItem(threadsKey)) as IThreads;
+    const threads = await getThreads();
     setThreads(threads);
   }, []);
 
@@ -74,42 +70,10 @@ const Sidebar = () => {
   }, [fetchThreads]);
 
   useEffect(() => {
-    // Check and update threads from query params
-    if (!threadId) return;
-
-    const thread = threads?.find(({ id }) => id === threadId);
-
-    if (thread) {
-      setCurrentThreadId(thread.id);
-      setChat(thread.thread as any, true as any);
-    }
-  }, [setChat, setCurrentThreadId, threadId, threads]);
-
-  useEffect(() => {
     if (sidebarOpen) {
       fetchThreads();
     }
   }, [fetchThreads, sidebarOpen]);
-
-  // const createQueryString = useCallback(
-  //   (name: string, value: string) => {
-  //     const params = new URLSearchParams(searchParams);
-  //     params.set(name, value);
-  //     return params.toString();
-  //   },
-  //   [searchParams]
-  // );
-
-  const updateCurrentChatId = useCallback(
-    (id: ReturnType<typeof crypto.randomUUID>, thread: IMessage[]) => {
-      setChat(thread as any, true as any);
-      setCurrentThreadId(id);
-
-      // Set params
-      setSearchParams({ threadId: id });
-    },
-    [setChat, setCurrentThreadId, setSearchParams]
-  );
 
   const deleteChats = useCallback(
     async (ev: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>, threadId: string) => {
@@ -135,9 +99,19 @@ const Sidebar = () => {
     setChat([] as any, true as any);
     setCurrentThreadId(crypto.randomUUID());
 
-    // Clear params
-    setSearchParams({});
-  }, [setChat, setCurrentThreadId, setSidebarOpen, setSearchParams]);
+    navigate('/');
+  }, [setChat, setCurrentThreadId, setSidebarOpen]);
+
+  const updateCurrentChatId = useCallback(
+    (threadId: ReturnType<typeof crypto.randomUUID>, thread: IMessage[]) => {
+      setChat(thread as any, true as any);
+      setCurrentThreadId(threadId);
+
+      // Set params
+      navigate(`/${threadId}`);
+    },
+    [setChat, setCurrentThreadId]
+  );
 
   return (
     <AnimatePresence>

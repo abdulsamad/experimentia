@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 
 import type { variationsType, supportedLanguagesType, supportedModelsType } from 'utils';
 
-import { settingsKey, threadsKey, lforage } from '@/utils/config';
+import { settingsKey, threadsKey, lforage } from '@/utils/lforage';
 
 // Editor
 
