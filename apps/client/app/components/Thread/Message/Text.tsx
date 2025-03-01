@@ -5,7 +5,7 @@ import { CopyIcon, TerminalIcon } from 'lucide-react';
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { ErrorBoundary, type FallbackProps } from 'react-error-boundary';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { PrismAsync as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import { clsx } from 'clsx';
 import '@fontsource/fira-code';
