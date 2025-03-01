@@ -109,7 +109,7 @@ const Sidebar = () => {
     <AnimatePresence>
       {sidebarOpen && (
         <div
-          className="absolute inset-0 w-screen min-h-[100svh] backdrop-blur-md z-40 overflow-hidden **:[li]:px-4"
+          className="absolute inset-0 w-screen h-[100svh] backdrop-blur-md z-40 overflow-hidden **:[li]:px-4"
           onClick={(ev) => {
             if (ev.currentTarget === ev.target) setSidebarOpen(false);
           }}>
@@ -151,7 +151,7 @@ const Sidebar = () => {
               </ul>
               {!threads?.length || !Array.isArray(threads) ? null : (
                 <div className="space-y-2 overflow-hidden">
-                  <ScrollArea className="h-[calc(100vh-245px)]">
+                  <ScrollArea className="h-[calc(100svh-245px)]">
                     {threads.map(({ id, thread, timestamp, name }) => {
                       const isSelected = id === currentThreadId;
                       const rootClasses: HTMLAttributes<HTMLButtonElement>['className'] = isSelected

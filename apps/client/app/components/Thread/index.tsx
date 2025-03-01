@@ -59,7 +59,7 @@ const Chats = () => {
 
   return (
     <section>
-      <ScrollArea className="h-[calc(100vh-170px)] w-full px-6 lg:px-8 box-border">
+      <ScrollArea className="h-[calc(100svh-170px)] w-full px-6 lg:px-8 box-border">
         {chats.length ? (
           <>
             {chats.map((chat, index) => {
