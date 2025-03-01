@@ -1,7 +1,8 @@
-import { type RouteConfig, index, route } from '@react-router/dev/routes';
+import { type RouteConfig, index, layout, route } from '@react-router/dev/routes';
 
 export default [
-  index('routes/home.tsx'),
-  // route('api', '.', [route('token', 'routes/api/token.ts')]),
-  // route(':threadId', 'routes/home.tsx'),
+  layout('./layouts/home.tsx', [
+    // route(':threadId', 'routes/home.tsx'),
+    index('routes/home.tsx'),
+  ]),
 ] satisfies RouteConfig;

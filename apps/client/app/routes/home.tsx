@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import { useAtom, useAtomValue } from 'jotai';
 import { useAuth } from '@clerk/react-router';
 import { RedirectToSignIn } from '@clerk/react-router';
@@ -5,9 +6,7 @@ import { RedirectToSignIn } from '@clerk/react-router';
 import { chatSaveEffect, configAtom } from '@/store';
 import Text from '@/components/Inputs/Text';
 import Voice from '@/components/Inputs/Voice';
-import Sidebar from '@/components/Sidebar';
 import Thread from '@/components/Thread';
-import Nav from '@/components/Nav';
 import { IS_SPEECH_RECOGNITION_SUPPORTED } from '@/utils';
 
 import type { Route } from './+types/home';
@@ -32,18 +31,14 @@ const Home = ({}: Route.ComponentProps) => {
   }
 
   return (
-    <main className="h-[100svh] conic-gradient(at right center, rgb(199, 210, 254), rgb(71, 85, 105), rgb(199, 210, 254))">
-      <Nav />
-      <Sidebar />
-      <div className="lg:container">
-        <Thread />
-        <div className="flex flex-col justify-end">
-          <div className="flex flex-col">
-            {!textInput && IS_SPEECH_RECOGNITION_SUPPORTED() ? <Voice /> : <Text />}
-          </div>
+    <Suspense>
+      <Thread />
+      <div className="flex flex-col justify-end">
+        <div className="flex flex-col">
+          {!textInput && IS_SPEECH_RECOGNITION_SUPPORTED() ? <Voice /> : <Text />}
         </div>
       </div>
-    </main>
+    </Suspense>
   );
 };
 
