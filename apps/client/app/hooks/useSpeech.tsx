@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import { toast } from 'sonner';
 import { useAuth, useUser } from '@clerk/react-router';
 import axios from 'axios';
-import { useSound } from 'use-sound';
+import useSound from 'use-sound';
 
 import { supportedImageModels } from 'utils';
 
@@ -24,7 +24,8 @@ const useSpeech = () => {
 
   const { user } = useUser();
   const { getToken } = useAuth();
-  const [play] = useSound('notification.mp3');
+  // const [play] = useSound('notification.mp3');
+  const play = () => null;
 
   const startRecognition = useCallback(async () => {
     if (!recognition.current) return null;
