@@ -6,7 +6,7 @@ import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { ErrorBoundary, type FallbackProps } from 'react-error-boundary';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-// import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import { clsx } from 'clsx';
 import '@fontsource/fira-code';
 
@@ -68,8 +68,7 @@ const Text = ({ isUser, messageClassNames, message }: IText) => {
                             PreTag="div"
                             customStyle={{ margin: 0 }}
                             language={match[1]}
-                            // style={vscDarkPlus}
-                          >
+                            style={vscDarkPlus}>
                             {String(children).replace(/\n$/, '')}
                           </SyntaxHighlighter>
                         </div>
