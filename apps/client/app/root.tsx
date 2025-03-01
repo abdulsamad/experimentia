@@ -2,6 +2,7 @@ import { MetaFunction, Outlet } from 'react-router';
 import { Provider } from 'jotai';
 import { rootAuthLoader } from '@clerk/react-router/ssr.server';
 import { ClerkProvider } from '@clerk/react-router';
+import { Analytics as VercelAnalytics } from '@vercel/analytics/react';
 
 import type { Route } from './+types/root';
 import ErrorBoundary from './error';
@@ -46,6 +47,7 @@ const App = ({ loaderData }: Route.ComponentProps) => {
       loaderData={loaderData}
       signUpFallbackRedirectUrl="/"
       signInFallbackRedirectUrl="/">
+      <VercelAnalytics />
       <Provider>
         <Outlet />
       </Provider>
