@@ -12,8 +12,8 @@ export type Info = {
   parents: [Parent0, Parent1],
   id: "routes/home"
   file: "routes/home.tsx"
-  path: "undefined"
-  params: {} & { [key: string]: string | undefined }
+  path: "/:threadId?"
+  params: {"threadId"?: string} & { [key: string]: string | undefined }
   module: Module
   loaderData: T.CreateLoaderData<Module>
   actionData: T.CreateActionData<Module>

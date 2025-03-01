@@ -8,12 +8,12 @@ import useSound from 'use-sound';
 
 import { supportedImageModels } from 'utils';
 
-import { threadLoadingAtom, chatAtom, configAtom } from '@/store';
+import { threadLoadingAtom, threadAtom, configAtom } from '@/store';
 import { speechLog, speechGrammer, IS_SPEECH_RECOGNITION_SUPPORTED } from '@/utils';
 import { getGeneratedText, getGeneratedImage } from '@/utils/api-calls';
 
 const useSpeech = () => {
-  const addChat = useSetAtom(chatAtom);
+  const addChat = useSetAtom(threadAtom);
   const setIsChatResponseLoading = useSetAtom(threadLoadingAtom);
   const { model, variation, imageSize, language, speakResults, quality, style } =
     useAtomValue(configAtom);

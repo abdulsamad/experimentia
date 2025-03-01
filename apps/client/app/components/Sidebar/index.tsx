@@ -7,14 +7,7 @@ import { useSetAtom } from 'jotai';
 import dayjs from 'dayjs';
 import { useAuth, useUser } from '@clerk/react-router';
 
-import {
-  chatAtom,
-  currentThreadIdAtom,
-  IMessage,
-  IThread,
-  sidebarAtom,
-  type IThreads,
-} from '@/store';
+import { threadAtom, currentThreadIdAtom, IMessage, sidebarAtom, type IThreads } from '@/store';
 import { getThreads, lforage, threadsKey } from '@/utils/lforage';
 import { Button } from '@/components/ui/button';
 import {
@@ -51,7 +44,7 @@ export const sidebarVariants: Variants = {
 const Sidebar = () => {
   const [sidebarOpen, setSidebarOpen] = useAtom(sidebarAtom);
   const [currentThreadId, setCurrentThreadId] = useAtom(currentThreadIdAtom);
-  const setChat = useSetAtom(chatAtom);
+  const setThread = useSetAtom(threadAtom);
   const [threads, setThreads] = useState<IThreads>([]);
 
   const { user } = useUser();
@@ -80,7 +73,7 @@ const Sidebar = () => {
       ev.stopPropagation();
 
       if (currentThreadId === threadId) {
-        setChat([] as any, true as any);
+        setThread([] as any, true as any);
       }
 
       const threads: IThreads | null = await lforage.getItem(threadsKey);
@@ -90,27 +83,26 @@ const Sidebar = () => {
       // Reset
       fetchThreads();
     },
-    [currentThreadId, fetchThreads, setChat]
+    [currentThreadId, fetchThreads, setThread]
   );
 
   const addNewChat = useCallback(() => {
     setSidebarOpen(false);
 
-    setChat([] as any, true as any);
+    setThread([] as any, true as any);
     setCurrentThreadId(crypto.randomUUID());
 
     navigate('/');
-  }, [setChat, setCurrentThreadId, setSidebarOpen]);
+  }, [setThread, setCurrentThreadId, setSidebarOpen]);
 
   const updateCurrentChatId = useCallback(
     (threadId: ReturnType<typeof crypto.randomUUID>, thread: IMessage[]) => {
-      setChat(thread as any, true as any);
+      setThread(thread as any, true as any);
       setCurrentThreadId(threadId);
 
-      // Set params
       navigate(`/${threadId}`);
     },
-    [setChat, setCurrentThreadId]
+    [setThread, setCurrentThreadId]
   );
 
   return (

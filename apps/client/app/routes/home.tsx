@@ -2,7 +2,7 @@ import { Suspense, useState, useEffect } from 'react';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { useAuth, RedirectToSignIn } from '@clerk/react-router';
 
-import { chatAtom, currentThreadIdAtom, type IThreads } from '@/store';
+import { threadAtom, currentThreadIdAtom, type IThreads } from '@/store';
 import { getThreads } from '@/utils/lforage';
 import { chatSaveEffect, configAtom } from '@/store';
 import Text from '@/components/Inputs/Text';
@@ -22,7 +22,7 @@ export const meta = ({}: Route.MetaArgs) => {
 const Home = ({ params }: Route.ComponentProps) => {
   const { textInput } = useAtomValue(configAtom);
   const setCurrentThreadId = useSetAtom(currentThreadIdAtom);
-  const setChat = useSetAtom(chatAtom);
+  const setThread = useSetAtom(threadAtom);
   const [threads, setThreads] = useState<IThreads>([]);
 
   const { isSignedIn } = useAuth();
@@ -39,9 +39,9 @@ const Home = ({ params }: Route.ComponentProps) => {
 
     if (thread) {
       setCurrentThreadId(thread.id);
-      setChat(thread.thread as any, true as any);
+      setThread(thread.thread as any, true as any);
     }
-  }, [setChat, setCurrentThreadId, threadId, threads]);
+  }, [setThread, setCurrentThreadId, threadId, threads]);
 
   useEffect(() => {
     (async () => {

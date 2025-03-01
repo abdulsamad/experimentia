@@ -11,7 +11,7 @@ import useSound from 'use-sound';
 
 import { supportedImageModels } from 'utils';
 
-import { threadLoadingAtom, chatAtom, configAtom, editorAtom } from '@/store/index';
+import { threadLoadingAtom, threadAtom, configAtom, editorAtom } from '@/store/index';
 import { getGeneratedText, getGeneratedImage } from '@/utils/api-calls';
 
 const extensions = [
@@ -36,7 +36,7 @@ const extensions = [
 
 const useCustomEditor = () => {
   const [editorState, setEditorState] = useAtom(editorAtom);
-  const addChat = useSetAtom(chatAtom);
+  const addChat = useSetAtom(threadAtom);
   const setIsChatResponseLoading = useSetAtom(threadLoadingAtom);
   const { variation, model, imageSize, language, quality, style } = useAtomValue(configAtom);
   const [isPending, startTransition] = useTransition();

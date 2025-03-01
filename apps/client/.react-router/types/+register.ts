@@ -8,4 +8,7 @@ declare module "react-router" {
 
 type Params = {
   "/": {};
+  "/:threadId?": {
+    "threadId"?: string;
+  };
 };

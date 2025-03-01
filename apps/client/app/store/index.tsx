@@ -41,28 +41,28 @@ export interface IImageMessage {
 
 export type IMessage = IMessageCommons & (ITextMessage | IImageMessage);
 
-export const chatAtom: WritableAtom<IMessage[], IMessage[], void> = atom(
+export const threadAtom: WritableAtom<IMessage[], IMessage[], void> = atom(
   [],
   (get, set, update, reset) => {
     // Reset current chat
     if (reset) {
-      set(chatAtom, update);
+      set(threadAtom, update);
       return;
     }
 
     // Add chat normally
-    const state = get(chatAtom);
-    const chatIndex = state.findIndex((chat) => chat.id === update.id);
+    const state = get(threadAtom);
+    const threadIndex = state.findIndex((chat) => chat.id === update.id);
 
-    if (chatIndex !== -1) {
+    if (threadIndex !== -1) {
       // Create a new array to trigger re-render
       const newState = [...state];
-      newState[chatIndex] = {
+      newState[threadIndex] = {
         ...update, // Use the entire update object instead of just concatenating messages
       };
-      set(chatAtom, newState as any);
+      set(threadAtom, newState as unknown as IMessage);
     } else {
-      set(chatAtom, [...state, update] as any);
+      set(threadAtom, [...state, update] as unknown as IMessage);
     }
   }
 );
@@ -80,7 +80,7 @@ export type IThreads = IThread[];
 
 export const chatSaveEffect = atomEffect((get, set) => {
   (async () => {
-    const thread = get(chatAtom);
+    const thread = get(threadAtom);
     const threadId = get(currentThreadIdAtom);
     const chatsItem: IThread = {
       id: threadId,

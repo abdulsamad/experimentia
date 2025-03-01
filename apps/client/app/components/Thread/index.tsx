@@ -2,7 +2,7 @@ import { type HTMLAttributes, useCallback, useEffect } from 'react';
 import { useAtomValue } from 'jotai';
 import { useUser } from '@clerk/react-router';
 
-import { threadLoadingAtom, chatAtom, configAtom } from '@/store';
+import { threadLoadingAtom, threadAtom, configAtom } from '@/store';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { getName } from '@/utils';
 
@@ -20,19 +20,19 @@ export type UserInfo = Record<
 >;
 
 const Chats = () => {
-  const chats = useAtomValue(chatAtom);
+  const chats = useAtomValue(threadAtom);
   const isChatResponseLoading = useAtomValue(threadLoadingAtom);
   const { textInput } = useAtomValue(configAtom);
 
   const { user } = useUser();
 
   useEffect(() => {
-    const chats = document.querySelectorAll('.chat');
+    const thread = document.querySelectorAll('.chat');
 
-    if (!chats.length) return;
+    if (!thread.length) return;
 
     setTimeout(() => {
-      chats[chats.length - 1].scrollIntoView({
+      thread[thread.length - 1].scrollIntoView({
         behavior: 'instant',
         block: 'start',
       });
