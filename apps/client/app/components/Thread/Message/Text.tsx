@@ -1,5 +1,4 @@
 import { type HTMLAttributes } from 'react';
-import CopyToClipboard from 'react-copy-to-clipboard';
 import { toast } from 'sonner';
 import { CopyIcon, TerminalIcon } from 'lucide-react';
 import Markdown from 'react-markdown';
@@ -8,8 +7,8 @@ import { ErrorBoundary, type FallbackProps } from 'react-error-boundary';
 import { PrismAsync as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import { clsx } from 'clsx';
-import '@fontsource/fira-code';
 
+import CopyToClipboard from '@/utils/CopyToClipboard';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import {
@@ -22,6 +21,8 @@ import {
   TableCell,
 } from '@/components/ui/table';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+
+import '@fontsource/fira-code';
 
 interface IText {
   isUser: boolean;
@@ -49,7 +50,6 @@ const Text = ({ isUser, messageClassNames, message }: IText) => {
                     {match ? (
                       <div className="leading-relaxed ligatures [font-family:_Fira_Code]">
                         <div className="flex justify-end items-center">
-                          {/* @ts-ignore */}
                           <CopyToClipboard
                             text={children!?.toString()}
                             onCopy={() => toast.success('Copied!')}>
@@ -62,12 +62,12 @@ const Text = ({ isUser, messageClassNames, message }: IText) => {
                           </CopyToClipboard>
                         </div>
                         <div className="font-bold">
-                          {/* @ts-ignore */}
                           <SyntaxHighlighter
                             {...rest}
                             PreTag="div"
                             customStyle={{ margin: 0 }}
                             language={match[1]}
+                            ref={undefined}
                             style={vscDarkPlus}>
                             {String(children).replace(/\n$/, '')}
                           </SyntaxHighlighter>

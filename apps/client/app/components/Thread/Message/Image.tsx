@@ -1,11 +1,9 @@
 import { useCallback, useMemo, useRef } from 'react';
-import CopyToClipboard from 'react-copy-to-clipboard';
 import { toast } from 'sonner';
 import { DownloadIcon, CopyIcon, RotateCwIcon } from 'lucide-react';
 import ImageGallery from 'react-image-gallery';
 
-import 'react-image-gallery/styles/css/image-gallery.css';
-
+import CopyToClipboard from '@/utils/CopyToClipboard';
 import { type IImageMessage } from '@/store/index';
 import { Button } from '@/components/ui/button';
 import {
@@ -14,6 +12,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+
+import 'react-image-gallery/styles/css/image-gallery.css';
 
 const Image = ({ image: { url, alt }, size }: Omit<IImageMessage, 'format'>) => {
   const elemRef = useRef<HTMLDivElement>(null);
@@ -59,7 +59,6 @@ const Image = ({ image: { url, alt }, size }: Omit<IImageMessage, 'format'>) => 
                     title="Download"
                     className="group-hover:flex hidden m-3 items-center justify-center absolute bottom-0 left-0 z-10"
                     download>
-                    {/* @ts-ignore */}
                     <DownloadIcon />
                     <span className="sr-only">Download image</span>
                   </a>
@@ -70,7 +69,6 @@ const Image = ({ image: { url, alt }, size }: Omit<IImageMessage, 'format'>) => 
                   title="Rotate"
                   onClick={rotateImage}
                   className="group-hover:flex hidden m-3 items-center justify-center absolute bottom-0 right-12 z-10">
-                  {/* @ts-ignore */}
                   <RotateCwIcon />
                   <span className="sr-only">Rotate image</span>
                 </Button>
@@ -88,7 +86,6 @@ const Image = ({ image: { url, alt }, size }: Omit<IImageMessage, 'format'>) => 
               {alt ? (
                 <>
                   <figcaption>{alt}</figcaption>
-                  {/* @ts-ignore */}
                   <CopyToClipboard
                     text={alt as string}
                     onCopy={() => {
@@ -98,7 +95,6 @@ const Image = ({ image: { url, alt }, size }: Omit<IImageMessage, 'format'>) => 
                       title="Copy"
                       size="icon"
                       className="h-6 w-6 absolute right-0 bottom-0 m-3 group-hover/prompt:visible invisible">
-                      {/* @ts-ignore */}
                       <CopyIcon className="h-4 w-4" />
                     </Button>
                   </CopyToClipboard>

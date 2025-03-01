@@ -6,7 +6,7 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 export default defineConfig({
   plugins: [tailwindcss(), reactRouter(), tsconfigPaths()],
   optimizeDeps: {
-    include: ['react-copy-to-clipboard', 'react-syntax-highlighter/dist/esm/styles/prism/coy'],
+    include: ['react-syntax-highlighter/dist/cjs/styles/prism'],
   },
   build: {
     sourcemap: false,
