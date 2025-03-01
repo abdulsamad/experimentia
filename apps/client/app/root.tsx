@@ -7,6 +7,8 @@ import { Analytics as VercelAnalytics } from '@vercel/analytics/react';
 import type { Route } from './+types/root';
 import ErrorBoundary from './error';
 import Layout from './layout';
+import Loading from './loading';
+
 import './app.css';
 
 export const meta: MetaFunction = () => [
@@ -29,17 +31,7 @@ export async function loader(args: Route.LoaderArgs) {
   return rootAuthLoader(args);
 }
 
-export const HydrateFallback = () => (
-  <div
-    className="h-full w-screen flex items-center justify-center"
-    aria-label="Loading. Please wait..."
-    aria-hidden="true">
-    <span className="loading loading-ball loading-xs"></span>
-    <span className="loading loading-ball loading-sm"></span>
-    <span className="loading loading-ball loading-md"></span>
-    <span className="loading loading-ball loading-lg"></span>
-  </div>
-);
+export const HydrateFallback = Loading;
 
 const App = ({ loaderData }: Route.ComponentProps) => {
   return (

@@ -11,6 +11,7 @@ import Thread from '@/components/Thread';
 import { IS_SPEECH_RECOGNITION_SUPPORTED } from '@/utils';
 
 import type { Route } from './+types/home';
+import Loading from '@/loading';
 
 export const meta = ({}: Route.MetaArgs) => {
   return [
@@ -25,7 +26,7 @@ const Home = ({ params }: Route.ComponentProps) => {
   const setThread = useSetAtom(threadAtom);
   const [threads, setThreads] = useState<IThreads>([]);
 
-  const { isSignedIn } = useAuth();
+  const { isSignedIn, isLoaded } = useAuth();
 
   const threadId = params.threadId;
 
@@ -49,6 +50,10 @@ const Home = ({ params }: Route.ComponentProps) => {
       setThreads(threads);
     })();
   }, []);
+
+  if (!isLoaded) {
+    return <Loading />;
+  }
 
   if (!isSignedIn) {
     return <RedirectToSignIn />;
