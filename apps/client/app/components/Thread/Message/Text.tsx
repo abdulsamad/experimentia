@@ -8,7 +8,7 @@ import { PrismAsync as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import { clsx } from 'clsx';
 
-import CopyToClipboard from '@/utils/CopyToClipboard';
+import CopyToClipboard from '@/components/Thread/CopyToClipboard';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import {

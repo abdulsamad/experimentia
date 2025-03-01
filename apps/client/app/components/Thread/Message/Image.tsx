@@ -3,7 +3,7 @@ import { toast } from 'sonner';
 import { DownloadIcon, CopyIcon, RotateCwIcon } from 'lucide-react';
 import ImageGallery from 'react-image-gallery';
 
-import CopyToClipboard from '@/utils/CopyToClipboard';
+import CopyToClipboard from '@/components/Thread/CopyToClipboard';
 import { type IImageMessage } from '@/store/index';
 import { Button } from '@/components/ui/button';
 import {
