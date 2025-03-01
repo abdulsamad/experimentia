@@ -168,6 +168,3 @@ export const configAtom = atomWithStorage<IConfig>(settingsKey, {
   quality: 'standard',
   style: 'vivid',
 });
-
-// Sidebar
-export const sidebarAtom = atom(false);

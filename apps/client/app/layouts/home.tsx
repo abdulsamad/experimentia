@@ -1,17 +1,20 @@
 import { Outlet } from 'react-router';
 
 import Nav from '@/components/Nav';
-import Sidebar from '@/components/Sidebar';
+import { SidebarProvider } from '@/components/ui/sidebar';
+import AppSidebar from '@/components/AppSidebar';
 
 const Home = () => {
   return (
-    <main className="h-[100svh] conic-gradient(at right center, rgb(199, 210, 254), rgb(71, 85, 105), rgb(199, 210, 254))">
-      <Nav />
-      <Sidebar />
-      <div className="lg:container">
-        <Outlet />
-      </div>
-    </main>
+    <SidebarProvider>
+      <AppSidebar />
+      <main className="h-[100svh] w-full conic-gradient(at right center, rgb(199, 210, 254), rgb(71, 85, 105), rgb(199, 210, 254))">
+        <Nav />
+        <div className="lg:container">
+          <Outlet />
+        </div>
+      </main>
+    </SidebarProvider>
   );
 };
 
