@@ -3,7 +3,6 @@ import { toast } from 'sonner';
 import { DownloadIcon, CopyIcon, RotateCwIcon } from 'lucide-react';
 import ImageGallery from 'react-image-gallery';
 
-import CopyToClipboard from '@/components/Thread/CopyToClipboard';
 import { type IImageMessage } from '@/store/index';
 import { Button } from '@/components/ui/button';
 import {
@@ -12,6 +11,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import CopyToClipboard from '@/components/Message/CopyToClipboard';
 
 import 'react-image-gallery/styles/css/image-gallery.css';
 

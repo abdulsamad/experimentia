@@ -8,7 +8,6 @@ import { PrismAsync as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import { clsx } from 'clsx';
 
-import CopyToClipboard from '@/components/Thread/CopyToClipboard';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import {
@@ -21,6 +20,7 @@ import {
   TableCell,
 } from '@/components/ui/table';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import CopyToClipboard from '@/components/Message/CopyToClipboard';
 
 import '@fontsource/fira-code';
 
@@ -33,7 +33,10 @@ interface IText {
 const Text = ({ isUser, messageClassNames, message }: IText) => {
   return (
     <Card
-      className={`message group/message relative inline-block py-1.5 px-3 rounded-xl before:content-[''] before:block before:h-0 before:w-0 before:border-y-8 before:border-y-transparent before:border-l-[14px] before:border-l-primary before:absolute before:top-1/2 before:-translate-y-1/2] w-[min(70%,_600px)] ${messageClassNames} [&_p:has(code)]:leading-8 [&_div:has(code)]:leading-8 [&_span:has(code)]:leading-8`}>
+      className={clsx(
+        `message group/message relative inline-block py-1.5 px-3 rounded-xl before:content-[''] before:block before:h-0 before:w-0 before:border-y-8 before:border-y-transparent before:border-l-[14px] before:border-l-primary before:absolute before:top-1/2 before:-translate-y-1/2] w-[min(70%,_600px)] [&_p:has(code)]:leading-8 [&_div:has(code)]:leading-8 [&_span:has(code)]:leading-8`,
+        messageClassNames
+      )}>
       {isUser ? (
         message
       ) : (

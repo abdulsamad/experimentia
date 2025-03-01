@@ -4,9 +4,9 @@ import { useUser } from '@clerk/react-router';
 
 import { threadLoadingAtom, threadAtom, configAtom } from '@/store';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import Message from '@/components/Message';
 import { getName } from '@/utils';
 
-import Message from './Message';
 import Empty from './Empty';
 import Typing from './Typing';
 
