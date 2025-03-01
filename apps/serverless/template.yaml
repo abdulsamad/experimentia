@@ -23,8 +23,8 @@ Resources:
     Properties:
       AuthType: NONE
       Cors:
-        AllowOrigins:
-          - "*"
+        # AllowOrigins:
+        # - http://example.com
         AllowMethods:
           - POST
           - GET
