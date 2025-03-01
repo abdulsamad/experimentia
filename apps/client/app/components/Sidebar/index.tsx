@@ -231,7 +231,7 @@ const Sidebar = () => {
                                   </AlertDialogCancel>
                                   <AlertDialogAction asChild>
                                     <Button
-                                      className="bg-red-600 text-white"
+                                      variant="destructive"
                                       onClick={(ev) => deleteChats(ev, id)}>
                                       Delete
                                     </Button>

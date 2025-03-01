@@ -30,7 +30,7 @@ const Message = ({
   const isUser = type === 'user';
 
   // Contional classes
-  const nameTimeMargin = isUser ? 'mr-[45px]' : 'ml-[55px]';
+  const nameTimeMargin = isUser ? 'mr-[85px]' : 'ml-[75px]';
   const chatOrigin = isUser ? 'origin-right' : 'origin-left';
 
   return (
