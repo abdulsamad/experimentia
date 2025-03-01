@@ -7,7 +7,6 @@ import { languages, variations, supportedImageModels, supportedTextModels } from
 
 import { configAtom } from '@/store';
 import { IS_SPEECH_RECOGNITION_SUPPORTED, IS_SPEECH_SYNTHESIS_SUPPORTED } from '@/utils';
-import imageSizes from '@/utils/image-sizes';
 import { Button } from '@/components/ui/button';
 import {
   Select,
@@ -26,6 +25,8 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+
+import { imageSizes } from 'utils';
 
 const SettingsDropdown = () => {
   const [config, setConfig] = useAtom(configAtom);
