@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router';
 import { useAtom } from 'jotai';
 import { LogOutIcon, PlusIcon, TrashIcon } from 'lucide-react';
 import { useSetAtom } from 'jotai';
-import { useAuth, useUser } from '@clerk/react-router';
+import { useClerk, useAuth, useUser } from '@clerk/react-router';
 import { format } from 'date-fns';
 import clsx from 'clsx';
 
@@ -50,6 +50,7 @@ const AppSidebar = () => {
   const setThread = useSetAtom(threadAtom);
   const [threads, setThreads] = useState<IThreads>([]);
 
+  const clerk = useClerk();
   const { user } = useUser();
   const { signOut } = useAuth();
   const navigate = useNavigate();
@@ -115,26 +116,37 @@ const AppSidebar = () => {
         <SidebarHeader>
           <SidebarMenu>
             <SidebarMenuItem>
-              <ul className="space-y-2 mb-3">
-                <li>
-                  <div className="flex items-center space-x-3">
+              <ul className="flex flex-col mb-3 overflow-hidden">
+                <li className="mb-2">
+                  <Button
+                    variant="ghost"
+                    className="flex items-center gap-3 pt-1 pb-3 box-content w-full cursor-pointer rounded"
+                    onClick={() => clerk.redirectToUserProfile()}>
                     <img
-                      className="rounded-full size-[40px] object-cover"
+                      className="rounded-full size-[40px] object-cover shrink-0 grow-0"
                       src={user?.imageUrl!}
                       alt={user?.fullName!}
                       height={40}
                       width={40}
                     />
-                    <div>
-                      <p className="text-sm opacity-75">Hello 👋</p>
+                    <div className="flex-1/3 text-left -mb-2">
+                      <p className="text-sm opacity-75">
+                        Hello
+                        <span
+                          role="img"
+                          className="animate-wave origin-[70%_70%] inline-block"
+                          aria-hidden={true}>
+                          👋
+                        </span>
+                      </p>
                       <p className="text-lg font-semibold opacity-75 capitalize">{getName(user)}</p>
                     </div>
-                  </div>
-                </li>
-                <li className="pt-2 pb-3">
-                  <hr className="border-gray-700" />
+                  </Button>
                 </li>
                 <li>
+                  <hr className="border-slate-50 mx-auto mt-1 bg-primary" />
+                </li>
+                <li className="mt-5">
                   <Button
                     variant="default"
                     className="w-full text-white bg-gradient-to-r from-purple-700 via-purple-600 to-purple-500 hover:from-purple-600 hover:via-purple-500 hover:to-purple-400 transition-all duration-300 shadow-lg hover:shadow-purple-500/25"

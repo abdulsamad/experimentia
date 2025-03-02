@@ -55,9 +55,8 @@ const Empty = ({ name, textInput }: IEmpty) => {
     <div className="flex justify-center items-center min-h-[250px] bg-base-200">
       <div className="text-center">
         <div className="max-w-screen mx-auto mt-16">
-          <h1 className="text-5xl font-bold capitalize break-all">
-            Hello <span className="capitalize">{name || 'there'}, </span>
-            <span className="animate-wave origin-[70%_70%] inline-block">👋</span>
+          <h1 className="text-2xl lg:text-4xl font-bold capitalize break-all">
+            Hi <span className="capitalize">{name || 'there'}, </span>
           </h1>
           <h2 className="py-6 italic break-words [text-wrap:pretty] max-w-md mx-auto">
             {textInput
