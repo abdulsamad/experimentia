@@ -91,7 +91,6 @@ const AppSidebar = () => {
   );
 
   const addNewChat = useCallback(() => {
-    setOpen(false);
     setOpenMobile(false);
 
     setThread([] as any, true as any);
@@ -165,7 +164,7 @@ const AppSidebar = () => {
             <Suspense fallback={'Loading......'}>
               {!threads?.length || !Array.isArray(threads) ? null : (
                 <div className="space-y-2 overflow-hidden">
-                  <ScrollArea className="h-[calc(100svh-245px)]">
+                  <ScrollArea className="h-[calc(100svh-210px)]">
                     <SidebarGroup>
                       <SidebarGroupLabel>Threads</SidebarGroupLabel>
                       <SidebarGroupContent>
@@ -188,7 +187,6 @@ const AppSidebar = () => {
                                   rootClasses
                                 )}
                                 onClick={() => {
-                                  setOpen(false);
                                   setOpenMobile(false);
                                   updateCurrentChatId(id, thread);
                                 }}>
