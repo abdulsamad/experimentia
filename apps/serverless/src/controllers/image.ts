@@ -1,7 +1,7 @@
 import { Context } from 'hono';
 import { experimental_generateImage as generateImage, APICallError } from 'ai';
 
-import { openai } from '@models/index';
+import { openAiClient } from '@models/index';
 
 const image = async (c: Context) => {
   try {
@@ -12,7 +12,7 @@ const image = async (c: Context) => {
     }
 
     const { image } = await generateImage({
-      model: openai.image('dall-e-3'),
+      model: openAiClient.image(model),
       prompt,
       n,
       size,
