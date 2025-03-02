@@ -58,3 +58,7 @@ jspm_packages
 # React Router
 /.react-router/
 /build/
+
+# AWS SAM
+**/samconfig.toml
+!**/samconfig.example.toml
