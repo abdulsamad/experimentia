@@ -18,9 +18,8 @@ Welcome to Experimentia, where I explore the OpenAI's API! Below, you'll find in
 - shadcn (Radix UI)
 - Jotai
 - Auth0
-- Config Cat
 - Node.js (TypeScript)
-- Express
+- AWS Lambda
 - Open AI APIs
 
 ## Support
