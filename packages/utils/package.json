@@ -1,6 +1,9 @@
 {
   "name": "utils",
   "main": "index.ts",
+  "peerDependencies": {
+    "ai": "^4.1.47"
+  },
   "devDependencies": {
     "typescript": "^5.8.2"
   },
