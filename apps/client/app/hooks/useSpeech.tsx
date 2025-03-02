@@ -1,16 +1,13 @@
-import { useState, useEffect, useRef, useCallback, useTransition } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { getTime } from 'date-fns';
 import { toast } from 'sonner';
-import { useAuth, useUser } from '@clerk/react-router';
-import axios from 'axios';
-import useSound from 'use-sound';
-
-import { supportedImageModels } from 'utils';
+import { useUser } from '@clerk/react-router';
 
 import { threadLoadingAtom, threadAtom, configAtom } from '@/store';
 import { speechLog, speechGrammer, IS_SPEECH_RECOGNITION_SUPPORTED } from '@/utils';
-import { getGeneratedText, getGeneratedImage } from '@/utils/api-calls';
+
+import useHandleChatResponse from './useHandleChatResponse';
 
 const useSpeech = () => {
   const addChat = useSetAtom(threadAtom);
@@ -18,14 +15,11 @@ const useSpeech = () => {
   const { model, variation, imageSize, language, speakResults, quality, style } =
     useAtomValue(configAtom);
   const [isListening, setIsListening] = useState(false);
-  const [isPending, startTransition] = useTransition();
 
   const recognition = useRef<SpeechRecognition | null>(null);
 
   const { user } = useUser();
-  const { getToken } = useAuth();
-  // const [play] = useSound('notification.mp3');
-  const play = () => null;
+  const { handleChatResponse } = useHandleChatResponse();
 
   const startRecognition = useCallback(async () => {
     if (!recognition.current) return null;
@@ -71,9 +65,6 @@ const useSpeech = () => {
         const results = ev.results;
         const last = --Object.keys(results).length;
 
-        // TODO: Clean log results
-        console.log(results);
-
         const transcript = results[last][0].transcript;
 
         if (!transcript.trim()) return null;
@@ -91,108 +82,15 @@ const useSpeech = () => {
         setIsChatResponseLoading(true);
         stopRecognition();
 
-        if (supportedImageModels.map(({ name }) => name).includes(model)) {
-          const { b64_json, image } = await getGeneratedImage({
-            prompt: transcript,
-            size: imageSize,
-            user,
-            quality,
-            style,
-            getToken,
-          });
+        await handleChatResponse({
+          prompt: transcript,
+          onTextMessageComplete: (content) => {
+            if (speakResults) speakText(content, recognition.current?.lang || 'en-US');
+          },
+        });
 
-          startTransition(() => {
-            addChat({
-              id: crypto.randomUUID(),
-              type: 'assistant',
-              image: {
-                url: `data:image/png;base64,${b64_json}`,
-                alt: image.data[0]?.revised_prompt,
-              },
-              variation,
-              timestamp: getTime(new Date()),
-              format: 'image',
-              size: imageSize,
-              model,
-            });
-
-            setIsChatResponseLoading(false);
-            // Haptic feedback and sound
-            navigator.vibrate(100);
-            play();
-          });
-        } else {
-          const stream = await getGeneratedText({
-            prompt: transcript,
-            language: recognition.current?.lang,
-            user,
-            getToken,
-          });
-
-          if (!stream) throw new Error();
-
-          // Handle error response
-          if ('success' in stream && !stream.success) {
-            throw new Error(stream.err);
-          }
-
-          const reader = (stream as ReadableStream<string>).getReader();
-          const uid = crypto.randomUUID();
-          const timestamp = getTime(new Date());
-          let content = '';
-
-          // Close Loader
-          startTransition(() => {
-            setIsChatResponseLoading(false);
-          });
-
-          while (true) {
-            const { value, done } = await reader.read();
-
-            if (done) {
-              // Stream is completed
-              navigator.vibrate(100);
-              play();
-              startTransition(() => {
-                addChat({
-                  id: uid,
-                  type: 'assistant',
-                  message: content,
-                  variation,
-                  timestamp,
-                  format: 'text',
-                  model,
-                });
-              });
-              console.log('%cDONE', 'font-size:12px;font-weight:bold;color:aqua');
-              break;
-            }
-
-            content += value;
-
-            // Update chat with accumulated content on each chunk
-            startTransition(() => {
-              addChat({
-                id: uid,
-                type: 'assistant',
-                message: content,
-                variation,
-                timestamp,
-                format: 'text',
-                model,
-              });
-            });
-          }
-
-          if (speakResults) speakText(content, recognition.current?.lang || 'en-US');
-        }
+        return true;
       } catch (err) {
-        console.error(err);
-
-        if (axios.isAxiosError(err)) {
-          return toast.error(err.response?.data.err);
-        }
-
         toast.error('Something went Wrong!');
       } finally {
         setIsChatResponseLoading(false);
@@ -208,7 +106,6 @@ const useSpeech = () => {
       quality,
       style,
       variation,
-      play,
       speakResults,
       speakText,
     ]
