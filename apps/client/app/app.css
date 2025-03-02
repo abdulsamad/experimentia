@@ -118,36 +118,6 @@ body {
   }
 }
 
-/* Prose Mirror */
-
-.ProseMirror {
-  outline: none;
-}
-
-.ProseMirror:focus {
-  outline: none;
-}
-
-.tiptap p.is-editor-empty:first-child::before {
-  color: #adb5bdc9;
-  content: attr(data-placeholder);
-  float: left;
-  height: 0;
-  pointer-events: none;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-/* Message */
-
-.chat:not([data-type='user']) :is(.message > *) {
-  margin: 10px 0;
-}
-
-.chat:not([data-type='user']) .message pre > div div:has(> code) {
-  border-radius: 16px;
-}
-
 :root {
   --sidebar: hsl(0 0% 98%);
   --sidebar-foreground: hsl(240 5.3% 26.1%);
@@ -199,4 +169,40 @@ body {
       height: 0;
     }
   }
+}
+
+@layer utilities {
+  .debug {
+    border: 1px solid red;
+  }
+}
+
+/* Prose Mirror */
+
+.ProseMirror {
+  outline: none;
+}
+
+.ProseMirror:focus {
+  outline: none;
+}
+
+.tiptap p.is-editor-empty:first-child::before {
+  color: #adb5bdc9;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Message */
+
+.chat:not([data-type='user']) :is(.message > *) {
+  margin: 10px 0;
+}
+
+.chat:not([data-type='user']) .message pre > div div:has(> code) {
+  border-radius: 16px;
 }
