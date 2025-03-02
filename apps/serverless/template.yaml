@@ -24,12 +24,13 @@ Resources:
       AuthType: NONE
       Cors:
         # AllowOrigins:
-        # - http://example.com
+        #   - https://example.com
         AllowMethods:
           - POST
           - GET
         AllowHeaders:
           - "*"
+        MaxAge: 60
       InvokeMode: RESPONSE_STREAM
       TargetFunctionArn: !GetAtt ApiFunction.Arn
 
@@ -40,6 +41,12 @@ Resources:
       Action: lambda:InvokeFunctionUrl
       Principal: "*"
       FunctionUrlAuthType: NONE
+
+  ExperimentiaLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: /aws/lambda/ExperimentiaLogs
+      RetentionInDays: 30
 
   LambdaExecutionRole:
     Type: AWS::IAM::Role
@@ -59,9 +66,12 @@ Resources:
               - Effect: Allow
                 Action:
                   - logs:CreateLogGroup
+                  - logs:DeleteLogGroup
+                  - logs:DescribeLogGroups
+                  - logs:PutRetentionPolicy
                   - logs:CreateLogStream
                   - logs:PutLogEvents
-                Resource: "*"
+                Resource: !GetAtt ExperimentiaLogGroup.Arn
 
 Outputs:
   FunctionUrl:
