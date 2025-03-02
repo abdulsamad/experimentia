@@ -61,4 +61,5 @@ jspm_packages
 
 # AWS SAM
 **/samconfig.toml
-!**/samconfig.example.toml
+**/template.yaml
+!**/template.example.yaml
