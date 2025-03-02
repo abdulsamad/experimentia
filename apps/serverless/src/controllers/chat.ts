@@ -32,6 +32,12 @@ const chat = async (c: Context) => {
       frequencyPenalty: config.frequencyPenalty,
       presencePenalty: config.presencePenalty,
       stopSequences: config.stopSequences,
+      onError: (event) => {
+        c.json({ success: false, err: event.error }, 500);
+      },
+      onFinish: (result) => {
+        //
+      },
     });
 
     // Create a ReadableStream for the response

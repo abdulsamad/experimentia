@@ -44,11 +44,21 @@ const useCustomEditor = () => {
       attributes: { class: 'w-full h-[50px] p-3 box-border' },
       handleDOMEvents: {
         keydown: (view, ev) => {
-          if (ev.key.toLowerCase() === 'enter') {
-            ev.preventDefault();
+          switch (ev.key?.toLowerCase()) {
+            case 'enter':
+              {
+                if (ev.metaKey) {
+                  ev.preventDefault();
 
-            // TODO: Fix directly accessing DOM
-            document.getElementById('text-submit-btn')?.click();
+                  // TODO: Fix directly accessing DOM
+                  document.getElementById('text-submit-btn')?.click();
+                }
+              }
+              break;
+            case 'arrowup': {
+              //
+              break;
+            }
           }
         },
       },

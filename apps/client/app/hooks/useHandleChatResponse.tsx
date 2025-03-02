@@ -136,7 +136,7 @@ const useHandleChatResponse = () => {
       console.error(err);
 
       if (axios.isAxiosError(err)) {
-        return toast.error(err.response?.data.err);
+        return toast.error(err.response?.data.err || err.message);
       }
 
       toast.error('Something went Wrong!');
