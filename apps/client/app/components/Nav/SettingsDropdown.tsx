@@ -69,7 +69,7 @@ const SettingsDropdown = () => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="rounded-xl max-w-72" align="end">
-        <ul className="space-y-10 p-4">
+        <ul className="space-y-5 lg:space-y-8 p-4">
           <li>
             <div className="flex flex-col space-y-2">
               <label className="ml-1">Theme</label>
