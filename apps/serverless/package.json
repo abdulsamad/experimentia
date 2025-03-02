@@ -7,21 +7,21 @@
     "deploy": "pnpm run build && sam deploy && rm -rf dist/*"
   },
   "dependencies": {
-    "@ai-sdk/anthropic": "^1.1.9",
+    "@ai-sdk/anthropic": "^1.1.12",
     "@ai-sdk/deepseek": "^0.1.12",
-    "@ai-sdk/google": "^1.1.16",
-    "@ai-sdk/mistral": "^1.1.12",
-    "@ai-sdk/openai": "^1.1.13",
+    "@ai-sdk/google": "^1.1.17",
+    "@ai-sdk/mistral": "^1.1.13",
+    "@ai-sdk/openai": "^1.1.15",
     "@hono/node-server": "^1.2.3",
-    "ai": "^4.1.45",
+    "ai": "^4.1.47",
     "hono": "^4.7.2",
     "jose": "^5.10.0",
     "utils": "workspace:*"
   },
   "devDependencies": {
-    "@types/node": "^22.13.5",
+    "@types/node": "^22.13.8",
     "esbuild": "^0.25.0",
-    "ts-node": "^10.9.1",
-    "typescript": "^5.7.3"
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.2"
   }
 }

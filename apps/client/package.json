@@ -9,8 +9,8 @@
     "typecheck": "react-router typegen && tsc"
   },
   "dependencies": {
-    "@clerk/react-router": "^1.1.1",
-    "@fontsource/fira-code": "^5.1.1",
+    "@clerk/react-router": "^1.1.2",
+    "@fontsource/fira-code": "^5.2.4",
     "@hookform/resolvers": "^4.1.2",
     "@radix-ui/react-accordion": "^1.2.3",
     "@radix-ui/react-alert-dialog": "^1.1.6",
@@ -62,7 +62,7 @@
     "jotai": "^2.12.1",
     "jotai-effect": "^2.0.1",
     "localforage": "^1.10.0",
-    "lucide-react": "^0.476.0",
+    "lucide-react": "^0.477.0",
     "motion": "^12.4.7",
     "next-themes": "^0.4.4",
     "react": "^19.0.0",
@@ -88,13 +88,13 @@
   "devDependencies": {
     "@react-router/dev": "^7.2.0",
     "@tailwindcss/vite": "^4.0.0",
-    "@types/node": "^22.13.5",
+    "@types/node": "^22.13.8",
     "@types/react": "^19.0.1",
     "@types/react-dom": "^19.0.1",
     "@types/react-syntax-highlighter": "^15.5.13",
     "react-router-devtools": "^1.1.0",
     "tailwindcss": "^4.0.9",
-    "typescript": "^5.7.3",
+    "typescript": "^5.8.2",
     "vite": "^5.4.11",
     "vite-tsconfig-paths": "^5.1.4"
   }

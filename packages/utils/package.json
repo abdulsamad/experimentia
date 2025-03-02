@@ -2,9 +2,9 @@
   "name": "utils",
   "main": "index.ts",
   "devDependencies": {
-    "typescript": "^5.2.2"
+    "typescript": "^5.8.2"
   },
   "dependencies": {
-    "ai": "^4.1.45"
+    "ai": "^4.1.47"
   }
 }
