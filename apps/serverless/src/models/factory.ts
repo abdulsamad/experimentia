@@ -1,6 +1,13 @@
 import { LanguageModelV1 } from 'ai';
 
-import { googleClient, openAiClient, ModelName } from '.';
+import {
+  ModelName,
+  googleClient,
+  openAiClient,
+  anthropicClient,
+  mistralClient,
+  deepseekClient,
+} from '.';
 
 class ModelFactory {
   private static instance: ModelFactory;
@@ -43,6 +50,30 @@ class ModelFactory {
 
       case modelName.startsWith('gpt'): {
         model = openAiClient(modelName, {
+          //
+        });
+
+        break;
+      }
+
+      case modelName.startsWith('claude'): {
+        model = anthropicClient(modelName, {
+          //
+        });
+
+        break;
+      }
+
+      case modelName.startsWith('mistral'): {
+        model = mistralClient(modelName, {
+          //
+        });
+
+        break;
+      }
+
+      case modelName.startsWith('deepseek'): {
+        model = deepseekClient(modelName, {
           //
         });
 
