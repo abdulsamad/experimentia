@@ -3,7 +3,12 @@ import { atomEffect } from 'jotai-effect';
 import { atomWithStorage } from 'jotai/utils';
 import { getTime, format } from 'date-fns';
 
-import type { variationsType, supportedLanguagesType, supportedModelsType } from 'utils';
+import type {
+  variationsType,
+  supportedLanguagesType,
+  supportedModelsType,
+  ImageSizeType,
+} from 'utils';
 
 import { settingsKey, threadsKey, lforage } from '@/utils/lforage';
 
@@ -151,7 +156,7 @@ export interface IConfig {
   model: supportedModelsType;
   variation: variationsType;
   language: supportedLanguagesType;
-  imageSize: string;
+  imageSize: ImageSizeType;
   textInput: boolean;
   speakResults: boolean;
   quality: 'standard' | 'hd';

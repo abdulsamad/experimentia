@@ -275,16 +275,29 @@ export const variations = [
   },
 ] as const;
 
+type ImageSizeConfig = {
+  default: string;
+  options: readonly string[];
+};
+
+type ImageSizeOptions<T extends ImageSizeConfig> = T['options'][number];
+
 export const imageSizes = (model: (typeof supportedImageModels)[0]['name']) => {
   if (model === 'dall-e-3') {
-    return {
+    const config = {
       default: '1024x1024',
       options: ['1024x1024', '1024x1792', '1792x1024'],
     } as const;
+
+    return config;
   }
 
-  return {
+  const config = {
     default: '256x256',
     options: ['256x256', '512x512', '1024x1024'],
   } as const;
+
+  return config;
 };
+
+export type ImageSizeType = ImageSizeOptions<ReturnType<typeof imageSizes>>;
