@@ -1,0 +1,103 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: Serverless Example
+
+Resources:
+  ApiFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: ExampleFunction
+      Handler: dist/index.handler
+      Runtime: nodejs22.x
+      Architectures:
+        - x86_64
+      Timeout: 30
+      MemorySize: 128
+      EphemeralStorage:
+        Size: 512
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Environment:
+        Variables:
+          PORT: !Ref PORT
+          CLERK_ISSUER_BASE_URL: !Ref ClerkIssuerBaseURL
+          GEMINI_API_KEY: !Ref GeminiAPIKey
+          OPENAI_API_KEY: !Ref OpenAIAPIKey
+          ANTHROPIC_API_KEY: !Ref AnthropicAPIKey
+          MISTRAL_API_KEY: !Ref MistralAPIKey
+          DEEPSEEK_API_KEY: !Ref DeepSeekAPIKey
+    Metadata:
+      BuildMethod: esbuild
+
+  ApiFunctionUrl:
+    Type: AWS::Lambda::Url
+    Properties:
+      AuthType: NONE
+      Cors:
+        AllowOrigins:
+          - https://example.com
+        AllowMethods:
+          - POST
+          - GET
+        AllowHeaders:
+          - "*"
+        MaxAge: 60
+      InvokeMode: RESPONSE_STREAM
+      TargetFunctionArn: !GetAtt ApiFunction.Arn
+
+  ApiFunctionPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref ApiFunction
+      Action: lambda:InvokeFunctionUrl
+      Principal: "*"
+      FunctionUrlAuthType: NONE
+
+  ExampleLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: /aws/lambda/ExampleFunction
+      RetentionInDays: 30
+
+  LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: LambdaBasicExecution
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: !GetAtt ExampleLogGroup.Arn
+
+Parameters:
+  PORT:
+    Type: String
+    Default: "3001"
+  ClerkIssuerBaseURL:
+    Type: String
+  GeminiAPIKey:
+    Type: String
+  OpenAIAPIKey:
+    Type: String
+  AnthropicAPIKey:
+    Type: String
+  MistralAPIKey:
+    Type: String
+  DeepSeekAPIKey:
+    Type: String
+
+Outputs:
+  FunctionUrl:
+    Description: URL of the Lambda function
+    Value: !GetAtt ApiFunctionUrl.FunctionUrl
