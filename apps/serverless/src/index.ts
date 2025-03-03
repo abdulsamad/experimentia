@@ -7,10 +7,10 @@ import { authMiddleware } from '@middlewares/index';
 
 export const app = new Hono();
 
+app.get('/', (c) => c.text('Hono + Lambda + AI'));
+
 app.use(logger());
 app.use(authMiddleware);
-
-app.get('/', (c) => c.text('Hono + Lambda + Gemini'));
 
 app.post('/chat', chat);
 
