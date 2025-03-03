@@ -13,6 +13,9 @@ export default defineConfig({
     tsconfigPaths(),
     VitePWA({
       registerType: 'autoUpdate',
+      devOptions: {
+        enabled: true,
+      },
       manifest: {
         name: 'Experimentia - The AI Chat App',
         short_name: 'Experimentia',
