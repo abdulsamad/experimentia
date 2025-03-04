@@ -6,7 +6,7 @@ import { getTime, format } from 'date-fns';
 import type {
   variationsType,
   supportedLanguagesType,
-  supportedModelsType,
+  enabledModelsType,
   ImageSizeType,
 } from 'utils';
 
@@ -27,7 +27,7 @@ export interface IMessageCommons {
   type: 'assistant' | 'user';
   variation: null | variationsType;
   timestamp: number;
-  model: supportedModelsType;
+  model: enabledModelsType;
 }
 
 export interface ITextMessage {
@@ -153,7 +153,7 @@ export const chatSaveEffect = atomEffect((get, set) => {
 // Config
 
 export interface IConfig {
-  model: supportedModelsType;
+  model: enabledModelsType;
   variation: variationsType;
   language: supportedLanguagesType;
   imageSize: ImageSizeType;

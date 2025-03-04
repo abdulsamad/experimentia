@@ -34,7 +34,7 @@ const Text = ({ isUser, messageClassNames, message }: IText) => {
   return (
     <Card
       className={clsx(
-        `message group/message relative inline-block py-1.5 px-3 rounded-xl before:content-[''] before:block before:h-0 before:w-0 before:border-y-8 before:border-y-transparent before:border-l-[14px] before:border-l-primary before:absolute before:top-1/2 before:-translate-y-1/2] w-[min(70%,_600px)] [&_p:has(code)]:leading-8 [&_div:has(code)]:leading-8 [&_span:has(code)]:leading-8`,
+        `message group/message relative inline-block py-1.5 px-3 rounded-xl before:content-[''] before:block before:h-0 before:w-0 before:border-y-8 before:border-y-transparent before:border-l-[14px] before:border-l-primary before:absolute before:top-1/2 before:-translate-y-1/2] w-[min(70%,_500px)] [&_p:has(code)]:leading-8 [&_div:has(code)]:leading-8 [&_span:has(code)]:leading-8 `,
         messageClassNames
       )}>
       {isUser ? (
@@ -67,6 +67,7 @@ const Text = ({ isUser, messageClassNames, message }: IText) => {
                         <div className="font-bold">
                           <SyntaxHighlighter
                             {...rest}
+                            wrapLongLines
                             PreTag="div"
                             customStyle={{ margin: 0 }}
                             language={match[1]}
@@ -78,27 +79,60 @@ const Text = ({ isUser, messageClassNames, message }: IText) => {
                       </div>
                     ) : (
                       <code
-                        {...rest}
                         className={clsx(
                           className,
-                          `bg-[#1E1E1E] text-slate-50 py-1 px-2 rounded-xl font-medium select-all [font-family:_Fira_Code]`
-                        )}>
+                          `block bg-[#1E1E1E] text-slate-50 py-1 px-2 rounded-xl font-medium select-all [font-family:_Fira_Code] overflow-x-auto`
+                        )}
+                        {...rest}>
                         {children?.toString().trim()}
                       </code>
                     )}
                   </>
                 );
               },
-              p: ({ children }) => <p>{children}</p>,
+              p: ({ children }) => <p className="leading-6">{children}</p>,
               span: ({ children }) => <span>{children}</span>,
-              div: ({ children }) => <div>{children}</div>,
-              table: ({ children }) => <Table>{children}</Table>,
-              thead: ({ children }) => <TableHeader>{children}</TableHeader>,
-              tbody: ({ children }) => <TableBody>{children}</TableBody>,
-              tfoot: ({ children }) => <TableFooter>{children}</TableFooter>,
-              tr: ({ children }) => <TableRow>{children}</TableRow>,
-              th: ({ children }) => <TableHead>{children}</TableHead>,
-              td: ({ children }) => <TableCell>{children}</TableCell>,
+              div: ({ children }) => <div className="my-2">{children}</div>,
+              table: ({ children }) => (
+                <Table className="w-full border-collapse my-4 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900/50">
+                  {children}
+                </Table>
+              ),
+              thead: ({ children }) => (
+                <TableHeader className="bg-gradient-to-r from-purple-500 to-purple-900 text-slate-50 border-b border-gray-200 dark:border-gray-700">
+                  {children}
+                </TableHeader>
+              ),
+              tbody: ({ children }) => (
+                <TableBody className="divide-y divide-gray-100 dark:divide-gray-800 bg-gradient-to-r from-slate-900 to-slate-700">
+                  {children}
+                </TableBody>
+              ),
+              tfoot: ({ children }) => (
+                <TableFooter className="bg-gray-50/80 dark:bg-gray-800/30 border-t border-gray-200 dark:border-gray-700">
+                  {children}
+                </TableFooter>
+              ),
+              tr: ({ children }) => (
+                <TableRow className="hover:bg-blue-50/50 dark:hover:bg-blue-900/20 transition-colors duration-200">
+                  {children}
+                </TableRow>
+              ),
+              th: ({ children }) => (
+                <TableHead className="py-3 px-4 text-left font-semibold text-blue-900 dark:text-blue-100">
+                  {children}
+                </TableHead>
+              ),
+              td: ({ children }) => (
+                <TableCell className="py-2.5 px-4 text-gray-800 dark:text-gray-200">
+                  {children}
+                </TableCell>
+              ),
+              pre: ({ children }) => (
+                <pre className="max-w-[calc(100vw-148px)] md:max-w-[calc(100vw-400px)] lg:max-w-[calc(100vw-450px)]">
+                  {children}
+                </pre>
+              ),
             }}>
             {message || ''}
           </Markdown>

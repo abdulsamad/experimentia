@@ -204,5 +204,5 @@ body {
 }
 
 .chat:not([data-type='user']) .message pre > div div:has(> code) {
-  border-radius: 16px;
+  border-radius: 12px;
 }

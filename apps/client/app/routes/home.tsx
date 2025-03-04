@@ -62,11 +62,11 @@ const Home = ({ params }: Route.ComponentProps) => {
   return (
     <Suspense>
       <Thread />
-      <div className="flex flex-col justify-end">
+      <section className="flex flex-col justify-end">
         <div className="flex flex-col">
           {!textInput && IS_SPEECH_RECOGNITION_SUPPORTED() ? <Voice /> : <Text />}
         </div>
-      </div>
+      </section>
     </Suspense>
   );
 };
