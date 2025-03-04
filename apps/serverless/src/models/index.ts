@@ -1,15 +1,8 @@
-import { createGoogleGenerativeAI, GoogleGenerativeAIProvider } from '@ai-sdk/google';
-import { createOpenAI, OpenAIProvider } from '@ai-sdk/openai';
-import { createAnthropic, AnthropicProvider } from '@ai-sdk/anthropic';
-import { createMistral, MistralProvider } from '@ai-sdk/mistral';
-import { createDeepSeek, DeepSeekProvider } from '@ai-sdk/deepseek';
-
-export type ModelName =
-  | Parameters<GoogleGenerativeAIProvider['chat']>[0]
-  | Parameters<OpenAIProvider['chat']>[0]
-  | Parameters<AnthropicProvider['languageModel']>[0]
-  | Parameters<MistralProvider['chat']>[0]
-  | Parameters<DeepSeekProvider['languageModel']>[0];
+import { createGoogleGenerativeAI } from '@ai-sdk/google';
+import { createOpenAI } from '@ai-sdk/openai';
+import { createAnthropic } from '@ai-sdk/anthropic';
+import { createMistral } from '@ai-sdk/mistral';
+import { createDeepSeek } from '@ai-sdk/deepseek';
 
 export const googleClient = createGoogleGenerativeAI({
   apiKey: process.env.GEMINI_API_KEY,

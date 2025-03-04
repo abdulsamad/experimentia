@@ -1,13 +1,8 @@
 import { LanguageModelV1 } from 'ai';
 
-import {
-  ModelName,
-  googleClient,
-  openAiClient,
-  anthropicClient,
-  mistralClient,
-  deepseekClient,
-} from '.';
+import type { availableModelsType } from 'utils';
+
+import { googleClient, openAiClient, anthropicClient, mistralClient, deepseekClient } from '.';
 
 class ModelFactory {
   private static instance: ModelFactory;
@@ -25,7 +20,7 @@ class ModelFactory {
     return ModelFactory.instance;
   }
 
-  public createModel(modelName: ModelName): LanguageModelV1 {
+  public createModel(modelName: availableModelsType): LanguageModelV1 {
     const cacheKey = `${modelName}`;
 
     if (this.modelInstances.has(cacheKey)) {

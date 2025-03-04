@@ -1,15 +1,35 @@
 import { ToolChoice, ToolSet } from 'ai';
 
-import { variationsType, supportedLanguagesType } from './types';
+import { availableModelsType, supportedLanguagesType, variationsType } from './types';
 
-export const supportedModels = [
+export type SupportedModel = {
+  name: availableModelsType;
+  text: string;
+  type: 'text' | 'image';
+  isSpecial: boolean;
+};
+
+export const supportedModels: SupportedModel[] = [
   { name: 'gemini-1.5-flash', text: 'Gemini 1.5 Flash', type: 'text', isSpecial: false },
   { name: 'gemini-1.5-pro', text: 'Gemini 1.5 Pro', type: 'text', isSpecial: false },
+  {
+    name: 'gemini-2.0-pro-exp-02-05',
+    text: 'Gemini 2.0 Pro (Experimental)',
+    type: 'text',
+    isSpecial: true,
+  },
+  // {
+  //   name: 'gemini-2.0-flash-thinking-exp-01-21',
+  //   text: 'Gemini 2.0 Flash Thinking (Experimental)',
+  //   type: 'text',
+  //   isSpecial: true,
+  // },
   { name: 'gemini-2.0-flash', text: 'Gemini 2.0 Flash', type: 'text', isSpecial: true },
+  { name: 'gemini-2.0-flash-lite', text: 'Gemini 2.0 Flash Lite', type: 'text', isSpecial: false },
   { name: 'gpt-4o', text: 'GPT 4o', type: 'text', isSpecial: false },
   { name: 'gpt-4o-mini', text: 'GPT 4o Mini', type: 'text', isSpecial: false },
   { name: 'gpt-o1-mini', text: 'GPT o1 Mini', type: 'text', isSpecial: false },
-  { name: 'dall-e-3', text: 'DALL-E 3', type: 'image', isSpecial: false },
+  // { name: 'dall-e-3', text: 'DALL-E 3', type: 'image', isSpecial: false },
 ] as const;
 
 export const supportedTextModels = supportedModels.filter(({ type }) => type === 'text');
