@@ -5,6 +5,7 @@
     "rootDir": ".",
     "baseUrl": "src",
     "paths": {
+      "@controllers/*": ["controllers/*"],
       "@middlewares/*": ["middlewares/*"],
       "@models/*": ["models/*"]
     },

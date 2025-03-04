@@ -2,7 +2,7 @@
   "name": "serverless",
   "private": true,
   "scripts": {
-    "dev": "ts-node --transpile-only src/local.ts",
+    "dev": "ts-node -r tsconfig-paths/register --transpile-only src/local.ts",
     "build": "esbuild src/index.ts --bundle --platform=node --target=node22 --outfile=dist/index.js --external:@aws-sdk/*",
     "deploy": "pnpm run build && sam deploy && rm -rf dist/*"
   },
@@ -22,6 +22,7 @@
     "@types/node": "^22.13.8",
     "esbuild": "^0.25.0",
     "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.8.2"
   }
 }
