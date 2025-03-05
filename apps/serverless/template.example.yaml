@@ -39,7 +39,8 @@ Resources:
           - POST
           - GET
         AllowHeaders:
-          - "*"
+          - "Content-Type"
+          - "Authorization"
         MaxAge: 60
       InvokeMode: RESPONSE_STREAM
       TargetFunctionArn: !GetAtt ApiFunction.Arn
@@ -79,6 +80,60 @@ Resources:
                   - logs:CreateLogStream
                   - logs:PutLogEvents
                 Resource: !GetAtt ExampleLogGroup.Arn
+        - PolicyName: CloudWatchAlarms
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - cloudwatch:PutMetricAlarm
+                  - cloudwatch:DeleteAlarms
+                  - cloudwatch:DescribeAlarms
+                  - cloudwatch:ListMetrics
+                 Resource:
+                  - !Sub "arn:aws:cloudwatch:${AWS::Region}:${AWS::AccountId}:alarm/ExampleHighInvocation"
+                  - !Sub "arn:aws:cloudwatch:${AWS::Region}:${AWS::AccountId}:alarm/ExampleHighErrorRate"
+
+  LambdaInvocationAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: LambdaHighInvocation
+      AlarmDescription: "Trigger alarm if the function is invoked more than 1000 times within 5 minutes to prevent abuse."
+      MetricName: Invocations
+      Namespace: AWS/Lambda
+      Statistic: Sum
+      Period: 300
+      EvaluationPeriods: 1
+      Threshold: 1000
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+      AlarmActions:
+        - !Sub "arn:aws:sns:${AWS::Region}:${AWS::AccountId}:LambdaAlertTopic"
+      Dimensions:
+        - Name: ExampleFunction
+          Value: !Ref ApiFunction
+
+  LambdaErrorAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: LambdaHighErrorRate
+      AlarmDescription: "Trigger alarm if error rate exceeds 5% of invocations."
+      MetricName: Errors
+      Namespace: AWS/Lambda
+      Statistic: Sum
+      Period: 300
+      EvaluationPeriods: 1
+      Threshold: 50
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+      AlarmActions:
+        - !Sub "arn:aws:sns:${AWS::Region}:${AWS::AccountId}:LambdaAlertTopic"
+      Dimensions:
+        - Name: ExampleFunction
+          Value: !Ref ApiFunction
+
+  LambdaAlertTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      TopicName: LambdaAlertTopic
 
 Parameters:
   PORT:
