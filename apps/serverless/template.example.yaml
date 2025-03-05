@@ -90,7 +90,7 @@ Resources:
                   - cloudwatch:DeleteAlarms
                   - cloudwatch:DescribeAlarms
                   - cloudwatch:ListMetrics
-                 Resource:
+                Resource:
                   - !Sub "arn:aws:cloudwatch:${AWS::Region}:${AWS::AccountId}:alarm/ExampleHighInvocation"
                   - !Sub "arn:aws:cloudwatch:${AWS::Region}:${AWS::AccountId}:alarm/ExampleHighErrorRate"
 
