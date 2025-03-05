@@ -5,7 +5,7 @@ import { useAuth, useUser } from '@clerk/react-router';
 import { toast } from 'sonner';
 import axios from 'axios';
 import { throttle } from 'es-toolkit';
-const useSound = await import('use-sound').then((mod) => mod.default);
+import useSound from 'use-sound';
 
 import { supportedImageModels } from 'utils';
 
