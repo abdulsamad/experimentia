@@ -30,7 +30,7 @@ const useHandleChatResponse = () => {
 
   const { user } = useUser();
   const { getToken } = useAuth();
-  const [play] = useSound('notification.mp3');
+  // const [play] = useSound('notification.mp3');
 
   const handleChatResponse = async ({
     prompt,
@@ -66,7 +66,7 @@ const useHandleChatResponse = () => {
           setIsChatResponseLoading(false);
           // Haptic feedback and sound
           navigator.vibrate(100);
-          play();
+          // play();
         });
 
         if (onImageMessageComplete) onImageMessageComplete();
@@ -132,7 +132,7 @@ const useHandleChatResponse = () => {
 
               // Feedback
               navigator.vibrate(100);
-              play();
+              // play();
             });
             console.log('%cDONE', 'font-size:12px;font-weight:bold;color:aqua');
             break;
