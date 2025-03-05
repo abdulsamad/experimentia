@@ -5,13 +5,12 @@ import { useAuth, useUser } from '@clerk/react-router';
 import { toast } from 'sonner';
 import axios from 'axios';
 import { throttle } from 'es-toolkit';
+import useSound from 'use-sound';
 
 import { supportedImageModels } from 'utils';
 
 import { threadLoadingAtom, threadAtom, configAtom } from '@/store/index';
 import { getGeneratedText, getGeneratedImage } from '@/utils/api-calls';
-
-const useSound = require('use-sound').default;
 
 const THROTTLE_UPDATE_TIME_MS = 750;
 
