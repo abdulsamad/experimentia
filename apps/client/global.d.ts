@@ -4,12 +4,6 @@ declare module 'react-image-gallery' {
   export default class ReactImageGallery extends Component<any> {}
 }
 
-// use-sound
-declare module 'use-sound' {
-  type PlayFunction = () => void;
-  export function useSound(filepath: string): [PlayFunction];
-}
-
 // react-copy-to-clipboard
 declare module 'react-copy-to-clipboard' {
   import * as React from 'react';

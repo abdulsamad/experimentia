@@ -25,8 +25,7 @@ const useHandleChatResponse = () => {
 
   const { user } = useUser();
   const { getToken } = useAuth();
-  // const [play] = useSound('notification.mp3');
-  const play = () => null;
+  const [play] = useSound('notification.mp3');
 
   const handleChatResponse = async ({
     prompt,
