@@ -55,7 +55,7 @@ export const getAssistantConfig = (
   variation: variationsType,
   language: supportedLanguagesType = 'en-US'
 ): SystemPromptConfig => {
-  const basePromptString = ``;
+  const basePromptString = `You spoken language is ${language}`;
 
   const defaultConfig: Omit<SystemPromptConfig, 'prompt'> = {
     temperature: 0.5,
@@ -71,6 +71,14 @@ export const getAssistantConfig = (
   };
 
   switch (variation) {
+    case 'developer':
+      return {
+        ...defaultConfig,
+        prompt: `You are Dev Helper, a knowledgeable and efficient assistant specialized in software development. You help developers with coding, debugging, best practices, and software architecture. Provide concise and accurate answers, including code snippets when necessary. ${basePromptString}`,
+        temperature: 0.5,
+        frequencyPenalty: 0.2,
+      };
+
     case 'snarky':
       return {
         ...defaultConfig,
@@ -167,6 +175,7 @@ export const variations = [
     text: 'Normal',
     selected: true,
     description: 'A normal and helpful assistant.',
+    category: 'general',
     hints: [
       'What is the capital of France?',
       'Translate "Hello" to Spanish.',
@@ -175,10 +184,24 @@ export const variations = [
     ],
   },
   {
+    code: 'developer',
+    text: 'Developer',
+    selected: false,
+    description: 'Assists with coding, debugging, and software development best practices.',
+    category: 'general',
+    hints: [
+      'How do I optimize my JavaScript code?',
+      'What are the best practices for writing clean Python code?',
+      'How do I debug a memory leak in a Node.js application?',
+      'What’s the difference between REST and GraphQL?',
+    ],
+  },
+  {
     code: 'snarky',
     text: 'Snarky Bot',
     selected: false,
     description: 'Snarky is sarcastic, funny and informative bot.',
+    category: 'funny',
     hints: [
       'How many pounds are in a kilogram?',
       'What does HTML stand for?',
@@ -191,6 +214,7 @@ export const variations = [
     text: 'Grammar Corrector',
     selected: false,
     description: 'Corrects grammar, improves sentence structure, and enhances vocabulary.',
+    category: 'general',
     hints: [
       'Correct this sentence: "He go to school every day."',
       'Improve this sentence: "The food is very good."',
@@ -203,6 +227,7 @@ export const variations = [
     text: 'Doctor',
     selected: false,
     description: 'Provides medical advice, conventional treatments, and alternative remedies.',
+    category: 'general',
     hints: [
       'What are the symptoms of the flu?',
       'How can I lower my blood pressure naturally?',
@@ -215,6 +240,7 @@ export const variations = [
     text: 'Teacher',
     selected: false,
     description: 'Explains concepts in an easy-to-understand manner.',
+    category: 'general',
     hints: [
       'Can you explain the Pythagorean theorem?',
       'How does photosynthesis work?',
@@ -227,6 +253,7 @@ export const variations = [
     text: 'Historian',
     selected: false,
     description: 'Analyzes and explains historical events and their impact.',
+    category: 'general',
     hints: [
       'What caused World War I?',
       'Who was Julius Caesar?',
@@ -239,6 +266,7 @@ export const variations = [
     text: 'Chef',
     selected: false,
     description: 'Suggests healthy and easy-to-make recipes.',
+    category: 'general',
     hints: [
       'What is a quick and healthy breakfast idea?',
       'How can I make a simple pasta dish?',
@@ -251,6 +279,7 @@ export const variations = [
     text: 'Data Scientist',
     selected: false,
     description: 'Provides data analysis techniques, visualization methods, and coding advice.',
+    category: 'general',
     hints: [
       'How do I clean a messy dataset in Python?',
       'What is the best way to visualize time-series data?',
@@ -263,6 +292,7 @@ export const variations = [
     text: 'Legal Advisor',
     selected: false,
     description: 'Gives legal advice on various topics.',
+    category: 'general',
     hints: [
       'What are my rights if I get arrested?',
       'How do I write a contract?',
@@ -275,6 +305,7 @@ export const variations = [
     text: 'Gavin Belson',
     selected: false,
     description: 'Portrays Gavin Belson, the tech mogul from HBO’s Silicon Valley.',
+    category: 'spoof',
     hints: [
       'What’s your opinion on Pied Piper?',
       'How do you stay innovative in tech?',
@@ -287,6 +318,7 @@ export const variations = [
     text: 'Russ Hanneman',
     selected: false,
     description: 'Portrays Russ Hanneman, the eccentric billionaire from HBO’s Silicon Valley.',
+    category: 'spoof',
     hints: [
       'Tell me about the “three comma club.”',
       'How do you invest in startups?',

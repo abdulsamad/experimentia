@@ -61,6 +61,19 @@ const SettingsDropdown = () => {
     return imageSize;
   }, [imageSize, model, updateSetting]);
 
+  const getGroupedItemsByCategory = useCallback((items: typeof variations) => {
+    return Object.entries(
+      items.reduce<Record<string, Array<{ code: string; text: string }>>>(
+        (acc, { code, text, category }) => {
+          if (!acc[category]) acc[category] = [];
+          acc[category].push({ code, text });
+          return acc;
+        },
+        {}
+      )
+    );
+  }, []);
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -96,7 +109,7 @@ const SettingsDropdown = () => {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
-                    <SelectLabel>Text</SelectLabel>
+                    <SelectLabel className="text-muted-foreground">Text</SelectLabel>
                     {supportedTextModels.map(({ name, text, isSpecial, isExperimental }) => (
                       <SelectItem key={name} value={name}>
                         <div className="flex items-center gap-2">
@@ -121,7 +134,7 @@ const SettingsDropdown = () => {
                   </SelectGroup>
                   {hasImageModels ? (
                     <SelectGroup>
-                      <SelectLabel>Image</SelectLabel>
+                      <SelectLabel className="text-muted-foreground">Image</SelectLabel>
                       {supportedImageModels.map(({ name, text, isSpecial, isExperimental }) => (
                         <SelectItem key={name} value={name} className="gap-2">
                           <div className="flex items-center gap-2">
@@ -160,10 +173,17 @@ const SettingsDropdown = () => {
                     <SelectValue placeholder="Variation" />
                   </SelectTrigger>
                   <SelectContent>
-                    {variations.map(({ code, text }) => (
-                      <SelectItem key={code} value={code}>
-                        {text}
-                      </SelectItem>
+                    {getGroupedItemsByCategory(variations).map(([category, items]) => (
+                      <SelectGroup key={category}>
+                        <SelectLabel className="text-muted-foreground capitalize">
+                          {category}
+                        </SelectLabel>
+                        {items.map(({ code, text }) => (
+                          <SelectItem key={code} value={code}>
+                            {text}
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
                     ))}
                   </SelectContent>
                 </Select>
