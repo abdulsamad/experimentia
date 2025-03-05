@@ -35,7 +35,7 @@ const Message = ({
 
   return (
     <motion.div
-      initial={isUser ? { translateY: '10px', scaleX: 0.5 } : { translateY: '-10px', scaleX: 0.5 }}
+      // initial={isUser ? { translateY: '10px', scaleX: 0.5 } : { translateY: '-10px', scaleX: 0.5 }}
       animate={{ translateY: 0, scaleX: 1 }}
       className={`chat relative flex my-4 scroll-mb-10 ${chatOrigin}`}
       data-type={type}

@@ -5,11 +5,14 @@ import { useAuth, useUser } from '@clerk/react-router';
 import { toast } from 'sonner';
 import axios from 'axios';
 import useSound from 'use-sound';
+import { throttle } from 'es-toolkit';
 
 import { supportedImageModels } from 'utils';
 
 import { threadLoadingAtom, threadAtom, configAtom } from '@/store/index';
 import { getGeneratedText, getGeneratedImage } from '@/utils/api-calls';
+
+const THROTTLE_UPDATE_TIME_MS = 750;
 
 interface handleChatResponseProps {
   prompt: string;
@@ -81,10 +84,24 @@ const useHandleChatResponse = () => {
         }
 
         const reader = (stream as ReadableStream<string>).getReader();
-
         const uid = crypto.randomUUID();
         const timestamp = getTime(new Date());
         let content = '';
+
+        // Create throttled update function
+        const throttledUpdate = throttle((text: string) => {
+          startTransition(() => {
+            addChat({
+              id: uid,
+              type: 'assistant',
+              message: text,
+              variation,
+              timestamp,
+              format: 'text',
+              model,
+            });
+          });
+        }, THROTTLE_UPDATE_TIME_MS);
 
         // Close Loader
         startTransition(() => {
@@ -94,10 +111,12 @@ const useHandleChatResponse = () => {
         while (true) {
           const { value, done } = await reader.read();
 
+          // Stream is completed
           if (done) {
-            // Stream is completed
-            navigator.vibrate(100);
-            play();
+            // Ensure final update is processed and cleanup
+            throttledUpdate.flush();
+            throttledUpdate.cancel();
+
             startTransition(() => {
               addChat({
                 id: uid,
@@ -108,25 +127,17 @@ const useHandleChatResponse = () => {
                 format: 'text',
                 model,
               });
+
+              // Feedback
+              navigator.vibrate(100);
+              play();
             });
             console.log('%cDONE', 'font-size:12px;font-weight:bold;color:aqua');
             break;
           }
 
           content += value;
-
-          // Update chat with accumulated content on each chunk
-          startTransition(() => {
-            addChat({
-              id: uid,
-              type: 'assistant',
-              message: content,
-              variation,
-              timestamp,
-              format: 'text',
-              model,
-            });
-          });
+          throttledUpdate(content);
         }
 
         if (onTextMessageComplete) onTextMessageComplete(content);
