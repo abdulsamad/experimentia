@@ -1,6 +1,7 @@
 {
   "name": "client",
   "private": true,
+  "type": "module",
   "scripts": {
     "build": "react-router build",
     "dev": "react-router dev --port 3000 --host",
