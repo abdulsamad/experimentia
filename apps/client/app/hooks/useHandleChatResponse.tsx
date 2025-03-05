@@ -1,3 +1,5 @@
+'use client';
+
 import { useTransition } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { getTime } from 'date-fns';
