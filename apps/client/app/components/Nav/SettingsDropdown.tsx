@@ -86,22 +86,6 @@ const SettingsDropdown = () => {
         <ul className="space-y-5 lg:space-y-8 p-4">
           <li>
             <div className="flex flex-col space-y-2">
-              <label className="ml-1">Theme</label>
-              <Select value={theme} onValueChange={(value) => setTheme(value)}>
-                <SelectTrigger className="capitalize">
-                  {theme}
-                  <span className="sr-only">Toggle theme</span>
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="light">Light</SelectItem>
-                  <SelectItem value="dark">Dark</SelectItem>
-                  <SelectItem value="system">System</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </li>
-          <li>
-            <div className="flex flex-col space-y-2">
               <label className="ml-1">Model</label>
               <Select value={model} onValueChange={(value) => updateSetting('model', value)}>
                 <SelectTrigger>
@@ -118,14 +102,14 @@ const SettingsDropdown = () => {
                             <Badge
                               variant="outline"
                               className="bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800">
-                              special
+                              Special
                             </Badge>
                           )}
                           {isExperimental && (
                             <Badge
                               variant="outline"
                               className="bg-gradient-to-r from-purple-50 to-fuchsia-50 dark:from-purple-900/20 dark:to-fuchsia-900/20 text-purple-700 dark:text-purple-300 border-purple-200 dark:border-purple-800">
-                              experimental
+                              Experimental
                             </Badge>
                           )}
                         </div>
@@ -143,14 +127,14 @@ const SettingsDropdown = () => {
                               <Badge
                                 variant="outline"
                                 className="bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800">
-                                special
+                                Special
                               </Badge>
                             )}
                             {isExperimental && (
                               <Badge
                                 variant="outline"
                                 className="bg-gradient-to-r from-purple-50 to-fuchsia-50 dark:from-purple-900/20 dark:to-fuchsia-900/20 text-purple-700 dark:text-purple-300 border-purple-200 dark:border-purple-800">
-                                experimental
+                                Experimental
                               </Badge>
                             )}
                           </div>
@@ -245,6 +229,22 @@ const SettingsDropdown = () => {
               </li>
             </>
           )}
+          <li>
+            <div className="flex flex-col space-y-2">
+              <label className="ml-1">Theme</label>
+              <Select value={theme} onValueChange={(value) => setTheme(value)}>
+                <SelectTrigger className="capitalize">
+                  {theme}
+                  <span className="sr-only">Toggle theme</span>
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="light">Light</SelectItem>
+                  <SelectItem value="dark">Dark</SelectItem>
+                  <SelectItem value="system">System</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </li>
           <li>
             <div className="flex flex-col space-y-2">
               <label className="ml-1">Language</label>

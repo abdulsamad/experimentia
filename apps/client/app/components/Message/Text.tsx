@@ -5,8 +5,13 @@ import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { ErrorBoundary, type FallbackProps } from 'react-error-boundary';
 import { PrismAsync as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+import {
+  // oneDark as darkTheme,
+  synthwave84 as darkTheme,
+  oneLight as lightTheme,
+} from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import { clsx } from 'clsx';
+import { useTheme } from 'next-themes';
 
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -31,6 +36,8 @@ interface IText {
 }
 
 const Text = ({ isUser, messageClassNames, message }: IText) => {
+  const { resolvedTheme } = useTheme();
+
   return (
     <Card
       className={clsx(
@@ -72,20 +79,22 @@ const Text = ({ isUser, messageClassNames, message }: IText) => {
                             customStyle={{ margin: 0 }}
                             language={match[1]}
                             ref={undefined}
-                            style={vscDarkPlus}>
+                            style={resolvedTheme === 'dark' ? darkTheme : lightTheme}>
                             {String(children).replace(/\n$/, '')}
                           </SyntaxHighlighter>
                         </div>
                       </div>
                     ) : (
-                      <code
-                        className={clsx(
-                          className,
-                          `block bg-[#1E1E1E] text-slate-50 py-1 px-2 rounded-xl font-medium select-all [font-family:_Fira_Code] overflow-x-auto`
-                        )}
-                        {...rest}>
-                        {children?.toString().trim()}
-                      </code>
+                      <SyntaxHighlighter
+                        {...rest}
+                        wrapLongLines
+                        PreTag="div"
+                        customStyle={{ margin: 0 }}
+                        language="bash"
+                        ref={undefined}
+                        style={resolvedTheme === 'dark' ? darkTheme : lightTheme}>
+                        {String(children?.toString().trim()).replace(/\n$/, '')}
+                      </SyntaxHighlighter>
                     )}
                   </>
                 );
