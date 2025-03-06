@@ -151,6 +151,10 @@ const useHandleChatResponse = () => {
         return toast.error(err.response?.data.err || err.message);
       }
 
+      if (err instanceof Error) {
+        return toast.error(err.message || 'Something went Wrong!');
+      }
+
       toast.error('Something went Wrong!');
     }
   };
