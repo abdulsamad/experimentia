@@ -4,18 +4,33 @@ import { streamText, APICallError } from 'ai';
 import { getAssistantConfig } from 'utils';
 
 import { modelFactory } from '@models/factory';
+import { AppContext } from '@/index';
 
-const chat = async (c: Context) => {
+const chat = async (c: Context<AppContext>) => {
+  const startTime = Date.now();
+  const requestId = c.env.lambdaContext.awsRequestId;
+  const user = c.get('user');
+
   try {
     const { prompt, language, variation, model } = await c.req.json();
 
     if (!prompt) {
+      console.warn('[CHAT] Missing prompt in request');
       return c.json({ success: false, err: 'Prompt not found' }, 400);
     }
 
-    const modelInstance = modelFactory.createModel(model);
+    console.info(
+      `[CHAT][${requestId}] New request - ` +
+        `User: ${user.id}, ` +
+        `Model: ${model}, ` +
+        `Language: ${language}, ` +
+        `Variation: ${variation}, ` +
+        `Prompt length: ${prompt.length}`
+    );
 
+    const modelInstance = modelFactory.createModel(model);
     const config = getAssistantConfig(variation, language);
+
     const result = streamText({
       model: modelInstance,
       messages: [
@@ -33,10 +48,18 @@ const chat = async (c: Context) => {
       presencePenalty: config.presencePenalty,
       stopSequences: config.stopSequences,
       onError: (event) => {
+        console.error(`[CHAT][${requestId}] Stream error for user ${user.id}: ${event.error}`);
         c.json({ success: false, err: event.error }, 500);
       },
-      onFinish: (result) => {
-        //
+      onFinish: ({ usage }) => {
+        const duration = Date.now() - startTime;
+
+        console.info(
+          `[CHAT][${requestId}] Request completed - ` +
+            `Duration: ${duration}ms, ` +
+            `User: ${user.id} ` +
+            `Total tokens: ${usage.totalTokens}`
+        );
       },
     });
 
@@ -51,6 +74,7 @@ const chat = async (c: Context) => {
           }
           controller.close();
         } catch (error) {
+          console.error('[CHAT] Stream processing error:', error);
           controller.error(error);
         }
       },
@@ -66,10 +90,11 @@ const chat = async (c: Context) => {
     });
   } catch (err) {
     if (APICallError.isInstance(err)) {
+      console.error(`[CHAT][${requestId}] API Call Error for user ${user.id}: `, err.message);
       return c.json({ error: err.message }, 500);
     }
 
-    console.error(err);
+    console.error(`[CHAT][${requestId}] Unexpected error for user ${user.id}: `, err);
     return c.json({ error: 'Something went wrong!' }, 500);
   }
 };

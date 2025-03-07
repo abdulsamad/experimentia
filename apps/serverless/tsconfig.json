@@ -5,9 +5,11 @@
     "rootDir": ".",
     "baseUrl": "src",
     "paths": {
+      "@/index": ["."],
       "@controllers/*": ["controllers/*"],
       "@middlewares/*": ["middlewares/*"],
-      "@models/*": ["models/*"]
+      "@models/*": ["models/*"],
+      "@types": ["types"]
     },
     "allowJs": true,
     "checkJs": true,

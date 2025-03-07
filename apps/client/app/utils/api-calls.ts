@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useAuth } from '@clerk/react-router';
+import { useAuth, useUser } from '@clerk/react-router';
 
 import { IConfig } from '@/store/index';
 
@@ -14,7 +14,7 @@ type ErrorType = { success: boolean; err: string };
 interface IGetGeneratedText {
   prompt: string;
   language?: string;
-  user: any;
+  user: ReturnType<typeof useUser>['user'];
   getToken: (options?: GetTokenOptions) => Promise<string | null>;
 }
 
@@ -62,7 +62,7 @@ export const getGeneratedText = async ({
 
 interface IGetGeneratedImage {
   prompt: string;
-  user: any;
+  user: ReturnType<typeof useUser>['user'];
   quality: IConfig['quality'];
   style: IConfig['style'];
   size?: string;
