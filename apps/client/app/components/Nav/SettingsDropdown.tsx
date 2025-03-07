@@ -121,27 +121,29 @@ const SettingsDropdown = () => {
                   {hasImageModels ? (
                     <SelectGroup>
                       <SelectLabel className="text-muted-foreground">Image</SelectLabel>
-                      {supportedImageModels.map(({ name, text, isSpecial, isExperimental }) => (
-                        <SelectItem key={name} value={name} className="gap-2">
-                          <div className="flex items-center gap-2">
-                            {text}
-                            {isSpecial && (
-                              <Badge
-                                variant="outline"
-                                className="bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800">
-                                Special
-                              </Badge>
-                            )}
-                            {isExperimental && (
-                              <Badge
-                                variant="outline"
-                                className="bg-gradient-to-r from-purple-50 to-fuchsia-50 dark:from-purple-900/20 dark:to-fuchsia-900/20 text-purple-700 dark:text-purple-300 border-purple-200 dark:border-purple-800">
-                                Experimental
-                              </Badge>
-                            )}
-                          </div>
-                        </SelectItem>
-                      ))}
+                      {supportedImageModels.map(
+                        ({ name, text, isSpecial, isExperimental, disabled }) => (
+                          <SelectItem key={name} value={name} disabled={disabled} className="gap-2">
+                            <div className="flex items-center gap-2">
+                              {text}
+                              {isSpecial && (
+                                <Badge
+                                  variant="outline"
+                                  className="bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800">
+                                  Special
+                                </Badge>
+                              )}
+                              {isExperimental && (
+                                <Badge
+                                  variant="outline"
+                                  className="bg-gradient-to-r from-purple-50 to-fuchsia-50 dark:from-purple-900/20 dark:to-fuchsia-900/20 text-purple-700 dark:text-purple-300 border-purple-200 dark:border-purple-800">
+                                  Experimental
+                                </Badge>
+                              )}
+                            </div>
+                          </SelectItem>
+                        )
+                      )}
                     </SelectGroup>
                   ) : null}
                 </SelectContent>
