@@ -6,31 +6,101 @@ export type SupportedModel = {
   name: availableModelsType;
   text: string;
   type: 'text' | 'image';
+  disabled: boolean;
   isSpecial?: boolean;
   isExperimental?: boolean;
+  provider: 'google' | 'openai' | 'anthropic' | 'mistral' | 'deepseek';
 };
 
 export const supportedModels: SupportedModel[] = [
-  { name: 'gemini-1.5-flash', text: 'Gemini 1.5 Flash', type: 'text' },
-  { name: 'gemini-1.5-pro', text: 'Gemini 1.5 Pro', type: 'text' },
+  {
+    name: 'gemini-2.0-flash-lite',
+    text: 'Gemini 2.0 Flash Lite',
+    type: 'text',
+    disabled: false,
+    provider: 'google',
+  },
+  {
+    name: 'gemini-2.0-flash-lite',
+    text: 'Gemini 2.0 Flash Lite',
+    type: 'text',
+    disabled: false,
+    provider: 'google',
+  },
+  { name: 'gpt-4o', text: 'GPT 4o', type: 'text', disabled: true, provider: 'openai' },
+  { name: 'gpt-4o-mini', text: 'GPT 4o Mini', type: 'text', disabled: true, provider: 'openai' },
+  { name: 'gpt-o1-mini', text: 'GPT o1 Mini', type: 'text', disabled: true, provider: 'openai' },
+  {
+    name: 'gemini-1.5-flash',
+    text: 'Gemini 1.5 Flash',
+    type: 'text',
+    disabled: false,
+    provider: 'google',
+  },
+  {
+    name: 'gemini-1.5-pro',
+    text: 'Gemini 1.5 Pro',
+    type: 'text',
+    disabled: false,
+    provider: 'google',
+  },
   {
     name: 'gemini-2.0-pro-exp-02-05',
     text: 'Gemini 2.0 Pro',
     type: 'text',
     isExperimental: true,
+    disabled: false,
+    provider: 'google',
   },
   // {
   //   name: 'gemini-2.0-flash-thinking-exp-01-21',
   //   text: 'Gemini 2.0 Flash Thinking (Experimental)',
   //   type: 'text',
   //   isExperimental: true
+  //   provider: 'google',
+  //   disabled: false
   // },
-  { name: 'gemini-2.0-flash', text: 'Gemini 2.0 Flash', type: 'text', isSpecial: true },
-  { name: 'gemini-2.0-flash-lite', text: 'Gemini 2.0 Flash Lite', type: 'text' },
-  { name: 'gpt-4o', text: 'GPT 4o', type: 'text' },
-  { name: 'gpt-4o-mini', text: 'GPT 4o Mini', type: 'text' },
-  { name: 'gpt-o1-mini', text: 'GPT o1 Mini', type: 'text' },
-  // { name: 'dall-e-3', text: 'DALL-E 3', type: 'image'  },
+  {
+    name: 'gemini-2.0-flash',
+    text: 'Gemini 2.0 Flash',
+    type: 'text',
+    isSpecial: true,
+    disabled: false,
+    provider: 'google',
+  },
+  {
+    name: 'deepseek-chat',
+    text: 'DeepSeek Chat',
+    type: 'text',
+    isSpecial: true,
+    disabled: false,
+    provider: 'deepseek',
+  },
+  {
+    name: 'deepseek-reasoner',
+    text: 'DeepSeek Reasoner',
+    type: 'text',
+    isSpecial: true,
+    disabled: false,
+    provider: 'deepseek',
+  },
+  {
+    name: 'mistral-large-latest',
+    text: 'Mistral Large',
+    type: 'text',
+    isSpecial: false,
+    disabled: false,
+    provider: 'mistral',
+  },
+  {
+    name: 'mistral-small-latest',
+    text: 'Mistral Small',
+    type: 'text',
+    isSpecial: false,
+    disabled: false,
+    provider: 'mistral',
+  },
+  { name: 'dall-e-3', text: 'DALL-E 3', type: 'image', disabled: true, provider: 'openai' },
 ] as const;
 
 export const supportedTextModels = supportedModels.filter(({ type }) => type === 'text');
