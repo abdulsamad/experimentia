@@ -14,9 +14,10 @@ export type SupportedModel = {
 
 export const supportedModels: SupportedModel[] = [
   {
-    name: 'gemini-2.0-flash-lite',
-    text: 'Gemini 2.0 Flash Lite',
+    name: 'gemini-2.0-flash',
+    text: 'Gemini 2.0 Flash',
     type: 'text',
+    isSpecial: true,
     disabled: false,
     provider: 'google',
   },
@@ -27,19 +28,9 @@ export const supportedModels: SupportedModel[] = [
     disabled: false,
     provider: 'google',
   },
-  { name: 'gpt-4o', text: 'GPT 4o', type: 'text', disabled: true, provider: 'openai' },
-  { name: 'gpt-4o-mini', text: 'GPT 4o Mini', type: 'text', disabled: true, provider: 'openai' },
-  { name: 'gpt-o1-mini', text: 'GPT o1 Mini', type: 'text', disabled: true, provider: 'openai' },
   {
     name: 'gemini-1.5-flash',
     text: 'Gemini 1.5 Flash',
-    type: 'text',
-    disabled: false,
-    provider: 'google',
-  },
-  {
-    name: 'gemini-1.5-pro',
-    text: 'Gemini 1.5 Pro',
     type: 'text',
     disabled: false,
     provider: 'google',
@@ -52,6 +43,13 @@ export const supportedModels: SupportedModel[] = [
     disabled: false,
     provider: 'google',
   },
+  {
+    name: 'gemini-1.5-pro',
+    text: 'Gemini 1.5 Pro',
+    type: 'text',
+    disabled: false,
+    provider: 'google',
+  },
   // {
   //   name: 'gemini-2.0-flash-thinking-exp-01-21',
   //   text: 'Gemini 2.0 Flash Thinking (Experimental)',
@@ -60,14 +58,9 @@ export const supportedModels: SupportedModel[] = [
   //   provider: 'google',
   //   disabled: false
   // },
-  {
-    name: 'gemini-2.0-flash',
-    text: 'Gemini 2.0 Flash',
-    type: 'text',
-    isSpecial: true,
-    disabled: false,
-    provider: 'google',
-  },
+  // { name: 'gpt-4o', text: 'GPT 4o', type: 'text', disabled: true, provider: 'openai' },
+  // { name: 'gpt-4o-mini', text: 'GPT 4o Mini', type: 'text', disabled: true, provider: 'openai' },
+  // { name: 'gpt-o1-mini', text: 'GPT o1 Mini', type: 'text', disabled: true, provider: 'openai' },
   // {
   //   name: 'deepseek-chat',
   //   text: 'DeepSeek Chat',
@@ -133,7 +126,7 @@ export const getAssistantConfig = (
     tools: undefined,
     toolChoice: undefined,
     toolCallStreaming: false,
-    maxTokens: 1000,
+    maxTokens: 3000,
     topP: undefined,
     frequencyPenalty: undefined,
     presencePenalty: undefined,
@@ -162,7 +155,6 @@ export const getAssistantConfig = (
         ...defaultConfig,
         prompt: `I want you to act as an ${language} translator, spelling corrector and improver. I will speak to you in any language and you will detect the language, translate it and answer in the corrected and improved version of my text, in ${language}. I want you to replace my simplified A0-level words and sentences with more beautiful and elegant, upper level ${language} words and sentences. Keep the meaning same, but make them more literary. I want you to only reply the correction, the improvements and nothing else, do not write explanations. ${basePromptString}`,
         temperature: 0.3,
-        maxTokens: 2000,
       };
 
     case 'chef':
@@ -186,7 +178,6 @@ export const getAssistantConfig = (
         ...defaultConfig,
         prompt: `I want you to act as a teacher. I will provide some mathematical equations, scientific or educational concepts in general and it will be your job to explain them in easy-to-understand terms. This could include providing step-by-step instructions for solving a problem, demonstrating various techniques with visuals or suggesting online resources for further study. ${basePromptString}`,
         temperature: 0.5,
-        maxTokens: 2500,
       };
 
     case 'historian':
@@ -202,7 +193,6 @@ export const getAssistantConfig = (
         ...defaultConfig,
         prompt: `I want you to act as a data scientist. You will apply your knowledge of data science principles and visualization techniques to create compelling visuals that help convey complex information, develop effective graphs and maps for conveying trends over time or across geographies, utilize tools such as Tableau and R. You also have knowledge of python and leverage it. ${basePromptString}`,
         temperature: 0.4,
-        maxTokens: 3000,
       };
 
     case 'legal-advisor':
@@ -219,6 +209,7 @@ export const getAssistantConfig = (
         prompt: `You are Gavin Belson from HBO's Silicon Valley. In a world dominated by tech giants, Gavin, the Chief Innovation Officer of Hooli, is determined to acquire Pied Piper's groundbreaking compression algorithm. Portray his relentless pursuit, fueled by a bitter rivalry with Peter Gregory, his short-tempered demeanor, and his willingness to go to extreme lengths, even at the expense of firing employees. ${basePromptString}`,
         temperature: 0.9,
         frequencyPenalty: 0.7,
+        maxTokens: 1000,
       };
 
     case 'russ-hanneman':
@@ -227,6 +218,7 @@ export const getAssistantConfig = (
         prompt: `You are Russ Hanneman from HBO's Silicon Valley. He's flamboyant billionaire named Russ Hanneman, known for his obnoxious displays of wealth, eccentric fashion sense, and membership in the "three comma club." Explore his extravagant lifestyle and the impact it has on his relationships and reputation. ${basePromptString}`,
         temperature: 0.9,
         frequencyPenalty: 0.8,
+        maxTokens: 1000,
       };
 
     default:
@@ -234,7 +226,7 @@ export const getAssistantConfig = (
         ...defaultConfig,
         prompt: `You're a very helpful assistant who is humourous and informative. You job is to help the user as much as possible. You reply in English primarily and also reply in Hinglish query contains Hinglish words. ${basePromptString}`,
         temperature: 0.6,
-        maxTokens: 2000,
+        maxTokens: 3000,
       };
   }
 };
