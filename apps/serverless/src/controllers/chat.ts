@@ -8,7 +8,6 @@ import { AppContext } from '@/index';
 
 const chat = async (c: Context<AppContext>) => {
   const startTime = Date.now();
-  const requestId = c.env.requestContext.requestId;
   const user = c.get('user');
 
   try {
@@ -20,7 +19,7 @@ const chat = async (c: Context<AppContext>) => {
     }
 
     console.info(
-      `[CHAT][${requestId}] New request - ` +
+      `[CHAT] New request - ` +
         `User: ${user.id}, ` +
         `Model: ${model}, ` +
         `Language: ${language}, ` +
@@ -48,53 +47,31 @@ const chat = async (c: Context<AppContext>) => {
       presencePenalty: config.presencePenalty,
       stopSequences: config.stopSequences,
       onError: (event) => {
-        console.error(`[CHAT][${requestId}] Stream error for user ${user.id}: ${event.error}`);
+        console.error(`[CHAT] Stream error for user ${user.id}: ${event.error}`);
         c.json({ success: false, err: event.error }, 500);
       },
-      onFinish: ({ usage }) => {
+      onFinish: ({ usage, finishReason }) => {
         const duration = Date.now() - startTime;
 
         console.info(
-          `[CHAT][${requestId}] Request completed - ` +
+          `[CHAT] Request completed - ` +
             `Duration: ${duration}ms, ` +
             `User: ${user.id} ` +
-            `Total tokens: ${usage.totalTokens}`
+            `Total tokens: ${usage.totalTokens}` +
+            `Finish Reason: ${finishReason}`
         );
       },
     });
 
-    // Create a ReadableStream for the response
-    const stream = new ReadableStream({
-      async start(controller) {
-        try {
-          for await (const chunk of result.textStream) {
-            // Send each chunk as a payload
-            const payload = chunk;
-            controller.enqueue(new TextEncoder().encode(payload + '\n'));
-          }
-          controller.close();
-        } catch (error) {
-          console.error('[CHAT] Stream processing error:', error);
-          controller.error(error);
-        }
-      },
-    });
-
     // Return streaming response
-    return new Response(stream, {
-      headers: {
-        'Content-Type': 'text/event-stream',
-        'Cache-Control': 'no-cache',
-        Connection: 'keep-alive',
-      },
-    });
+    return result.toTextStreamResponse();
   } catch (err) {
     if (APICallError.isInstance(err)) {
-      console.error(`[CHAT][${requestId}] API Call Error for user ${user.id}: `, err.message);
+      console.error(`[CHAT] API Call Error for user ${user.id}: `, err.message);
       return c.json({ error: err.message }, 500);
     }
 
-    console.error(`[CHAT][${requestId}] Unexpected error for user ${user.id}: `, err);
+    console.error(`[CHAT] Unexpected error for user ${user.id}: `, err);
     return c.json({ error: 'Something went wrong!' }, 500);
   }
 };

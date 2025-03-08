@@ -14,17 +14,16 @@ const JWKS = createRemoteJWKSet(new URL(JWKS_URI));
 export const authMiddleware = createMiddleware<AppContext>(async (c, next) => {
   const authHeader = c.req.header('Authorization');
   const body = await c.req.json();
-  const requestId = c.env.requestContext.requestId;
 
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    console.warn(`[AUTH][${requestId}] Missing or invalid Authorization header`);
+    console.warn(`[AUTH] Missing or invalid Authorization header`);
     return c.json({ error: 'Unauthorized' }, 401);
   }
 
   const token = authHeader.split(' ')[1];
 
   try {
-    console.info(`[AUTH][${requestId}] Verifying JWT token`);
+    console.info(`[AUTH] Verifying JWT token`);
 
     const { payload } = await jwtVerify(token, JWKS, {
       issuer: ISSUER_URL,
@@ -34,12 +33,12 @@ export const authMiddleware = createMiddleware<AppContext>(async (c, next) => {
     c.set('user', body.user);
     c.set('payload', payload);
 
-    console.info(`[AUTH][${requestId}] Authentication successful - ` + `User: ${body.user.id}`);
+    console.info(`[AUTH] Authentication successful - ` + `User: ${body.user.id}`);
 
     await next();
   } catch (err) {
     console.error(
-      `[AUTH][${requestId}] Token verification failed - ` +
+      `[AUTH] Token verification failed - ` +
         `Error: ${err instanceof Error ? err.message : 'Unknown error'}`
     );
     return c.json({ error: 'Invalid token' }, 401);
