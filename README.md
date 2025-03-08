@@ -1,11 +1,9 @@
 ## Experimentia
 
-Welcome to Experimentia, where I explore the OpenAI's API! Below, you'll find information on technologies used, supported browsers, installation instructions, and how to set up the environment. Don't bother why I chose this name—I'm just rolling with it! 🤷‍♂️
+Welcome to Experimentia, where I exploring the LLM's API! Below, you'll find information on technologies used, supported browsers, installation instructions, and how to set up the environment. Don't bother why I chose this name—I'm just rolling with it! 🤷‍♂️
 
 ## Features
 
-- Utilize both GPT-3 and GPT-4 and use in variations
-- Utilize DALL·E and DALL·E-3 for generating images
 - Voice input capability
 - Save chats (including images converted to base64) locally in IndexDB
 - Download generated images
@@ -14,14 +12,13 @@ Welcome to Experimentia, where I explore the OpenAI's API! Below, you'll find in
 
 - Turborepo
 - TypeScript
-- Next.js
-- shadcn (Radix UI)
+- React Router 7
+- shadcn
 - Jotai
-- Auth0
-- Config Cat
+- Clerk
 - Node.js (TypeScript)
-- Express
-- Open AI APIs
+- AWS Lambda
+- Vercel AI SDK
 
 ## Support
 
@@ -57,8 +54,8 @@ pnpm dev
 
 ## Demo
 
-<p align="center">
+<!-- <p align="center">
 <br/>
 <img width="402" height="872" src="readme/demo.gif" alt="experimentia demo">
 <br/>
-</p>
+</p> -->
