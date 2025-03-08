@@ -9,6 +9,7 @@
   "dependencies": {
     "@ai-sdk/anthropic": "^1.1.12",
     "@ai-sdk/deepseek": "^0.1.12",
+    "@ai-sdk/fal": "^0.0.7",
     "@ai-sdk/google": "^1.1.17",
     "@ai-sdk/mistral": "^1.1.13",
     "@ai-sdk/openai": "^1.1.15",

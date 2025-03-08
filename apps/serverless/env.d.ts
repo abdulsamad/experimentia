@@ -10,5 +10,6 @@ declare namespace NodeJS {
     ANTHROPIC_API_KEY: string;
     MISTRAL_API_KEY: string;
     DEEPSEEK_API_KEY: string;
+    FAL_API_KEY: string;
   }
 }
