@@ -9,6 +9,8 @@ import { AppContext } from '@/index';
 const chat = async (c: Context<AppContext>) => {
   const startTime = Date.now();
   const user = c.get('user');
+  const controller = new AbortController();
+  const { signal } = controller;
 
   try {
     const { prompt, language, variation, model } = await c.req.json();
@@ -46,9 +48,10 @@ const chat = async (c: Context<AppContext>) => {
       frequencyPenalty: config.frequencyPenalty,
       presencePenalty: config.presencePenalty,
       stopSequences: config.stopSequences,
+      abortSignal: signal,
       onError: (event) => {
         console.error(`[CHAT] Stream error for user ${user.id}: ${event.error}`);
-        c.json({ success: false, err: event.error }, 500);
+        controller.abort();
       },
       onFinish: ({ usage, finishReason }) => {
         const duration = Date.now() - startTime;
@@ -68,11 +71,11 @@ const chat = async (c: Context<AppContext>) => {
   } catch (err) {
     if (APICallError.isInstance(err)) {
       console.error(`[CHAT] API Call Error for user ${user.id}: `, err.message);
-      return c.json({ error: err.message }, 500);
+      return c.json({ err: err.message }, 500);
     }
 
     console.error(`[CHAT] Unexpected error for user ${user.id}: `, err);
-    return c.json({ error: 'Something went wrong!' }, 500);
+    return c.json({ err: 'Something went wrong!' }, 500);
   }
 };
 
