@@ -8,7 +8,7 @@ import { AppContext } from '@/index';
 
 const chat = async (c: Context<AppContext>) => {
   const startTime = Date.now();
-  const requestId = c.env.lambdaContext.awsRequestId;
+  const requestId = c.env.requestContext.requestId;
   const user = c.get('user');
 
   try {

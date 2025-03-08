@@ -1,4 +1,4 @@
-import { Context, Next } from 'hono';
+import { createMiddleware } from 'hono/factory';
 import { jwtVerify, createRemoteJWKSet } from 'jose';
 
 import { AppContext } from '@/index';
@@ -11,10 +11,10 @@ const JWKS_URI = `${ISSUER_URL}/.well-known/jwks.json`;
 const JWKS = createRemoteJWKSet(new URL(JWKS_URI));
 
 // JWT Authentication Middleware
-export const authMiddleware = async (c: Context<AppContext>, next: Next) => {
-  const requestId = c.env.lambdaContext.awsRequestId;
+export const authMiddleware = createMiddleware<AppContext>(async (c, next) => {
   const authHeader = c.req.header('Authorization');
   const body = await c.req.json();
+  const requestId = c.env.requestContext.requestId;
 
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     console.warn(`[AUTH][${requestId}] Missing or invalid Authorization header`);
@@ -44,4 +44,4 @@ export const authMiddleware = async (c: Context<AppContext>, next: Next) => {
     );
     return c.json({ error: 'Invalid token' }, 401);
   }
-};
+});
