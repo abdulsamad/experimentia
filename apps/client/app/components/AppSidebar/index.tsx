@@ -17,6 +17,7 @@ import {
   SunMoonIcon,
   UserRoundPenIcon,
   CheckIcon,
+  ArrowUpRightIcon,
 } from 'lucide-react';
 import { useSetAtom } from 'jotai';
 import { useClerk, useAuth, useUser } from '@clerk/react-router';
@@ -290,21 +291,28 @@ const AppSidebar = () => {
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuGroup>
-                    <DropdownMenuItem onClick={clerk.redirectToUserProfile}>
+                    <DropdownMenuItem
+                      className="cursor-pointer"
+                      onClick={clerk.redirectToUserProfile}>
                       <UserRoundPenIcon className="size-4 mr-2" />
                       My Profile
+                      <ArrowUpRightIcon className="size-4 ml-auto mr-1" />
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
                       <DropdownMenu>
-                        <DropdownMenuTrigger className="w-full flex items-center p-2">
+                        <DropdownMenuTrigger className="w-full flex items-center p-2 data-[state=open]:bg-accent">
                           <LanguagesIcon className="size-4 mr-2 text-muted-foreground" />
                           <span className="flex-1 text-left text-sm ml-2">Language</span>
                           <ChevronsUpDownIcon className="size-4" />
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end" className="w-[160px]">
+                        <DropdownMenuContent
+                          side="top"
+                          align="end"
+                          className="w-[160px] translate-x-16">
                           {languages.map(({ code, text }) => (
                             <DropdownMenuItem
                               key={code}
+                              className={code === language ? 'font-semibold' : ''}
                               onClick={() => updateSetting('language', code)}>
                               {text}
                               <CheckIcon
@@ -322,41 +330,31 @@ const AppSidebar = () => {
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
                       <DropdownMenu>
-                        <DropdownMenuTrigger className="w-full flex items-center p-2">
+                        <DropdownMenuTrigger className="w-full flex items-center p-2 data-[state=open]:bg-accent">
                           <SunMoonIcon className="size-4 mr-2 text-muted-foreground" />
                           <span className="flex-1 text-left text-sm ml-2">Theme</span>
                           <ChevronsUpDownIcon className="size-4" />
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end" className="w-[160px]">
-                          <DropdownMenuItem onClick={() => setTheme('light')}>
-                            Light
-                            <CheckIcon
-                              className={clsx(
-                                'ml-auto h-4 w-4',
-                                theme === 'light' ? 'text-green-600 dark:text-green-400' : 'hidden'
-                              )}
-                            />
-                          </DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => setTheme('dark')}>
-                            Dark
-                            <CheckIcon
-                              className={clsx(
-                                'ml-auto h-4 w-4',
-                                theme === 'dark' ? 'text-green-600 dark:text-green-400' : 'hidden'
-                              )}
-                            />
-                          </DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => setTheme('system')}>
-                            System
-                            <CheckIcon
-                              className={clsx(
-                                'ml-auto h-4 w-4',
-                                theme === 'system'
-                                  ? 'text-green-600 dark:text-green-400'
-                                  : 'opacity-0'
-                              )}
-                            />
-                          </DropdownMenuItem>
+                        <DropdownMenuContent
+                          side="top"
+                          align="end"
+                          className="w-[160px] translate-x-16">
+                          {['light', 'dark', 'system'].map((themeOption) => (
+                            <DropdownMenuItem
+                              key={themeOption}
+                              className={clsx(theme === themeOption && 'font-semibold')}
+                              onClick={() => setTheme(themeOption)}>
+                              {themeOption.charAt(0).toUpperCase() + themeOption.slice(1)}
+                              <CheckIcon
+                                className={clsx(
+                                  'ml-auto h-4 w-4',
+                                  theme === themeOption
+                                    ? 'text-green-600 dark:text-green-400'
+                                    : 'opacity-0'
+                                )}
+                              />
+                            </DropdownMenuItem>
+                          ))}
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </DropdownMenuItem>
