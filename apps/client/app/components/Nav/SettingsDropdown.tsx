@@ -1,9 +1,8 @@
 import { useCallback } from 'react';
 import { useAtom } from 'jotai';
 import { SettingsIcon } from 'lucide-react';
-import { useTheme } from 'next-themes';
 
-import { languages, variations, supportedImageModels, supportedTextModels } from 'utils';
+import { variations, supportedImageModels, supportedTextModels } from 'utils';
 
 import { configAtom } from '@/store';
 import { IS_SPEECH_RECOGNITION_SUPPORTED, IS_SPEECH_SYNTHESIS_SUPPORTED } from '@/utils';
@@ -30,9 +29,8 @@ import { imageSizes } from 'utils';
 
 const SettingsDropdown = () => {
   const [config, setConfig] = useAtom(configAtom);
-  const { theme, setTheme } = useTheme();
 
-  const { language, model, variation, imageSize, textInput, speakResults, style, quality } = config;
+  const { model, variation, imageSize, textInput, speakResults, style, quality } = config;
   const hasImageModels = supportedImageModels.length;
   const isImageModelSelected = supportedImageModels.map(({ name }) => name).includes(model);
   const isDallE3Selected = model === 'dall-e-3';
@@ -87,7 +85,10 @@ const SettingsDropdown = () => {
           <li>
             <div className="flex flex-col space-y-2">
               <label className="ml-1">Model</label>
-              <Select value={model} onValueChange={(value) => updateSetting('model', value)}>
+              <Select
+                value={model}
+                defaultValue="gemini-1.5-flash"
+                onValueChange={(value) => updateSetting('model', value)}>
                 <SelectTrigger>
                   <SelectValue placeholder="Model" />
                 </SelectTrigger>
@@ -233,39 +234,6 @@ const SettingsDropdown = () => {
               </li>
             </>
           )}
-          <li>
-            <div className="flex flex-col space-y-2">
-              <label className="ml-1">Theme</label>
-              <Select value={theme} onValueChange={(value) => setTheme(value)}>
-                <SelectTrigger className="capitalize">
-                  {theme}
-                  <span className="sr-only">Toggle theme</span>
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="light">Light</SelectItem>
-                  <SelectItem value="dark">Dark</SelectItem>
-                  <SelectItem value="system">System</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </li>
-          <li>
-            <div className="flex flex-col space-y-2">
-              <label className="ml-1">Language</label>
-              <Select value={language} onValueChange={(value) => updateSetting('language', value)}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Language" />
-                </SelectTrigger>
-                <SelectContent>
-                  {languages.map(({ code, text }) => (
-                    <SelectItem key={code} value={code}>
-                      {text}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-          </li>
           {IS_SPEECH_RECOGNITION_SUPPORTED() && (
             <li>
               <div className="flex flex-col items-center justify-center space-y-3.5">

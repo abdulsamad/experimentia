@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useAtomValue } from 'jotai';
 import { toast } from 'sonner';
 
@@ -56,6 +56,12 @@ const Empty = ({ name, textInput }: IEmpty) => {
       <div className="text-center">
         <div className="max-w-screen mx-auto mt-16">
           <h1 className="text-2xl lg:text-4xl font-bold capitalize break-all">
+            <span
+              role="img"
+              className="animate-wave origin-[70%_70%] inline-block mr-2  "
+              aria-hidden={true}>
+              👋
+            </span>
             Hi <span className="capitalize">{name || 'there'}, </span>
           </h1>
           <h2 className="py-6 italic break-words [text-wrap:pretty] max-w-md mx-auto">

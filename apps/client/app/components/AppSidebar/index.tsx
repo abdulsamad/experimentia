@@ -8,13 +8,26 @@ import {
 } from 'react';
 import { useNavigate } from 'react-router';
 import { useAtom } from 'jotai';
-import { LogOutIcon, PlusIcon, TrashIcon } from 'lucide-react';
+import {
+  LogOutIcon,
+  PlusIcon,
+  TrashIcon,
+  ChevronsUpDownIcon,
+  LanguagesIcon,
+  SunMoonIcon,
+  UserRoundPenIcon,
+  CheckIcon,
+} from 'lucide-react';
 import { useSetAtom } from 'jotai';
 import { useClerk, useAuth, useUser } from '@clerk/react-router';
 import { format } from 'date-fns';
 import clsx from 'clsx';
+import { useTheme } from 'next-themes';
 
-import { threadAtom, currentThreadIdAtom, IMessage, type IThreads } from '@/store';
+import { languages } from 'utils';
+
+import { threadAtom, currentThreadIdAtom, type IThreads, configAtom } from '@/store';
+import { getName } from '@/utils';
 import { getThreads, lforage, threadsKey } from '@/utils/lforage';
 import { Button } from '@/components/ui/button';
 import {
@@ -42,18 +55,30 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@/components/ui/sidebar';
-import { getName } from '@/utils';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 const AppSidebar = () => {
-  const { open, setOpen, setOpenMobile } = useSidebar();
+  const [config, setConfig] = useAtom(configAtom);
+  const { open, setOpen, setOpenMobile, isMobile } = useSidebar();
   const [currentThreadId, setCurrentThreadId] = useAtom(currentThreadIdAtom);
   const setThread = useSetAtom(threadAtom);
   const [threads, setThreads] = useState<IThreads>([]);
 
+  const navigate = useNavigate();
   const clerk = useClerk();
   const { user } = useUser();
   const { signOut } = useAuth();
-  const navigate = useNavigate();
+  const { theme, setTheme } = useTheme();
+  const { language } = config;
 
   const fetchThreads = useCallback(async () => {
     // Retrieve saved threads
@@ -100,13 +125,19 @@ const AppSidebar = () => {
   }, [setThread, setCurrentThreadId, setOpen]);
 
   const updateCurrentChatId = useCallback(
-    (threadId: ReturnType<typeof crypto.randomUUID>, thread: IMessage[]) => {
-      // setThread(thread as any, true as any);
+    (threadId: ReturnType<typeof crypto.randomUUID>) => {
       setCurrentThreadId(threadId);
 
       navigate(`/${threadId}`);
     },
     [setThread, setCurrentThreadId]
+  );
+
+  const updateSetting = useCallback(
+    (name: string, value: string) => {
+      setConfig({ ...config, [name]: value });
+    },
+    [config, setConfig]
   );
 
   return (
@@ -116,35 +147,6 @@ const AppSidebar = () => {
           <SidebarMenu>
             <SidebarMenuItem>
               <ul className="flex flex-col mb-3 overflow-hidden">
-                <li className="mb-2">
-                  <Button
-                    variant="ghost"
-                    className="flex items-center gap-3 pt-1 pb-3 box-content w-full cursor-pointer rounded"
-                    onClick={() => clerk.redirectToUserProfile()}>
-                    <img
-                      className="rounded-full size-[40px] object-cover shrink-0 grow-0"
-                      src={user?.imageUrl!}
-                      alt={user?.fullName!}
-                      height={40}
-                      width={40}
-                    />
-                    <div className="flex-1/3 text-left -mb-2">
-                      <p className="text-sm opacity-75">
-                        Hello
-                        <span
-                          role="img"
-                          className="animate-wave origin-[70%_70%] inline-block"
-                          aria-hidden={true}>
-                          👋
-                        </span>
-                      </p>
-                      <p className="text-lg font-semibold opacity-75 capitalize">{getName(user)}</p>
-                    </div>
-                  </Button>
-                </li>
-                <li>
-                  <hr className="border-slate-50 mx-auto mt-1 bg-primary" />
-                </li>
                 <li className="mt-5">
                   <Button
                     variant="default"
@@ -158,7 +160,6 @@ const AppSidebar = () => {
             </SidebarMenuItem>
           </SidebarMenu>
         </SidebarHeader>
-
         <SidebarContent>
           <div className="h-full w-full flex flex-col justify-between overflow-x-hidden overflow-y-auto box-border">
             <Suspense fallback={'Loading......'}>
@@ -169,7 +170,7 @@ const AppSidebar = () => {
                       <SidebarGroupLabel>Threads</SidebarGroupLabel>
                       <SidebarGroupContent>
                         <SidebarMenu>
-                          {threads.map(({ id, thread, timestamp, name }) => {
+                          {threads.map(({ id, timestamp, name }) => {
                             type ButtonClassNames = HTMLAttributes<HTMLButtonElement>['className'];
                             const isSelected = id === currentThreadId;
                             const rootClasses: ButtonClassNames = isSelected
@@ -188,7 +189,7 @@ const AppSidebar = () => {
                                 )}
                                 onClick={() => {
                                   setOpenMobile(false);
-                                  updateCurrentChatId(id, thread);
+                                  updateCurrentChatId(id);
                                 }}>
                                 <SidebarMenuButton asChild>
                                   <a
@@ -250,15 +251,124 @@ const AppSidebar = () => {
         <SidebarFooter className="px-2 py-4">
           <SidebarMenu>
             <SidebarMenuItem>
-              <Button
-                variant="outline"
-                className="w-full"
-                onClick={() => signOut({ redirectUrl: window.location.origin })}>
-                <span className="dark:text-slate-50 text-slate-700 flex items-center gap-2">
-                  <LogOutIcon className="size-4" />
-                  Logout
-                </span>
-              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <SidebarMenuButton
+                    size="lg"
+                    className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
+                    <Avatar className="h-8 w-8 rounded-lg">
+                      <AvatarImage src={user?.imageUrl} alt={getName(user)} />
+                      <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                    </Avatar>
+                    <div className="grid flex-1 text-left text-sm leading-tight">
+                      <span className="truncate font-semibold">{getName(user)}</span>
+                      <span className="truncate text-xs">
+                        {user?.emailAddresses[0].emailAddress}
+                      </span>
+                    </div>
+                    <ChevronsUpDownIcon className="ml-auto size-4" />
+                  </SidebarMenuButton>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
+                  side={isMobile ? 'bottom' : 'right'}
+                  align="end"
+                  sideOffset={4}>
+                  <DropdownMenuLabel className="p-0 font-normal">
+                    <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
+                      <Avatar className="h-8 w-8 rounded-lg">
+                        <AvatarImage src={user?.imageUrl} alt={user?.fullName || 'User'} />
+                        <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                      </Avatar>
+                      <div className="grid flex-1 text-left text-sm leading-tight">
+                        <span className="truncate font-semibold">{getName(user)}</span>
+                        <span className="truncate text-xs">
+                          {user?.emailAddresses[0].emailAddress}
+                        </span>
+                      </div>
+                    </div>
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuGroup>
+                    <DropdownMenuItem onClick={clerk.redirectToUserProfile}>
+                      <UserRoundPenIcon className="size-4 mr-2" />
+                      My Profile
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger className="w-full flex items-center p-2">
+                          <LanguagesIcon className="size-4 mr-2 text-muted-foreground" />
+                          <span className="flex-1 text-left text-sm ml-2">Language</span>
+                          <ChevronsUpDownIcon className="size-4" />
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="w-[160px]">
+                          {languages.map(({ code, text }) => (
+                            <DropdownMenuItem
+                              key={code}
+                              onClick={() => updateSetting('language', code)}>
+                              {text}
+                              <CheckIcon
+                                className={clsx(
+                                  'ml-auto h-4 w-4',
+                                  code === language
+                                    ? 'text-green-600 dark:text-green-400'
+                                    : 'opacity-0'
+                                )}
+                              />
+                            </DropdownMenuItem>
+                          ))}
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger className="w-full flex items-center p-2">
+                          <SunMoonIcon className="size-4 mr-2 text-muted-foreground" />
+                          <span className="flex-1 text-left text-sm ml-2">Theme</span>
+                          <ChevronsUpDownIcon className="size-4" />
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="w-[160px]">
+                          <DropdownMenuItem onClick={() => setTheme('light')}>
+                            Light
+                            <CheckIcon
+                              className={clsx(
+                                'ml-auto h-4 w-4',
+                                theme === 'light' ? 'text-green-600 dark:text-green-400' : 'hidden'
+                              )}
+                            />
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => setTheme('dark')}>
+                            Dark
+                            <CheckIcon
+                              className={clsx(
+                                'ml-auto h-4 w-4',
+                                theme === 'dark' ? 'text-green-600 dark:text-green-400' : 'hidden'
+                              )}
+                            />
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => setTheme('system')}>
+                            System
+                            <CheckIcon
+                              className={clsx(
+                                'ml-auto h-4 w-4',
+                                theme === 'system'
+                                  ? 'text-green-600 dark:text-green-400'
+                                  : 'opacity-0'
+                              )}
+                            />
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </DropdownMenuItem>
+                  </DropdownMenuGroup>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    onClick={() => signOut({ redirectUrl: window.location.origin })}>
+                    <LogOutIcon />
+                    Log out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </SidebarMenuItem>
           </SidebarMenu>
         </SidebarFooter>
