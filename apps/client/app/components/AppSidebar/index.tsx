@@ -147,17 +147,15 @@ const AppSidebar = () => {
         <SidebarHeader>
           <SidebarMenu>
             <SidebarMenuItem>
-              <ul className="flex flex-col mb-3 overflow-hidden">
-                <li className="mt-5">
-                  <Button
-                    variant="default"
-                    className="w-full text-white bg-gradient-to-r from-purple-700 via-purple-600 to-purple-500 hover:from-purple-600 hover:via-purple-500 hover:to-purple-400 transition-all duration-300 shadow-lg hover:shadow-purple-500/25"
-                    onClick={addNewChat}>
-                    <PlusIcon className="mr-2" />
-                    New Chat
-                  </Button>
-                </li>
-              </ul>
+              <div className="mt-5">
+                <Button
+                  variant="default"
+                  className="w-full text-white bg-gradient-to-r from-purple-700 via-purple-600 to-purple-500 hover:from-purple-600 hover:via-purple-500 hover:to-purple-400 transition-all duration-300 shadow-lg hover:shadow-purple-500/25"
+                  onClick={addNewChat}>
+                  <PlusIcon className="mr-2" />
+                  New Chat
+                </Button>
+              </div>
             </SidebarMenuItem>
           </SidebarMenu>
         </SidebarHeader>
@@ -248,7 +246,6 @@ const AppSidebar = () => {
             </Suspense>
           </div>
         </SidebarContent>
-
         <SidebarFooter className="px-2 py-4">
           <SidebarMenu>
             <SidebarMenuItem>

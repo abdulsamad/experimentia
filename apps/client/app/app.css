@@ -177,6 +177,13 @@ body {
   }
 }
 
+@supports (backdrop-filter: blur(8px)) {
+  [data-slot='sheet-overlay']:has(+ [data-slot='sidebar']) {
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(8px);
+  }
+}
+
 /* Prose Mirror */
 
 .ProseMirror {
