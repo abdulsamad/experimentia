@@ -1,5 +1,5 @@
-import { format as dFnsFormat } from 'date-fns';
 import { motion } from 'motion/react';
+import clsx from 'clsx';
 
 import { IMessageCommons, ITextMessage, IImageMessage } from '@/store';
 import { UserInfo } from '@/components/Thread';
@@ -25,24 +25,26 @@ const Message = ({
   message,
   image,
   size,
+  model,
 }: MessageProps) => {
   const isImage = format === 'image';
   const isUser = type === 'user';
 
   // Contional classes
-  const nameTimeMargin = isUser ? 'mr-[85px]' : 'ml-[75px]';
+  const modelNameMargin = isUser ? 'mr-[85px]' : 'ml-[75px]';
   const chatOrigin = isUser ? 'origin-right' : 'origin-left';
 
   return (
     <motion.div
       // initial={isUser ? { translateY: '10px', scaleX: 0.5 } : { translateY: '-10px', scaleX: 0.5 }}
       animate={{ translateY: 0, scaleX: 1 }}
-      className={`chat relative flex my-4 scroll-mb-10 ${chatOrigin}`}
+      className={clsx('chat relative flex my-4 scroll-mb-10', chatOrigin)}
       data-type={type}
-      layout>
+      // layout
+    >
       <div className={`${isUser ? 'ml-auto' : ''}`}>
         <div
-          className={`flex justify-start items-center gap-x-3 ${isUser ? 'flex-row-reverse' : ''}`}>
+          className={clsx('flex justify-start items-center gap-x-3', isUser && 'flex-row-reverse')}>
           {/* Name and User or Variation Image */}
           {!isImage && (
             <div className="flex flex-col items-center justify-center gap-1">
@@ -65,10 +67,12 @@ const Message = ({
         </div>
         {/* Time */}
         <div
-          className={`flex items-center gap-x-1 pt-2 pl-2 ${isUser ? 'justify-end' : 'justify-start'} ${isImage ? 'mb-1' : nameTimeMargin}`}>
-          <time className="text-xs italic opacity-60">
-            {dFnsFormat(new Date(timestamp), 'hh:mm a')}
-          </time>
+          className={clsx(
+            'flex items-center gap-x-1 pt-2 pl-2 text-sm',
+            isUser ? 'justify-end' : 'justify-start',
+            isImage ? 'mb-1' : modelNameMargin
+          )}>
+          {model}
         </div>
       </div>
     </motion.div>

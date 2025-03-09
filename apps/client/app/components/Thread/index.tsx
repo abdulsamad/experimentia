@@ -34,7 +34,7 @@ const Chats = () => {
     setTimeout(() => {
       thread[thread.length - 1].scrollIntoView({
         behavior: 'instant',
-        block: 'start',
+        block: 'end',
       });
     }, 200);
   }, [chats]);
@@ -58,8 +58,8 @@ const Chats = () => {
   );
 
   return (
-    <section>
-      <ScrollArea className="h-[calc(100svh-142px)] max-w-full w-full px-6 lg:px-8 box-border">
+    <section className="max-w-full">
+      <ScrollArea className="h-[calc(100svh-142px)] px-6 lg:px-8 box-border">
         {chats.length ? (
           <>
             {chats.map((chat, index) => {

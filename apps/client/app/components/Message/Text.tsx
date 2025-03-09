@@ -6,7 +6,6 @@ import remarkGfm from 'remark-gfm';
 import { ErrorBoundary, type FallbackProps } from 'react-error-boundary';
 import { PrismAsync as SyntaxHighlighter } from 'react-syntax-highlighter';
 import {
-  // oneDark as darkTheme,
   synthwave84 as darkTheme,
   oneLight as lightTheme,
 } from 'react-syntax-highlighter/dist/cjs/styles/prism';
@@ -41,7 +40,7 @@ const Text = ({ isUser, messageClassNames, message }: IText) => {
   return (
     <Card
       className={clsx(
-        `message group/message relative inline-block py-1.5 px-3 rounded-xl before:content-[''] before:block before:h-0 before:w-0 before:border-y-8 before:border-y-transparent before:border-l-[14px] before:border-l-primary before:absolute before:top-1/2 before:-translate-y-1/2] w-[min(70%,_500px)] [&_p:has(code)]:leading-8 [&_div:has(code)]:leading-8 [&_span:has(code)]:leading-8 `,
+        "message group/message relative inline-block py-1.5 px-3 rounded-xl before:content-[''] before:block before:h-0 before:w-0 before:border-y-8 before:border-y-transparent before:border-l-[14px] before:border-l-primary before:absolute before:top-1/2 before:-translate-y-1/2] [&_p:has(code)]:leading-8 [&_div:has(code)]:leading-8 [&_span:has(code)]:leading-8 max-w-[min(70%,_500px)]",
         messageClassNames
       )}>
       {isUser ? (

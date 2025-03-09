@@ -43,7 +43,7 @@ const Image = ({ image: { url, alt }, size }: Omit<IImageMessage, 'format'>) => 
             thumbnailPosition="left"
             items={[
               {
-                original: url as string,
+                original: url,
                 originalHeight: 100,
                 originalWidth: 100,
                 originalAlt: alt,
