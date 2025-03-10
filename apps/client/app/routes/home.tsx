@@ -15,8 +15,8 @@ import Loading from '@/loading';
 
 export const meta = ({}: Route.MetaArgs) => {
   return [
-    { title: 'Experimentia - The AI Chat App' },
-    { name: 'description', content: 'Welcome to React Router!' },
+    { title: 'PolyChat - The AI Chat App' },
+    { name: 'description', content: 'Welcome to PolyChat!' },
   ];
 };
 

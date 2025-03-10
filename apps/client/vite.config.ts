@@ -17,8 +17,8 @@ export default defineConfig({
         enabled: true,
       },
       manifest: {
-        name: 'Experimentia - The AI Chat App',
-        short_name: 'Experimentia',
+        name: 'PolyChat - The AI Chat App',
+        short_name: 'PolyChat',
         description: 'Chat with multiple AI models including Gemini, Mistral, OpenAI and more',
         start_url: '/',
         display: 'standalone',

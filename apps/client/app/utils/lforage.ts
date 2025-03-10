@@ -21,7 +21,7 @@ export const getConfig = (setting: string) => {
 export const threadsKey = 'threads';
 
 export const lforage = localforage.createInstance({
-  name: 'experimentia',
+  name: 'polychat',
   description: 'A chat application',
   version: 1.0,
 });

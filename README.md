@@ -1,6 +1,6 @@
-## Experimentia
+## PolyChat
 
-Welcome to Experimentia, where I exploring the LLM's API! Below, you'll find information on technologies used, supported browsers, installation instructions, and how to set up the environment. Don't bother why I chose this name—I'm just rolling with it! 🤷‍♂️
+Welcome to PolyChat, where I'm just exploring LLMs! Below, you'll find information on technologies used, supported browsers, installation instructions, and how to set up the environment.
 
 ## Features
 
@@ -26,18 +26,18 @@ Voice input is currently compatible only with Chrome and WebKit-based browsers. 
 
 ## Installation
 
-To get started with Experimentia, follow these simple steps:
+To get started with PolyChat, follow these simple steps:
 
 1. **Clone the Repository:**
 
    ```bash
-   git clone https://github.com/abdulsamad/experimentia.git
+   git clone https://github.com/abdulsamad/polychat.git
    ```
 
 2. **Install Dependencies:**
 
    ```bash
-   cd experimentia
+   cd polychat
    pnpm install
    ```
 
@@ -52,10 +52,11 @@ To start the local server and begin development:
 pnpm dev
 ```
 
+<!-- 
 ## Demo
-
-<!-- <p align="center">
+<p align="center">
 <br/>
-<img width="402" height="872" src="readme/demo.gif" alt="experimentia demo">
+<img width="402" height="872" src="readme/demo.gif" alt="polychat demo">
 <br/>
-</p> -->
+</p>
+-->

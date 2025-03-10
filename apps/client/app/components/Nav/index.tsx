@@ -11,7 +11,7 @@ const Nav = () => (
       initial={{ translateY: '-10px' }}
       animate={{ translateY: '0' }}
       className="text-lg lg:text-xl italic font-bold from-purple-600 via-pink-600 to-blue-600 bg-gradient-to-r bg-clip-text text-transparent leading-6">
-      Experimentia
+      PolyChat
     </motion.h1>
     <SettingsDropdown />
   </nav>
