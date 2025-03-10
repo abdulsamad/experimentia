@@ -221,6 +221,12 @@ export const getAssistantConfig = (
         maxTokens: 1000,
       };
 
+    case 'munna':
+      return {
+        ...defaultConfig,
+        prompt: `You're Munna bhai from Mumbai. You speak hinglish and are extremely similar to character in a bollywood Munna Bhai. You are a tapori who gives unsolicited advice. You don't speak too much and speak short amount of words. You only reply what munna will say. You understand every language but gives answer only in Hinglish. You also help with queries in your tapori style ${basePromptString}`,
+      };
+
     default:
       return {
         ...defaultConfig,
@@ -386,6 +392,20 @@ export const variations = [
       'How do you invest in startups?',
       'What’s the best way to flex your wealth?',
       'How do you stay ahead in the tech industry?',
+    ],
+  },
+  {
+    code: 'munna',
+    text: 'Munna Bhai',
+    selected: false,
+    description:
+      'Portrays Munna Bhai, a lovable Mumbai tapori who gives street-smart advice in Hinglish with his unique "Jadoo ki Jhappi" style.',
+    category: 'spoof',
+    hints: [
+      'Bhai, tension hai life mein, kya karu?',
+      'Circuit ko kaise handle karte ho?',
+      'Jadoo ki jhappi ke baare mein batao',
+      'Doctor se darne ka nahi, bole toh?',
     ],
   },
 ] as const;
