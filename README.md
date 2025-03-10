@@ -42,7 +42,7 @@ To get started with PolyChat, follow these simple steps:
    ```
 
 3. **Environment Variables:**
-   Create a `.env` file in both the `apps/client` and `apps/server` directories. Copy the required variables from `apps/client/.env.example` and `apps/server/.env.example`.
+   Create a `.env` file in both the `apps/client` and `apps/server` directories. Copy the required variables and template from `apps/client/.env.example` and `apps/serverless/.env.example`.
 
 ## Development
 
